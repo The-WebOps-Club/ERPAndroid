@@ -11,32 +11,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.soundcloud.android.crop.Crop;
 
+import org.saarang.erp.Helpers.SaarangImageHelper;
 import org.saarang.erp.R;
 
 import java.io.File;
 import java.io.IOException;
 
-public class ProfilePictureActivity extends ActionBarActivity {
+public class ProfilePictureActivity extends ActionBarActivity implements View.OnClickListener{
 
     Bitmap bitmap;
     ImageView ivProfilePic;
     private static final int REQUEST_CODE_CROP_IMAGE = 101;
     private static final String LOG_TAG = "ProfilePictureActivity";
     Uri destination;
+    TextView tvChangeImage, tvContinue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_picture);
         ivProfilePic = (ImageView) findViewById(R.id.ivProfilePic);
-    }
+        tvChangeImage = (TextView) findViewById(R.id.tvChangeImage);
+        tvContinue = (TextView) findViewById(R.id.tvContinue);
+        tvChangeImage.setOnClickListener(this);
+        tvContinue.setOnClickListener(this);
+        ivProfilePic.setOnClickListener(this);
 
-
-    public void cmd_pick(View v){
-        Crop.pickImage(ProfilePictureActivity.this);
     }
 
     private void beginCrop(Uri source) {
@@ -45,14 +49,28 @@ public class ProfilePictureActivity extends ActionBarActivity {
         destination = Uri.fromFile(file);
         Crop.of(source, destination).asSquare().start(this);
         try {
-
             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),destination);
             ivProfilePic.setImageBitmap(bitmap);
+            SaarangImageHelper.compressSaveImage(bitmap);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         Log.d(LOG_TAG, "Image destinaton" + destination);
+    }
+
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.tvChangeImage:
+                Crop.pickImage(ProfilePictureActivity.this);
+                break;
+            case R.id.ivProfilePic:
+                Crop.pickImage(ProfilePictureActivity.this);
+                break;
+        }
     }
 
     @Override
@@ -62,6 +80,7 @@ public class ProfilePictureActivity extends ActionBarActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),destination);
                 ivProfilePic.setImageBitmap(bitmap);
+                tvContinue.setTextColor(ProfilePictureActivity.this.getResources().getColor(R.color.white));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -95,4 +114,6 @@ public class ProfilePictureActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
