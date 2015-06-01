@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="org.saarang.erp.Activities.ProfilePictureActivity">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivProfilePic"
+        android:src="@drawable/placeholder_profile"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PICK"
+        android:id="@+id/bPick"
+        android:onClick="cmd_pick"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

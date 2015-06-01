@@ -1,4 +1,4 @@
-package org.saarang.erp.Fragment;
+package org.saarang.erp.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,15 +11,15 @@ import org.saarang.erp.R;
 /**
  * Created by aqel on 8/5/15.
  */
-public class NotificationsFragment extends Fragment {
+public class NewsFeedFragment extends Fragment {
 
-    public NotificationsFragment() {
+    public NewsFeedFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fr_notification, container, false);
+        View rootView = inflater.inflate(R.layout.fr_news_feed, container, false);
         return rootView;
     }
 }

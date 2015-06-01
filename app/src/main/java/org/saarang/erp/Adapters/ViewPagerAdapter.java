@@ -1,13 +1,13 @@
-package org.saarang.erp.Adapter;
+package org.saarang.erp.Adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import org.saarang.erp.Fragment.NewsFeedFragment;
-import org.saarang.erp.Fragment.NotificationsFragment;
-import org.saarang.erp.Fragment.PeopleFragment;
-import org.saarang.erp.Fragment.WallsFragment;
+import org.saarang.erp.Fragments.NewsFeedFragment;
+import org.saarang.erp.Fragments.NotificationsFragment;
+import org.saarang.erp.Fragments.PeopleFragment;
+import org.saarang.erp.Fragments.WallsFragment;
 
 /**
  * Created by aqel on 8/5/15.
@@ -24,8 +24,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
             case 0: return new NewsFeedFragment();
             case 1: return new NotificationsFragment();
-            case 2: return new PeopleFragment();
-            case 3: return new WallsFragment();
+            case 2: return new WallsFragment();
+            case 3: return new PeopleFragment();
             default: return new NewsFeedFragment();
         }
     }

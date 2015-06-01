@@ -1,4 +1,4 @@
-package org.saarang.erp.Fragment;
+package org.saarang.erp.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,15 +11,15 @@ import org.saarang.erp.R;
 /**
  * Created by aqel on 8/5/15.
  */
-public class PeopleFragment extends Fragment {
+public class WallsFragment extends Fragment {
 
-    public PeopleFragment() {
+    public WallsFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fr_people, container, false);
+        View rootView = inflater.inflate(R.layout.fr_walls, container, false);
         return rootView;
     }
 }

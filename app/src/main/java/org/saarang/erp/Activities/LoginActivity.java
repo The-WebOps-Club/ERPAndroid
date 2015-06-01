@@ -1,4 +1,4 @@
-package org.saarang.erp.Activity;
+package org.saarang.erp.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
