@@ -23,6 +23,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':saarangsdk')
     compile 'com.soundcloud.android:android-crop:1.0.0@aar'
     compile 'com.android.support:appcompat-v7:21.0.3'
 }
