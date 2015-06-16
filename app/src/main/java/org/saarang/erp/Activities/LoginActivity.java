@@ -20,7 +20,7 @@ import org.saarang.saarangsdk.Objects.PostParam;
 import java.util.ArrayList;
 
 
-public class LoginActivity extends Activity {a
+public class LoginActivity extends Activity {
 
     Button bLogin;
     private static String LOG_TAG = "LoginActivity";
