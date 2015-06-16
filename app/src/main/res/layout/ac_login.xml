@@ -4,6 +4,7 @@
     tools:context=".LoginActivity"
     android:orientation="vertical"
     android:weightSum="100"
+    android:id="@+id/llMain"
     >
 
     <LinearLayout

@@ -33,7 +33,7 @@ public class ProfilePictureActivity extends ActionBarActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_picture);
+        setContentView(R.layout.ac_profile_picture);
         ivProfilePic = (ImageView) findViewById(R.id.ivProfilePic);
         tvChangeImage = (TextView) findViewById(R.id.tvChangeImage);
         tvContinue = (TextView) findViewById(R.id.tvContinue);
