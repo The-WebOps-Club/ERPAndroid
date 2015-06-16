@@ -1,2 +1,2 @@
 include ':app', ':saarangsdk'
-project(':saarangsdk').projectDir = new File(settingsDir, '../SaarangSDKDemo/saarangsdk')
+project(':saarangsdk').projectDir = new File(settingsDir, '../saarangsdk/saarangsdk')
