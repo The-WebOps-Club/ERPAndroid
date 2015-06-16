@@ -7,9 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.erp.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -24,14 +25,11 @@ public class LoginActivity extends Activity {
 
     Button bLogin;
     private static String LOG_TAG = "LoginActivity";
-    LinearLayout llMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_login);
-
-        llMain = (LinearLayout) findViewById(R.id.llMain);
 
         /**
          * Login Butto
@@ -55,7 +53,7 @@ public class LoginActivity extends Activity {
      */
     private class Login extends AsyncTask<Void, Void, Void> {
 
-        ArrayList<PostParam> params = new ArrayList<PostParam>();
+        ArrayList<PostParam> params = new ArrayList<>();
         ProgressDialog pDialog;
 
         @Override
@@ -83,6 +81,13 @@ public class LoginActivity extends Activity {
             if (responseJSON == null) {
                 return null;
             }
+
+            try {
+                Log.d(LOG_TAG, responseJSON.getJSONObject("data").toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            ERPUser.saveUser(LoginActivity.this, responseJSON);
 
 
             Log.d(LOG_TAG, responseJSON.toString());
