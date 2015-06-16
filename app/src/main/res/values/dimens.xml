@@ -3,4 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="height_clickable">48dp</dimen>
+
+    <!--common Padding for all layouts -->
+    <dimen name="padding_main">16dp</dimen>
 </resources>
