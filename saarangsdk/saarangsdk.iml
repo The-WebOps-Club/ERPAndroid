@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":saarangsdk" external.linked.project.path="$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="Saarang ERP" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":saarangsdk" external.linked.project.path="$MODULE_DIR$/../../saarangsdk/saarangsdk" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="ERPAndroid" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="java-gradle" name="Java-Gradle">
       <configuration>
@@ -18,80 +18,78 @@
         <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
         <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
+        <option name="SOURCE_GEN_TASK_NAME" value="generateDebugSources" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
         <option name="COMPILE_JAVA_TEST_TASK_NAME" value="compileDebugAndroidTestSources" />
-        <afterSyncTasks>
-          <task>generateDebugAndroidTestSources</task>
-          <task>generateDebugSources</task>
-        </afterSyncTasks>
+        <option name="TEST_SOURCE_GEN_TASK_NAME" value="generateDebugAndroidTestSources" />
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/main/res" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/main/res" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
         <option name="LIBRARY_PROJECT" value="true" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
-    <output url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/classes/debug" />
-    <output-test url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/classes/androidTest/debug" />
+    <output url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/classes/debug" />
+    <output-test url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/classes/androidTest/debug" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk">
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/source/r/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/source/aidl/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/source/rs/debug" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/res/rs/debug" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/res/generated/debug" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/source/r/androidTest/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/source/aidl/androidTest/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/source/buildConfig/androidTest/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/source/rs/androidTest/debug" isTestSource="true" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/res/rs/androidTest/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/generated/res/generated/androidTest/debug" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/debug/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/debug/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/debug/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/debug/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/debug/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/debug/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/debug/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/main/res" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/main/assets" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/main/aidl" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/main/jni" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/main/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/androidTest/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/androidTest/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/androidTest/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/androidTest/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/androidTest/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/androidTest/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/src/androidTest/rs" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/assets" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/bundles" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/coverage-instrumented-classes" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/dependency-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/dex" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/dex-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/incremental" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/jacoco" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/javaResources" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/libs" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/lint" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/manifests" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/ndk" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/pre-dexed" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/proguard" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/res" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/rs" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/intermediates/symbols" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/../../SaarangSDKDemo/saarangsdk/build/tmp" />
+    <content url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk">
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/source/r/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/source/aidl/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/source/rs/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/res/rs/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/res/generated/debug" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/source/r/androidTest/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/source/aidl/androidTest/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/source/buildConfig/androidTest/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/source/rs/androidTest/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/res/rs/androidTest/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/generated/res/generated/androidTest/debug" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/debug/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/debug/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/debug/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/debug/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/debug/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/debug/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/debug/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/main/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/main/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/main/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/main/jni" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/main/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/androidTest/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/androidTest/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/androidTest/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/androidTest/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/androidTest/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/androidTest/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/src/androidTest/rs" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/assets" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/bundles" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/coverage-instrumented-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/dependency-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/dex" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/dex-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/incremental" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/jacoco" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/javaResources" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/libs" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/lint" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/manifests" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/ndk" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/pre-dexed" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/proguard" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/res" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/rs" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/intermediates/symbols" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/../../saarangsdk/saarangsdk/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
