@@ -8,11 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -30,11 +30,17 @@ public class LoginActivity extends Activity {
     Login logintask = null;
     ProgressDialog pDialog;
     LinearLayout layout;
+    EditText etEmail, etPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_login);
+
+
+        layout = (LinearLayout) findViewById(R.id.llMain);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etPassword = (EditText) findViewById(R.id.etPassword);
 
         /**
          * Login Button
@@ -46,14 +52,14 @@ public class LoginActivity extends Activity {
                 //Checking for connection
                 if (Connectivity.isConnected()){
                     logintask = new Login();
-                    logintask.execute();
+                    logintask.execute(etEmail.getText().toString(), etPassword.getText().toString());
                 } else {
                     UIUtils.showSnackBar(v, getResources().getString(R.string.error_connection));
                 }
             }
         });
 
-        layout = (LinearLayout) findViewById(R.id.llMain);
+
     }
 
     @Override
@@ -66,7 +72,7 @@ public class LoginActivity extends Activity {
     /**
      * AsyncTask for Logging in .
      */
-    private class Login extends AsyncTask<Void, Void, Void> {
+    private class Login extends AsyncTask<String, Void, Void> {
 
         ArrayList<PostParam> params = new ArrayList<>();
         int status = 400;
@@ -82,30 +88,52 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        protected Void doInBackground(Void... aVoid) {
+        protected Void doInBackground(String... param) {
 
             String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
 
-            //Adding Parameters
-            params.add(new PostParam("email", "deepakpadamata@gmail.com"));
-            params.add(new PostParam("password", "saarang"));
-            params.add(new PostParam("deviceId", "password"));
+//            //Adding Parameters
+//            params.add(new PostParam("email", param[0]));
+//            params.add(new PostParam("password", param[1]));
+//            params.add(new PostParam("deviceId", "password"));
+//
+//            //Making request
+//            JSONObject responseJSON = PostRequest.execute("POST",urlString, params, null);
+//            if (responseJSON == null) {
+//                return null;
+//            }
+//
+//            try {
+//                status = responseJSON.getInt("status");
+//                if (status == 200){
+//                    ERPUser.saveUser(LoginActivity.this, responseJSON);
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
 
+
+            //Adding Parameters
+            params.add(new PostParam("phoneNumber", "9176285068"));
+            params.add(new PostParam("alternateNumber", "9176285068"));
+            params.add(new PostParam("hostel", "jamuna"));
+            params.add(new PostParam("roomNumber", "jamuna"));
+            params.add(new PostParam("summerLocation", "kondotty"));
+            String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NTdmZjE3Y2RhZDljNjY5NzkwYmM3ZTQiLCJpYXQiOjE0MzQ1MzczNjksImV4cCI6MTQ2NjA3MzM2OX0.ulxzxl1NEx0130SHqxLbfD8dyDdoDDaeANIuZQ6SASE";
+
+            urlString = "http://10.21.211.179:9000/api/users/557ff17cdad9c669790bc7e4/updateProfile";
             //Making request
-            JSONObject responseJSON = PostRequest.execute(urlString, params, null);
+            JSONObject responseJSON = PostRequest.execute(urlString, params, token);
             if (responseJSON == null) {
                 return null;
             }
 
             try {
                 status = responseJSON.getInt("status");
-                if (status == 200){
-                    ERPUser.saveUser(LoginActivity.this, responseJSON);
-                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             Log.d(LOG_TAG, responseJSON.toString());
             return null;
@@ -120,7 +148,7 @@ public class LoginActivity extends Activity {
                     startActivity(intent);
                     break;
                 case 401:
-                    UIUtils.showSnackBar(layout, "Invalid password");
+                    UIUtils.showSnackBar(layout, "Invalid credentials");
                     break;
                 default:
                     UIUtils.showSnackBar(layout, "There was an error connecting to our server. Please try again");
