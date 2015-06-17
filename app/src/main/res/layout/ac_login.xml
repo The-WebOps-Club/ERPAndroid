@@ -37,7 +37,8 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/tilEmail">
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -65,15 +66,35 @@
                  />
         </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LOGIN"
-            android:id="@+id/bLogin"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/app_color"
-            android:textColor="@color/white"
-            android:layout_marginTop="10dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_vertical">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LOGIN"
+                android:id="@+id/bLogin"
+                android:layout_gravity="left|center_horizontal"
+                android:background="@color/app_color"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Forgot password?"
+                android:id="@+id/tvForgotPassword"
+                android:layout_marginLeft="5dp"
+                android:elegantTextHeight="false"
+                android:textColor="@color/app_color"
+                android:layout_gravity="center_vertical|right"
+                android:gravity="right" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

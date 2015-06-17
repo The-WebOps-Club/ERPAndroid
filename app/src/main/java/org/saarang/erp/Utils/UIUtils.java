@@ -2,8 +2,11 @@ package org.saarang.erp.Utils;
 
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.regex.Pattern;
 
 /**
  * Created by Ahammad on 16/06/15.
