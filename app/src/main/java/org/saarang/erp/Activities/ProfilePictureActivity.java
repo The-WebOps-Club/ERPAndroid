@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +23,7 @@ import org.saarang.saarangsdk.Network.ImageUploader;
 import java.io.File;
 import java.io.IOException;
 
-public class ProfilePictureActivity extends ActionBarActivity implements View.OnClickListener{
+public class ProfilePictureActivity extends AppCompatActivity implements View.OnClickListener{
 
     Bitmap bitmap;
     ImageView ivProfilePic;
@@ -55,7 +55,7 @@ public class ProfilePictureActivity extends ActionBarActivity implements View.On
             ivProfilePic.setImageBitmap(bitmap);
             Bitmap croppedImage = SaarangImageHelper.compressSaveImage(bitmap);
             String link = URLConstants.SERVER + URLConstants.URL_UPLOAD;
-            ImageUploader.execute(link, croppedImage);
+            ImageUploader.execute(link);
         } catch (IOException e) {
             e.printStackTrace();
         }
