@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import org.json.JSONException;
@@ -30,11 +31,17 @@ public class LoginActivity extends Activity {
     Login logintask = null;
     ProgressDialog pDialog;
     LinearLayout layout;
+    EditText etEmail, etPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_login);
+
+
+        layout = (LinearLayout) findViewById(R.id.llMain);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etPassword = (EditText) findViewById(R.id.etPassword);
 
         /**
          * Login Button
@@ -46,14 +53,14 @@ public class LoginActivity extends Activity {
                 //Checking for connection
                 if (Connectivity.isConnected()){
                     logintask = new Login();
-                    logintask.execute();
+                    logintask.execute(etEmail.getText().toString(), etPassword.getText().toString());
                 } else {
                     UIUtils.showSnackBar(v, getResources().getString(R.string.error_connection));
                 }
             }
         });
 
-        layout = (LinearLayout) findViewById(R.id.llMain);
+
     }
 
     @Override
@@ -66,7 +73,7 @@ public class LoginActivity extends Activity {
     /**
      * AsyncTask for Logging in .
      */
-    private class Login extends AsyncTask<Void, Void, Void> {
+    private class Login extends AsyncTask<String, Void, Void> {
 
         ArrayList<PostParam> params = new ArrayList<>();
         int status = 400;
@@ -82,13 +89,13 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        protected Void doInBackground(Void... aVoid) {
+        protected Void doInBackground(String... param) {
 
             String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
 
             //Adding Parameters
-            params.add(new PostParam("email", "deepakpadamata@gmail.com"));
-            params.add(new PostParam("password", "saarang"));
+            params.add(new PostParam("email", param[0]));
+            params.add(new PostParam("password", param[1]));
             params.add(new PostParam("deviceId", "password"));
 
             //Making request
@@ -120,7 +127,7 @@ public class LoginActivity extends Activity {
                     startActivity(intent);
                     break;
                 case 401:
-                    UIUtils.showSnackBar(layout, "Invalid password");
+                    UIUtils.showSnackBar(layout, "Invalid credentials");
                     break;
                 default:
                     UIUtils.showSnackBar(layout, "There was an error connecting to our server. Please try again");
