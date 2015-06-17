@@ -2,13 +2,14 @@ package org.saarang.erp.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,82 +20,63 @@ import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
-import org.saarang.saarangsdk.Utils.StringValidator;
 
 import java.util.ArrayList;
-
-import static java.lang.Thread.sleep;
 
 
 public class LoginActivity extends Activity {
 
     Button bLogin;
     private static String LOG_TAG = "LoginActivity";
-    EditText etEmail;
-    EditText etPassword;
-    String email;
-    String password;
-    TextInputLayout tilEmail;
+    Login logintask = null;
+    ProgressDialog pDialog;
+    LinearLayout layout;
+    EditText etEmail, etPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_login);
 
-        tilEmail = (TextInputLayout) findViewById(R.id.tilEmail);
 
-        //Getting EditText from xml
-
-        etEmail = (EditText)findViewById(R.id.etEmail);
-        etPassword = (EditText)findViewById(R.id.etPassword);
+        layout = (LinearLayout) findViewById(R.id.llMain);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etPassword = (EditText) findViewById(R.id.etPassword);
 
         /**
          * Login Button
          */
-
         bLogin = (Button) findViewById(R.id.bLogin);
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Getting String from the EditText fields
-
-                email = etEmail.getText().toString();
-                password = etPassword.getText().toString();
-
-                //Validating email id
-
-                if (StringValidator.isEmailValid(email)) {
-                    Log.d(LOG_TAG, "valid email");
-                    tilEmail.setError(null);
-                    
-                    //Checking for connection
-
-                    if (Connectivity.isConnected()) {
-                        new Login().execute();
-                    } else {
-                        UIUtils.showSnackBar(v, getResources().getString(R.string.error_connection));
-                    }
-
+                //Checking for connection
+                if (Connectivity.isConnected()){
+                    logintask = new Login();
+                    logintask.execute(etEmail.getText().toString(), etPassword.getText().toString());
                 } else {
-
-                    //Displaying Error Message
-
-                    Log.d(LOG_TAG, "invalid email id");
-                    tilEmail.setError("Invalid Email Id entered");
+                    UIUtils.showSnackBar(v, getResources().getString(R.string.error_connection));
                 }
             }
         });
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        logintask.cancel(true);
 
     }
 
     /**
      * AsyncTask for Logging in .
      */
-    private class Login extends AsyncTask<Void, Void, Void> {
+    private class Login extends AsyncTask<String, Void, Void> {
 
         ArrayList<PostParam> params = new ArrayList<>();
-        ProgressDialog pDialog;
+        int status = 400;
 
         @Override
         protected void onPreExecute() {
@@ -107,13 +89,13 @@ public class LoginActivity extends Activity {
         }
 
         @Override
-        protected Void doInBackground(Void... aVoid) {
+        protected Void doInBackground(String... param) {
 
             String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
 
             //Adding Parameters
-            params.add(new PostParam("email", email));
-            params.add(new PostParam("password", password));
+            params.add(new PostParam("email", param[0]));
+            params.add(new PostParam("password", param[1]));
             params.add(new PostParam("deviceId", "password"));
 
             //Making request
@@ -123,11 +105,13 @@ public class LoginActivity extends Activity {
             }
 
             try {
-                Log.d(LOG_TAG, responseJSON.getJSONObject("data").toString());
+                status = responseJSON.getInt("status");
+                if (status == 200){
+                    ERPUser.saveUser(LoginActivity.this, responseJSON);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            ERPUser.saveUser(LoginActivity.this, responseJSON);
 
 
             Log.d(LOG_TAG, responseJSON.toString());
@@ -136,12 +120,19 @@ public class LoginActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            try {
-                sleep(4000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             pDialog.dismiss();
+            switch (status){
+                case 200:
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    break;
+                case 401:
+                    UIUtils.showSnackBar(layout, "Invalid credentials");
+                    break;
+                default:
+                    UIUtils.showSnackBar(layout, "There was an error connecting to our server. Please try again");
+                    break;
+            }
         }
     }
 

@@ -24,7 +24,20 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':saarangsdk')
+
+    //Cropping Image
     compile 'com.soundcloud.android:android-crop:1.0.0@aar'
+
+    //Loading and memory management for images
+    compile 'com.github.bumptech.glide:glide:3.6.0'
+
+    //Circular image view
+    compile 'de.hdodenhof:circleimageview:1.3.0'
+
+    //support libraries
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+
 }
