@@ -17,6 +17,8 @@ import com.soundcloud.android.crop.Crop;
 
 import org.saarang.erp.Helpers.SaarangImageHelper;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.ImageUploader;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,8 +53,9 @@ public class ProfilePictureActivity extends ActionBarActivity implements View.On
         try {
             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),destination);
             ivProfilePic.setImageBitmap(bitmap);
-            SaarangImageHelper.compressSaveImage(bitmap);
-
+            Bitmap croppedImage = SaarangImageHelper.compressSaveImage(bitmap);
+            String link = URLConstants.SERVER + URLConstants.URL_UPLOAD;
+            ImageUploader.execute(link, croppedImage);
         } catch (IOException e) {
             e.printStackTrace();
         }
