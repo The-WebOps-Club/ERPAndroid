@@ -2,15 +2,17 @@ package org.saarang.erp.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.ERPUser;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -25,6 +27,9 @@ public class LoginActivity extends Activity {
 
     Button bLogin;
     private static String LOG_TAG = "LoginActivity";
+    Login logintask = null;
+    ProgressDialog pDialog;
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.ac_login);
 
         /**
-         * Login Butto
+         * Login Button
          */
         bLogin = (Button) findViewById(R.id.bLogin);
         bLogin.setOnClickListener(new View.OnClickListener() {
@@ -40,12 +45,22 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 //Checking for connection
                 if (Connectivity.isConnected()){
-                    new Login().execute();
+                    logintask = new Login();
+                    logintask.execute();
                 } else {
                     UIUtils.showSnackBar(v, getResources().getString(R.string.error_connection));
                 }
             }
         });
+
+        layout = (LinearLayout) findViewById(R.id.llMain);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        logintask.cancel(true);
+
     }
 
     /**
@@ -54,7 +69,7 @@ public class LoginActivity extends Activity {
     private class Login extends AsyncTask<Void, Void, Void> {
 
         ArrayList<PostParam> params = new ArrayList<>();
-        ProgressDialog pDialog;
+        int status = 400;
 
         @Override
         protected void onPreExecute() {
@@ -83,11 +98,13 @@ public class LoginActivity extends Activity {
             }
 
             try {
-                Log.d(LOG_TAG, responseJSON.getJSONObject("data").toString());
+                status = responseJSON.getInt("status");
+                if (status == 200){
+                    ERPUser.saveUser(LoginActivity.this, responseJSON);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            ERPUser.saveUser(LoginActivity.this, responseJSON);
 
 
             Log.d(LOG_TAG, responseJSON.toString());
@@ -97,6 +114,18 @@ public class LoginActivity extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             pDialog.dismiss();
+            switch (status){
+                case 200:
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    break;
+                case 401:
+                    UIUtils.showSnackBar(layout, "Invalid password");
+                    break;
+                default:
+                    UIUtils.showSnackBar(layout, "There was an error connecting to our server. Please try again");
+                    break;
+            }
         }
     }
 

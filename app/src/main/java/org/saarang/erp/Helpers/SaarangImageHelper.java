@@ -11,7 +11,7 @@ import java.util.Random;
  * Created by Ahammad on 02/06/15.
  */
 public class SaarangImageHelper {
-    public static void compressSaveImage(Bitmap bitmap){
+    public static Bitmap compressSaveImage(Bitmap bitmap){
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/saved_images");
         myDir.mkdirs();
@@ -27,9 +27,11 @@ public class SaarangImageHelper {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 30, out);
             out.flush();
             out.close();
+            return bitmap;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return bitmap;
     }
 
 }
