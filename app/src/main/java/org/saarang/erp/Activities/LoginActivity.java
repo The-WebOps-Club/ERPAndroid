@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -93,26 +92,48 @@ public class LoginActivity extends Activity {
 
             String urlString = URLConstants.SERVER + URLConstants.URL_LOGIN;
 
-            //Adding Parameters
-            params.add(new PostParam("email", param[0]));
-            params.add(new PostParam("password", param[1]));
-            params.add(new PostParam("deviceId", "password"));
+//            //Adding Parameters
+//            params.add(new PostParam("email", param[0]));
+//            params.add(new PostParam("password", param[1]));
+//            params.add(new PostParam("deviceId", "password"));
+//
+//            //Making request
+//            JSONObject responseJSON = PostRequest.execute("POST",urlString, params, null);
+//            if (responseJSON == null) {
+//                return null;
+//            }
+//
+//            try {
+//                status = responseJSON.getInt("status");
+//                if (status == 200){
+//                    ERPUser.saveUser(LoginActivity.this, responseJSON);
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
 
+
+            //Adding Parameters
+            params.add(new PostParam("phoneNumber", "9176285068"));
+            params.add(new PostParam("alternateNumber", "9176285068"));
+            params.add(new PostParam("hostel", "jamuna"));
+            params.add(new PostParam("roomNumber", "jamuna"));
+            params.add(new PostParam("summerLocation", "kondotty"));
+            String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NTdmZjE3Y2RhZDljNjY5NzkwYmM3ZTQiLCJpYXQiOjE0MzQ1MzczNjksImV4cCI6MTQ2NjA3MzM2OX0.ulxzxl1NEx0130SHqxLbfD8dyDdoDDaeANIuZQ6SASE";
+
+            urlString = "http://10.21.211.179:9000/api/users/557ff17cdad9c669790bc7e4/updateProfile";
             //Making request
-            JSONObject responseJSON = PostRequest.execute(urlString, params, null);
+            JSONObject responseJSON = PostRequest.execute(urlString, params, token);
             if (responseJSON == null) {
                 return null;
             }
 
             try {
                 status = responseJSON.getInt("status");
-                if (status == 200){
-                    ERPUser.saveUser(LoginActivity.this, responseJSON);
-                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             Log.d(LOG_TAG, responseJSON.toString());
             return null;
