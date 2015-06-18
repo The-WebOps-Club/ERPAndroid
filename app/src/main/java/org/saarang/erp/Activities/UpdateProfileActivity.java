@@ -1,8 +1,10 @@
 package org.saarang.erp.Activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,13 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+//importing Google Gson
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
+import org.saarang.erp.Utils.UserState;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
@@ -42,6 +48,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_update_profile);
+
+        UserState.setLastActivity(UpdateProfileActivity.this,3);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -156,15 +164,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                putData.add(new PostParam("profilePic", ERPUser.getUserProfilePic(UpdateProfileActivity.this)));
               putData.add(new PostParam("hostel",param[5]));
 
-              Log.d(LOG_TAG, param[0]);
-              Log.d(LOG_TAG, param[1]);
-              Log.d(LOG_TAG, param[2]);
-              Log.d(LOG_TAG, param[3]);
-              Log.d(LOG_TAG, param[4]);
-              Log.d(LOG_TAG, param[5]);
-              Log.d(LOG_TAG, ERPUser.getUserProfilePic(UpdateProfileActivity.this));
-              Log.d(LOG_TAG, ERPUser.getERPUserToken(UpdateProfileActivity.this));
-              Log.d(LOG_TAG, urlString);
                //Making request
                JSONObject responseJSON = PostRequest.execute(urlString, putData, ERPUser.getERPUserToken(UpdateProfileActivity.this));
                if (responseJSON == null) {
@@ -191,8 +190,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
             pDialog.dismiss();
             switch (status){
                 case 200:
+                    UserState.setLastActivity(UpdateProfileActivity.this,4);
                     Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 case 401:
                     UIUtils.showSnackBar(layout, "Invalid credentials");

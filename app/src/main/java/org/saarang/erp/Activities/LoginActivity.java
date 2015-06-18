@@ -3,8 +3,10 @@ package org.saarang.erp.Activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -19,8 +21,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
+import org.saarang.erp.Utils.UserState;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
@@ -47,6 +51,8 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_login);
+
+        UserState.setLastActivity(LoginActivity.this, 1);
 
 
         layout = (LinearLayout) findViewById(R.id.llMain);
@@ -197,6 +203,7 @@ public class LoginActivity extends Activity {
                 case 200:
                     Intent intent = new Intent(LoginActivity.this, ProfilePictureActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 case 401:
                     UIUtils.showSnackBar(layout, "Invalid credentials, please try again");
@@ -261,4 +268,5 @@ public class LoginActivity extends Activity {
             }
         }
     }
-}
+
+ }
