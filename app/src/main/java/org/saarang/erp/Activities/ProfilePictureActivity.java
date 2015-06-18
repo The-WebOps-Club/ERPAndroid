@@ -58,7 +58,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
 
         //Check if profile picture is already set
         if (ERPUser.getUserProfilePic(this) != ""){
-            File imgFile = new  File("/sdcard/Images/test_image.jpg");
+            File imgFile = new  File(ERPUser.getUserProfilePic(this));
             if(imgFile.exists()){
                 Bitmap profilePic = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 ivProfilePic.setImageBitmap(profilePic);
@@ -72,14 +72,14 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
        // if (file.exists ()) file.delete ();
         destination = Uri.fromFile(file);
         Crop.of(source, destination).asSquare().start(this);
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),destination);
-            ivProfilePic.setImageBitmap(bitmap);
-            Bitmap croppedImage = SaarangImageHelper.compressSaveImage(ProfilePictureActivity.this, bitmap,
-                    AppConstants.PROFILE_PICTURE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),destination);
+//            ivProfilePic.setImageBitmap(bitmap);
+//            Bitmap croppedImage = SaarangImageHelper.compressSaveImage(ProfilePictureActivity.this, bitmap,
+//                    AppConstants.PROFILE_PICTURE);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         tvContinue.setOnClickListener(this);
         Log.d(LOG_TAG, "Image destinaton" + destination);
     }
@@ -109,6 +109,8 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), destination);
                 ivProfilePic.setImageBitmap(bitmap);
+                SaarangImageHelper.compressSaveImage(ProfilePictureActivity.this, bitmap,
+                        AppConstants.PROFILE_PICTURE);
                 tvContinue.setTextColor(ProfilePictureActivity.this.getResources().getColor(R.color.white));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -165,7 +167,8 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         protected Void doInBackground(String... param) {
 
             String link = URLConstants.SERVER + URLConstants.URL_UPLOAD;
-            profilePicPath = "/data/data/org.saarang.erp/cache/saved_images/" + AppConstants.PROFILE_PICTURE + ".jpg";
+            profilePicPath = getCacheDir().toString() +"/saved_images/" + AppConstants.PROFILE_PICTURE + ".jpg";
+//            profilePicPath = "/data/data/org.saarang.erp/cache/saved_images/" + AppConstants.PROFILE_PICTURE + ".jpg";
             JSONObject json = ImageUploader.execute( link, profilePicPath);
             try {
                 status = json.getInt("status");
