@@ -175,7 +175,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
             switch (status){
                 case 200:
                     ERPUser.setUserProfilePic(ProfilePictureActivity.this, profilePicPath);
-                    Intent intent = new Intent(ProfilePictureActivity.this, MainActivity.class);
+                    Intent intent = new Intent(ProfilePictureActivity.this, UpdateProfileActivity.class);
                     startActivity(intent);
                     break;
                 default:
