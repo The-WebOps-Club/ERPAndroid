@@ -32,6 +32,8 @@ import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
 
+//importing Google Gson
+
 public class UpdateProfileActivity extends AppCompatActivity {
 
     private static String LOG_TAG = "Update Profile Activity";
@@ -92,9 +94,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 String sAlternateNumber=etAlternateNumber.getText().toString();
                 String sRoomNumber=etRoomNumber.getText().toString();
                 String sHostel=spHostels.getSelectedItem().toString();
-                String sToken=ERPUser.getERPUserToken(UpdateProfileActivity.this);
-                String sProfilePicName="profile.jpg";
-                String sProfilePic="api/uploads/"+ERPUser.getERPUserId(UpdateProfileActivity.this)+"/"+sProfilePicName;
 
 
                boolean isValidated =  validate(sName,sSummerLocation,sPhone,sAlternateNumber,sRoomNumber);
@@ -103,7 +102,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     if (Connectivity.isConnected()){
 
                         update = new SendUpdate();
-                        update.execute(sName,sSummerLocation,sPhone,sAlternateNumber,sRoomNumber,sProfilePic,sHostel,sToken);
+                        update.execute(sName,sSummerLocation,sPhone,sAlternateNumber,sRoomNumber,sHostel);
                     } else {
                         UIUtils.showSnackBar(layout, getResources().getString(R.string.error_connection));
                     }
@@ -162,11 +161,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
                putData.add(new PostParam("phoneNumber", param[2]));
                putData.add(new PostParam("alternateNumber", param[3]));
                putData.add(new PostParam("roomNumber", param[4]));
-             //  putData.add(new PostParam("profilePic", param[5]));
-               putData.add(new PostParam("hostel",param[6]));
-//      update.execute(sName,sSummerLocation,sPhone,sAlternateNumber,sRoomNumber,sProfilePic,sHostel,sToken);
+               putData.add(new PostParam("profilePic", ERPUser.getUserProfilePic(UpdateProfileActivity.this)));
+              putData.add(new PostParam("hostel",param[5]));
 
-              //Making request
+               //Making request
                JSONObject responseJSON = PostRequest.execute(urlString, putData, param[7]);
                if (responseJSON == null) {
                    return null;

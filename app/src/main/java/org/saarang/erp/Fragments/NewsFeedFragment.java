@@ -20,6 +20,7 @@ public class NewsFeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fr_news_feed, container, false);
+
         return rootView;
     }
 }
