@@ -12,4 +12,8 @@ public class URLConstants {
     public static String URL_FORGOT_PASSWORD = "api/users/forgotPassword";
     public static String URL_UPLOAD = "api/uploads";
 
+    // the update link is like api/users/<id>/updateProfile
+
+    public static String URL_UPDATE1="api/users";
+    public static String URL_UPDATE2="updateProfile";
 }

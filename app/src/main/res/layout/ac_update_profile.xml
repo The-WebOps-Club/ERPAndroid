@@ -1,0 +1,158 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.saarang.erp.Activities.UpdateProfileActivity"
+    android:orientation="vertical"
+    android:id="@+id/llUpdateProfile"
+    >
+<include layout="@layout/toolbar"/>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+     >
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".UpdateProfile"
+        android:padding="@dimen/padding_main"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="250dp"
+                android:hint="Name"
+                android:id="@+id/etName"
+                android:singleLine="true"
+                />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="250dp"
+            android:hint="Summer Location"
+            android:id="@+id/etSummerLocation"
+            android:singleLine="true"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="6dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hostel : "
+            android:textSize="18dp"/>
+
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spHostels"
+            style="@style/Widget.AppCompat.Spinner"/>
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+             android:layout_marginLeft="1dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="250dp"
+                android:hint="Room Number"
+                android:id="@+id/etRoomNumber"
+                android:inputType="number"
+                android:singleLine="true"
+                />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="1dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="250dp"
+                android:hint="Phone Number"
+                android:id="@+id/etPhone"
+                android:inputType="number"
+                android:singleLine="true"
+                />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginBottom="5dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minWidth="250dp"
+                android:hint="Alternate Mobile Number"
+                android:id="@+id/etAlternateNumber"
+                android:inputType="number"
+                android:singleLine="true"
+                />
+    </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+</ScrollView>
+
+<LinearLayout
+
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="bottom"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="0dp"
+    >
+
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:text="Update"
+        android:id="@+id/bUpdate"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:layout_weight="50"
+        android:layout_marginBottom="0dp"
+        android:background="@color/app_color"
+        />
+
+   </LinearLayout>
+
+
+
+</LinearLayout>

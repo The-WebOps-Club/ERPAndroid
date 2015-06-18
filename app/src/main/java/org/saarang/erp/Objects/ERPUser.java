@@ -20,7 +20,7 @@ public class ERPUser {
     public static String spSummerLocation = "spSummerLocation";
     public static String spEmail = "spEmail";
     public static String spRoomNumber = "spRoomNumber";
-
+    public static String spId="spId";
     String id, phoneNumber,alternateNumber, summerLocation, roomNumber, rollNumber, name;
 
     public static void saveUser(Context context, JSONObject json){
@@ -47,6 +47,7 @@ public class ERPUser {
             editor.putString(spSummerLocation, summerLocation);
             editor.putString(spEmail, email);
             editor.putString(spRoomNumber, roomNumber);
+            editor.putString(spId,id);
             editor.commit();
 
         } catch (JSONException e) {
@@ -60,5 +61,35 @@ public class ERPUser {
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spName, "");
     }
+    public static String getERPUserToken(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spToken, "");
+    }
+    public static String getERPUserAlternateNumber(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spAlternateNumber, "");
+    }
+    public static String getERPUserPhoneNumber(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spPhoneNumber, "");
+    }
+    public static String getERPUserSummerLocation(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spSummerLocation, "");
+    }
+    public static String getERPUserEmail(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spEmail, "");
+    }
+    public static String getERPUserRoomNumber(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spRoomNumber, "");
+    }
+    public static String getERPUserId(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spId, "");
+    }
+
+
 
 }

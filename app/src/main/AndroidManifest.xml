@@ -19,22 +19,23 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".Activities.MainActivityTest"
             android:label="@string/title_activity_ac_main" >
         </activity>
+
         <activity
-            android:name=".Activities.ProfilePictureActivity"
-            android:label="@string/title_activity_profile_picture" >
+            android:name=".Activities.UpdateProfileActivity"
+            android:label="@string/title_activity_update_profile" >
+
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main" >
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
     </application>
