@@ -165,7 +165,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
               putData.add(new PostParam("hostel",param[5]));
 
                //Making request
-               JSONObject responseJSON = PostRequest.execute(urlString, putData, param[7]);
+               JSONObject responseJSON = PostRequest.execute(urlString, putData, ERPUser.getERPUserToken(UpdateProfileActivity.this));
                if (responseJSON == null) {
                    return null;
                }
@@ -193,6 +193,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     UserState.setLastActivity(UpdateProfileActivity.this,4);
                     Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 case 401:
                     UIUtils.showSnackBar(layout, "Invalid credentials");

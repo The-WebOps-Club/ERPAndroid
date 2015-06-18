@@ -193,6 +193,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
                     ERPUser.setUserProfilePicId(ProfilePictureActivity.this, fileId);
                     Intent intent = new Intent(ProfilePictureActivity.this, UpdateProfileActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 default:
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Connection error" );

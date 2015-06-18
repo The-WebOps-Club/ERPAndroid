@@ -203,6 +203,7 @@ public class LoginActivity extends Activity {
                 case 200:
                     Intent intent = new Intent(LoginActivity.this, ProfilePictureActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 case 401:
                     UIUtils.showSnackBar(layout, "Invalid credentials, please try again");

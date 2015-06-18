@@ -28,6 +28,7 @@ public class UserState {
         SharedPreferences preferences = context.getSharedPreferences(ERPUser.spUser, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(spLastActivity,position);
+        editor.commit();
     }
 
     public static int getLastActivity(Context context){

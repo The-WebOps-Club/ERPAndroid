@@ -64,14 +64,17 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 intent= new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case 2:
                 intent= new Intent(MainActivity.this,ProfilePictureActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case 3:
                 intent= new Intent(MainActivity.this,UpdateProfileActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case 4:
                 break;
