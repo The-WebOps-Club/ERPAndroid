@@ -1,8 +1,10 @@
 package org.saarang.erp.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -15,13 +17,20 @@ import android.widget.TextView;
 
 import com.soundcloud.android.crop.Crop;
 
-import org.saarang.erp.Helpers.SaarangImageHelper;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.saarang.saarangsdk.Helpers.SaarangImageHelper;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.AppConstants;
+import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.ImageUploader;
+import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ProfilePictureActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -31,16 +40,19 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
     private static final String LOG_TAG = "ProfilePictureActivity";
     Uri destination;
     TextView tvChangeImage, tvContinue;
+    ProgressDialog pDialog;
+    UpdateProfile updateProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_profile_picture);
+
+        // Buttons and onclick listeners for them
         ivProfilePic = (ImageView) findViewById(R.id.ivProfilePic);
         tvChangeImage = (TextView) findViewById(R.id.tvChangeImage);
         tvContinue = (TextView) findViewById(R.id.tvContinue);
         tvChangeImage.setOnClickListener(this);
-        tvContinue.setOnClickListener(this);
         ivProfilePic.setOnClickListener(this);
 
     }
@@ -53,12 +65,12 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         try {
             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),destination);
             ivProfilePic.setImageBitmap(bitmap);
-            Bitmap croppedImage = SaarangImageHelper.compressSaveImage(bitmap);
-            String link = URLConstants.SERVER + URLConstants.URL_UPLOAD;
-            ImageUploader.execute(link);
+            Bitmap croppedImage = SaarangImageHelper.compressSaveImage(ProfilePictureActivity.this, bitmap,
+                    AppConstants.PROFILE_PICTURE);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        tvContinue.setOnClickListener(this);
         Log.d(LOG_TAG, "Image destinaton" + destination);
     }
 
@@ -73,6 +85,10 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
             case R.id.ivProfilePic:
                 Crop.pickImage(ProfilePictureActivity.this);
                 break;
+            case R.id.tvContinue:
+                updateProfile = new UpdateProfile();
+                updateProfile.execute();
+                break;
         }
     }
 
@@ -81,7 +97,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         if (requestCode == Crop.REQUEST_CROP && resultCode == RESULT_OK) {
             //doSomethingWithCroppedImage(outputUri);
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),destination);
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), destination);
                 ivProfilePic.setImageBitmap(bitmap);
                 tvContinue.setTextColor(ProfilePictureActivity.this.getResources().getColor(R.color.white));
             } catch (IOException e) {
@@ -118,5 +134,55 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         return super.onOptionsItemSelected(item);
     }
 
+
+    private class UpdateProfile extends AsyncTask<String, Void, Void> {
+
+        ArrayList<PostParam> params = new ArrayList<>();
+        int status = 400;
+        String profilePicPath, fileId;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ProfilePictureActivity.this);
+            pDialog.setMessage("Uploading...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... param) {
+
+            String link = URLConstants.SERVER + URLConstants.URL_UPLOAD;
+            profilePicPath = "/data/data/org.saarang.erp/cache/saved_images/" + AppConstants.PROFILE_PICTURE + ".jpg";
+            JSONObject json = ImageUploader.execute( link, profilePicPath);
+            try {
+                status = json.getInt("status");
+                fileId = json.getJSONObject("data").getString("fileId");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+            Log.d(LOG_TAG, json.toString());
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            pDialog.dismiss();
+            switch (status){
+                case 200:
+                    ERPUser.setUserProfilePic(ProfilePictureActivity.this, profilePicPath);
+                    Intent intent = new Intent(ProfilePictureActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    break;
+                default:
+                    UIUtils.showSnackBar(findViewById(android.R.id.content), "Connection error" );
+                    break;
+            }
+        }
+    }
 
 }

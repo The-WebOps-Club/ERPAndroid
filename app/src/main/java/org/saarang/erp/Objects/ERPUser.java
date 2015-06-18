@@ -21,6 +21,8 @@ public class ERPUser {
     public static String spEmail = "spEmail";
     public static String spRoomNumber = "spRoomNumber";
     public static String spId="spId";
+    public static String spProfilePic = "spProfilePic";
+
     String id, phoneNumber,alternateNumber, summerLocation, roomNumber, rollNumber, name;
 
     public static void saveUser(Context context, JSONObject json){
@@ -47,7 +49,6 @@ public class ERPUser {
             editor.putString(spSummerLocation, summerLocation);
             editor.putString(spEmail, email);
             editor.putString(spRoomNumber, roomNumber);
-            editor.putString(spId,id);
             editor.commit();
 
         } catch (JSONException e) {
@@ -60,6 +61,18 @@ public class ERPUser {
     public static String getERPUserName(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spName, "");
+    }
+
+    public static void setUserProfilePic(Context context, String path){
+        SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(spProfilePic, path);
+        editor.commit();
+    }
+
+    public static String getUserProfilePic(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spProfilePic, "");
     }
     public static String getERPUserToken(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
