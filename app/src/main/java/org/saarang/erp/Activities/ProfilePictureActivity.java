@@ -3,6 +3,7 @@ package org.saarang.erp.Activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,12 +20,12 @@ import com.soundcloud.android.crop.Crop;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.saarangsdk.Helpers.SaarangImageHelper;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.AppConstants;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Helpers.SaarangImageHelper;
 import org.saarang.saarangsdk.Network.ImageUploader;
 import org.saarang.saarangsdk.Objects.PostParam;
 
@@ -54,6 +55,15 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         tvContinue = (TextView) findViewById(R.id.tvContinue);
         tvChangeImage.setOnClickListener(this);
         ivProfilePic.setOnClickListener(this);
+
+        //Check if profile picture is already set
+        if (ERPUser.getUserProfilePic(this) != ""){
+            File imgFile = new  File("/sdcard/Images/test_image.jpg");
+            if(imgFile.exists()){
+                Bitmap profilePic = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                ivProfilePic.setImageBitmap(profilePic);
+            }
+        }
 
     }
 
@@ -175,6 +185,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
             switch (status){
                 case 200:
                     ERPUser.setUserProfilePic(ProfilePictureActivity.this, profilePicPath);
+                    ERPUser.setUserProfilePicId(ProfilePictureActivity.this, fileId);
                     Intent intent = new Intent(ProfilePictureActivity.this, UpdateProfileActivity.class);
                     startActivity(intent);
                     break;

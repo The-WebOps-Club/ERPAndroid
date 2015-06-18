@@ -1,10 +1,8 @@
 package org.saarang.erp.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,8 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-//importing Google Gson
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +25,8 @@ import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
+
+//importing Google Gson
 
 public class UpdateProfileActivity extends AppCompatActivity {
 
@@ -88,9 +86,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 String sAlternateNumber=etAlternateNumber.getText().toString();
                 String sRoomNumber=etRoomNumber.getText().toString();
                 String sHostel=spHostels.getSelectedItem().toString();
-                String sToken=ERPUser.getERPUserToken(UpdateProfileActivity.this);
-                String sProfilePicName="profile.jpg";
-                String sProfilePic="api/uploads/"+ERPUser.getERPUserId(UpdateProfileActivity.this)+"/"+sProfilePicName;
 
 
                boolean isValidated =  validate(sName,sSummerLocation,sPhone,sAlternateNumber,sRoomNumber);
@@ -99,7 +94,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     if (Connectivity.isConnected()){
 
                         update = new SendUpdate();
-                        update.execute(sName,sSummerLocation,sPhone,sAlternateNumber,sRoomNumber,sProfilePic,sHostel,sToken);
+                        update.execute(sName,sSummerLocation,sPhone,sAlternateNumber,sRoomNumber,sHostel);
                     } else {
                         UIUtils.showSnackBar(layout, getResources().getString(R.string.error_connection));
                     }
@@ -158,11 +153,20 @@ public class UpdateProfileActivity extends AppCompatActivity {
                putData.add(new PostParam("phoneNumber", param[2]));
                putData.add(new PostParam("alternateNumber", param[3]));
                putData.add(new PostParam("roomNumber", param[4]));
-             //  putData.add(new PostParam("profilePic", param[5]));
-             // putData.add(new PostParam("hostel",param[6]));
+               putData.add(new PostParam("profilePic", ERPUser.getUserProfilePic(UpdateProfileActivity.this)));
+              putData.add(new PostParam("hostel",param[5]));
 
+              Log.d(LOG_TAG, param[0]);
+              Log.d(LOG_TAG, param[1]);
+              Log.d(LOG_TAG, param[2]);
+              Log.d(LOG_TAG, param[3]);
+              Log.d(LOG_TAG, param[4]);
+              Log.d(LOG_TAG, param[5]);
+              Log.d(LOG_TAG, ERPUser.getUserProfilePic(UpdateProfileActivity.this));
+              Log.d(LOG_TAG, ERPUser.getERPUserToken(UpdateProfileActivity.this));
+              Log.d(LOG_TAG, urlString);
                //Making request
-               JSONObject responseJSON = PostRequest.execute(urlString, putData, param[7]);
+               JSONObject responseJSON = PostRequest.execute(urlString, putData, ERPUser.getERPUserToken(UpdateProfileActivity.this));
                if (responseJSON == null) {
                    return null;
                }
