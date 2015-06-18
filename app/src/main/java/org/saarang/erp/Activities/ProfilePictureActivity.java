@@ -19,6 +19,8 @@ import com.soundcloud.android.crop.Crop;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.erp.Utils.SPUtils;
+import org.saarang.erp.Utils.UserState;
 import org.saarang.saarangsdk.Helpers.SaarangImageHelper;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
@@ -47,6 +49,8 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_profile_picture);
+
+        UserState.setLastActivity(ProfilePictureActivity.this,2);
 
         // Buttons and onclick listeners for them
         ivProfilePic = (ImageView) findViewById(R.id.ivProfilePic);

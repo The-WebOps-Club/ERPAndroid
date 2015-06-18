@@ -16,6 +16,7 @@
 
 package org.saarang.erp.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -39,6 +40,8 @@ import org.saarang.erp.Fragments.NotificationsFragment;
 import org.saarang.erp.Fragments.PeopleFragment;
 import org.saarang.erp.Fragments.WallsFragment;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.SPUtils;
+import org.saarang.erp.Utils.UserState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +57,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_main);
+
+        //Read last user state and redirect
+        Intent intent;
+        switch (UserState.getLastActivity(MainActivity.this)){
+            case 1:
+                intent= new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+                break;
+            case 2:
+                intent= new Intent(MainActivity.this,ProfilePictureActivity.class);
+                startActivity(intent);
+                break;
+            case 3:
+                intent= new Intent(MainActivity.this,UpdateProfileActivity.class);
+                startActivity(intent);
+                break;
+            case 4:
+                break;
+
+        }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

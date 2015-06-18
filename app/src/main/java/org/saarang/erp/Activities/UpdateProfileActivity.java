@@ -22,8 +22,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
+import org.saarang.erp.Utils.UserState;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
@@ -44,6 +46,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_update_profile);
+
+        UserState.setLastActivity(UpdateProfileActivity.this,3);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -159,9 +163,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
                putData.add(new PostParam("alternateNumber", param[3]));
                putData.add(new PostParam("roomNumber", param[4]));
              //  putData.add(new PostParam("profilePic", param[5]));
-             // putData.add(new PostParam("hostel",param[6]));
+               putData.add(new PostParam("hostel",param[6]));
+//      update.execute(sName,sSummerLocation,sPhone,sAlternateNumber,sRoomNumber,sProfilePic,sHostel,sToken);
 
-               //Making request
+              //Making request
                JSONObject responseJSON = PostRequest.execute(urlString, putData, param[7]);
                if (responseJSON == null) {
                    return null;
@@ -187,6 +192,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
             pDialog.dismiss();
             switch (status){
                 case 200:
+                    UserState.setLastActivity(UpdateProfileActivity.this,4);
                     Intent intent = new Intent(UpdateProfileActivity.this, MainActivity.class);
                     startActivity(intent);
                     break;
