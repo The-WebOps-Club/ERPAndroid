@@ -5,4 +5,5 @@ package org.saarang.erp.Utils;
  */
 public class AppConstants {
 
+    public static String PROFILE_PICTURE = "profile_picture";
 }

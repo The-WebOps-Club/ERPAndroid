@@ -196,7 +196,7 @@ public class LoginActivity extends Activity {
             pDialog.dismiss();
             switch (status) {
                 case 200:
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, ProfilePictureActivity.class);
                     startActivity(intent);
                     break;
                 case 401:
