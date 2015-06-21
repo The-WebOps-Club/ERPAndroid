@@ -24,8 +24,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':saarangsdk')
-
-    //Cropping Image
     compile 'com.soundcloud.android:android-crop:1.0.0@aar'
 
     //Loading and memory management for images
@@ -36,7 +34,9 @@ dependencies {
 
     //support libraries6
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.android.support:design:22.2.0'
+
     compile 'com.android.support:cardview-v7:22.2.0'
     compile 'com.android.support:recyclerview-v7:22.2.0'
 

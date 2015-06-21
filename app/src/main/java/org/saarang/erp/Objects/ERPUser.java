@@ -20,6 +20,9 @@ public class ERPUser {
     public static String spSummerLocation = "spSummerLocation";
     public static String spEmail = "spEmail";
     public static String spRoomNumber = "spRoomNumber";
+    public static String spId="spId";
+    public static String spProfilePic = "spProfilePic";
+    public static String spProfilePicId = "spProfilePicId";
 
     String id, phoneNumber,alternateNumber, summerLocation, roomNumber, rollNumber, name;
 
@@ -41,6 +44,7 @@ public class ERPUser {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(spName, name);
             editor.putString(spToken, token);
+            editor.putString(spId, id);
             editor.putString(spAlternateNumber, alternateNumber);
             editor.putString(spPhoneNumber, phoneNumber);
             editor.putString(spRollNumber, rollNumber);
@@ -60,5 +64,60 @@ public class ERPUser {
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spName, "");
     }
+
+    public static void setUserProfilePic(Context context, String path){
+        SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(spProfilePic, path);
+        editor.commit();
+    }
+
+    public static String getUserProfilePic(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spProfilePicId, "");
+    }
+
+    public static void setUserProfilePicId(Context context, String path){
+        SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(spProfilePicId, path);
+        editor.commit();
+    }
+
+    public static String getUserProfilePicId(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spProfilePic, "");
+    }
+
+    public static String getERPUserToken(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spToken, "");
+    }
+    public static String getERPUserAlternateNumber(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spAlternateNumber, "");
+    }
+    public static String getERPUserPhoneNumber(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spPhoneNumber, "");
+    }
+    public static String getERPUserSummerLocation(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spSummerLocation, "");
+    }
+    public static String getERPUserEmail(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spEmail, "");
+    }
+    public static String getERPUserRoomNumber(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spRoomNumber, "");
+    }
+    public static String getERPUserId(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spId, "");
+    }
+
+
 
 }
