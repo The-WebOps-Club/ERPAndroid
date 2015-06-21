@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="#ffffffff"
+        android:elevation="15dp"
+        >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingRight="12dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="#ffffffff">
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imPic"
+
+                    android:src="@drawable/bg_ajmal"
+                    android:background="@color/app_color"
+                    android:scaleType="centerCrop" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/name"
+                        android:id="@+id/tvName"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/location"
+                        android:id="@+id/tvLocation"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/postDate"
+                        android:id="@+id/tvPostDate"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginLeft="11dp"
+                        android:textIsSelectable="false"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:background="#fff8f8f8"
+                android:paddingBottom="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/title"
+                    android:id="@+id/tvTitle"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/content"
+                    android:id="@+id/tvContent"
+                    android:layout_marginLeft="4dp"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#ffd1d1d1"
+                android:layout_marginTop="5dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffffff"
+                android:weightSum="100"
+                android:divider="#ff070707"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp">
+
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/acknowledge"
+                    android:id="@+id/btAcknowledge"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:textSize="14sp"
+                    android:textColor="#ff9e9e9e"
+                    android:layout_weight="50" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="Comments"
+                    android:id="@+id/btComments"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:paddingBottom="5dp"
+                    android:textSize="14sp"
+                    android:textColor="#ff9e9e9e"
+                    android:layout_weight="50"
+                    android:gravity="center" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

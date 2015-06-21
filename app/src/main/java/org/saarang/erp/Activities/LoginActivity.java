@@ -239,9 +239,6 @@ public class LoginActivity extends Activity {
 
             try {
                 status = responseJSON.getInt("status");
-                if (status == 200) {
-//                    ERPUser.saveUser(LoginActivity.this, responseJSON);
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
