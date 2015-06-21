@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp" android:layout_height="wrap_content"
+    android:padding="0dp"
+    android:outlineProvider="none"
+    android:gravity="center">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_ajmal"
+        android:padding="0dp"
+        android:adjustViewBounds="false"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout2"
+        android:padding="8dp">
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibCall"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:src="@drawable/ic_call_black_18dp"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_below="@+id/imageView2"
+            android:layout_weight="33.33" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibMail"
+            android:src="@drawable/ic_email_black_24dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_weight="33.33" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibProfile"
+            android:src="@drawable/ic_perm_identity_black_24dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_weight="33.33" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/name"
+        android:id="@+id/textView"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#a3000000"
+        android:textColor="#ffffffff"
+        android:gravity="center_horizontal"
+        android:padding="8dp" />
+</RelativeLayout>

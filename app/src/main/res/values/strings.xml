@@ -16,5 +16,13 @@
     the big cheese.</string>
     <string name="checkin">Checkin</string>
     <string name="menu_settings">Settings</string>
+    <string name="name">Shahid K Muhammed</string>
+    <string name="location">Mob-Ops</string>
+    <string name="postDate">Posted on: 09/08/2014</string>
+    <string name="title">Coding Session</string>
+    <string name="content">Frontend     Backend    MobOps   Be there for coding session,
+        9am 10th Aug Sunday at CFI. Bring your laptops charged, and those who were
+        late last time, bring food</string>
+    <string name="acknowledge">Acknowledge</string>
 
 </resources>
