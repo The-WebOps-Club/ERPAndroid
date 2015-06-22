@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:paddingTop="1dp"
+    >
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -32,7 +35,7 @@
                 <ImageView
                     android:layout_width="72dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/imPic"
+                    android:id="@+id/ivProfilePic"
 
                     android:src="@drawable/bg_ajmal"
                     android:background="@color/app_color"
@@ -57,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/location"
-                        android:id="@+id/tvLocation"
+                        android:id="@+id/tvWall"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp" />
 
@@ -81,9 +84,10 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:background="#fff8f8f8"
-                android:paddingBottom="8dp"
+                android:padding="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
+
                 >
 
                 <TextView
@@ -95,17 +99,18 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
                     android:layout_marginTop="8dp"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:layout_marginBottom="8dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoLink="all"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/content"
-                    android:id="@+id/tvContent"
+                    android:id="@+id/tvInfo"
                     android:layout_marginLeft="4dp"
-                    android:textSize="16dp" />
+                    android:textSize="14dp" />
 
             </LinearLayout>
 
