@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import org.saarang.erp.Adapters.NotificationsAdapter;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.DividerItemDecoration;
 
 /**
  * Created by aqel on 8/5/15.
@@ -30,6 +31,11 @@ public class NotificationsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fr_notification, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
+
+
+        //added extra for setting divider
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        recyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getActivity());
