@@ -21,11 +21,26 @@ public class RandomGenerator {
             post.setInfo(infos[random]);
             post.setPostedBy(createdBy[random]);
             post.setTitle(titles[random]);
+            post.setProfilePic(profilePics[random]);
             post.setWall(walls[random]);
             list.add(post);
         }
         return list;
     }
+
+    public static String[] profilePics = {
+            "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10917107_861605683904660_2916721572559378705_n.jpg?oh=f7614b6d5ec547ea1daaa7f9deb3bb90&oe=56213825&__gda__=1446170873_73d74c10d3ce73374cea50fdb49b1ff0",
+            "https://scontent-bru2-1.xx.fbcdn.net/hphotos-xta1/v/t1.0-9/11203007_921922381183913_4028899080210101313_n.jpg?oh=3434ba5601d45ab64ba79fa5b47e62d2&oe=55EA7175",
+            "https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/11150736_841536632601763_3571320871133991232_n.jpg?oh=e2519ad83d8565ec4309bc86ac34c46b&oe=563282BE&__gda__=1442128482_225a00cd1b9eee758887b357e59e2787",
+            "https://scontent-bru2-1.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/11037893_10153183771293120_5412153897018827952_n.jpg?oh=554589223bc2e0fb17504e4339a50a10&oe=5631CC21",
+            "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-prn2/t31.0-8/1404853_611497292226210_187597109_o.jpg",
+            "https://scontent-bru2-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10868162_749052845174509_560164992827574628_n.jpg?oh=424fa965322d337eb2b870aa8a369ae1&oe=56345C9B",
+            "https://scontent-bru2-1.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/10628423_955026451185930_7162397556378586920_n.jpg?oh=b514e17a074dd1f335a1f20e148373a6&oe=55E73530",
+            "https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10917107_861605683904660_2916721572559378705_n.jpg?oh=f7614b6d5ec547ea1daaa7f9deb3bb90&oe=56213825&__gda__=1446170873_73d74c10d3ce73374cea50fdb49b1ff0",
+            "https://scontent-bru2-1.xx.fbcdn.net/hphotos-xta1/v/t1.0-9/11203007_921922381183913_4028899080210101313_n.jpg?oh=3434ba5601d45ab64ba79fa5b47e62d2&oe=55EA7175",
+            "https://scontent-bru2-1.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/11037893_10153183771293120_5412153897018827952_n.jpg?oh=554589223bc2e0fb17504e4339a50a10&oe=5631CC21",
+            "https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-prn2/t31.0-8/1404853_611497292226210_187597109_o.jpg"
+    };
 
     public static String[] createdBy ={
             "Msvs Prasad",

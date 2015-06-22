@@ -37,7 +37,7 @@
                 <ImageView
                     android:layout_width="72dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/imPic"
+                    android:id="@+id/ivProfilePic"
 
                     android:src="@drawable/bg_ajmal"
                     android:background="@color/app_color"

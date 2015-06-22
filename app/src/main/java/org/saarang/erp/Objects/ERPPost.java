@@ -5,6 +5,16 @@ package org.saarang.erp.Objects;
  */
 public class ERPPost {
     String postedBy;
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    String profilePic;
     String title;
 
     public String getTitle() {
@@ -17,6 +27,7 @@ public class ERPPost {
 
     String info;
     String wall;
+
 
     public String getPostedBy() {
         return postedBy;
