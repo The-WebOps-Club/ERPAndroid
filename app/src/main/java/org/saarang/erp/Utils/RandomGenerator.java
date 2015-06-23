@@ -23,6 +23,7 @@ public class RandomGenerator {
             post.setTitle(titles[random]);
             post.setProfilePic(profilePics[random]);
             post.setWall(walls[random]);
+            post.setAction(action[random]);
             list.add(post);
         }
         return list;
@@ -145,8 +146,20 @@ public class RandomGenerator {
             "Web and Mobile Operations"
     };
 
+    public static  final String[] action={
+            "Posted",
+            "Commented",
+            "Commented",
+            "Posted",
+            "Posted",
+            "Commented",
+            "Commented",
+            "Posted",
+            "Posted",
+            "Commented",
+            "Commented",
 
-
+    };
 
 
 

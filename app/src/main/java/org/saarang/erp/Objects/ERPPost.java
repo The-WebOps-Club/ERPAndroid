@@ -27,6 +27,7 @@ public class ERPPost {
 
     String info;
     String wall;
+    String action;
 
 
     public String getPostedBy() {
@@ -53,4 +54,8 @@ public class ERPPost {
     public void setWall(String wall) {
         this.wall = wall;
     }
+
+    public String getAction(){return action;}
+
+    public void setAction(String action){this.action=action;};
 }

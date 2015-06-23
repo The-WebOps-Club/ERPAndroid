@@ -1,16 +1,45 @@
 package org.saarang.erp.Adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Ahammad on 22/06/15.
  */
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolder> {
+    Context mContext;
+    ArrayList<ERPPost> mItems;
+
+    public NotificationsAdapter(Context context,ArrayList<ERPPost> items){
+        mContext=context;
+        mItems=items;
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+
+        TextView tvNotification1,tvNotification2;
+        ImageView ivNotification;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            tvNotification1=(TextView) itemView.findViewById(R.id.tvNotification1);
+            tvNotification2=(TextView) itemView.findViewById(R.id.tvNotification2);
+            ivNotification=(ImageView)itemView.findViewById(R.id.ivNotification);
+        }
+    }
 
     @Override
     public NotificationsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -20,18 +49,23 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public void onBindViewHolder(NotificationsAdapter.ViewHolder holder, int position) {
+       holder.tvNotification1.setText(mItems.get(position).getPostedBy()+" "+mItems.get(position).getAction()
+               +"\nOn "+mItems.get(position).getWall()+" Wall");
+
+        Glide.with(mContext)
+                .load(mItems.get(position).getProfilePic())
+                .centerCrop()
+                .placeholder(R.drawable.ic_people)
+                .crossFade()
+                .skipMemoryCache(false)
+                .into(holder.ivNotification);
 
     }
 
     @Override
     public int getItemCount() {
-        return 15;
+        return mItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
 }

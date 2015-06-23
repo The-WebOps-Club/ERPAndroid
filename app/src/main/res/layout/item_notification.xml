@@ -2,15 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#e5e5e5"
+    android:background="#fff8f8f8"
+    android:id="@+id/llItemNotification"
+    android:divider="#ff070707"
+    android:padding="1dp"
     >
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff8f8f8">
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="64dp"
         android:src="@drawable/placeholder_profile"
         android:id="@+id/ivNotification"
-        android:layout_margin="10dp"/>
+        android:layout_margin="8dp"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -19,22 +25,28 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/text_notification_head"
             android:text="Aqel Ahammad Commented\nOn MobOps Wall "
             android:id="@+id/tvNotification1"
             android:paddingTop="10dp"
             android:paddingLeft="10dp"
+            android:textColor="#d4161616"
             />
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:text="Yesterday"
             android:id="@+id/tvNotification2"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="6dp"
             android:paddingLeft="10dp"
            />
+
         </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>
+
+
