@@ -120,6 +120,7 @@
                 android:background="#ffd1d1d1"
                 android:layout_marginTop="5dp" />
 
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -129,6 +130,7 @@
                 android:divider="#ff070707"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp">
+
 
 
                 <Button
@@ -143,7 +145,6 @@
                     android:textSize="14sp"
                     android:textColor="#ff9e9e9e"
                     android:layout_weight="50" />
-
                 <Button
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="0dp"

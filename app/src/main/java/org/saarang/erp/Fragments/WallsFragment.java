@@ -35,7 +35,7 @@ public class WallsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new WallsAdapter();
+        adapter = new WallsAdapter(getActivity());
 
         recyclerView.setAdapter(adapter);
         return rootView;
