@@ -25,8 +25,8 @@ public class WallsAdapter extends RecyclerView.Adapter<WallsAdapter.ViewHolder> 
             "Publicity",
             "Design and Media",
             "Marketing and Sales",
-            "Finance",
-            "Web and Mobile Operations"
+            "Mobile Operations",
+            "Web Operations"
     };
 
     Context mContext;
