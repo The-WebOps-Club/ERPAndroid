@@ -5,7 +5,7 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="8dp"
     tools:context="org.saarang.erp.Activities.MainActivityTest$PlaceholderFragment"
     android:orientation="vertical"
     android:id="@+id/llWall"
@@ -16,72 +16,14 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="72dp"
-        android:text="MobOps"
         android:textColor="@color/white"
-        android:background="@drawable/bg_button1"
+        android:text="Wall"
         android:gravity="left|center_vertical"
         android:paddingLeft="30dp"
         android:textAllCaps="false"
-        android:layout_marginBottom="10dp"
-
+        android:id="@+id/btWall"
+        android:background="@drawable/round_button"
         />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="72dp"
-        android:text="WebOps"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_button2"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="30dp"
-        android:textAllCaps="false"
-        android:layout_marginBottom="10dp"
-        />
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="72dp"
-        android:text="Finance"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_button3"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="30dp"
-        android:textAllCaps="false"
-        android:layout_marginBottom="10dp"
-        />
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="72dp"
-        android:text="Design And Media"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_button4"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="30dp"
-        android:textAllCaps="false"
-        android:layout_marginBottom="10dp"
-        />
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="72dp"
-        android:text="Publicity"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_button1"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="30dp"
-        android:textAllCaps="false"
-        android:layout_marginBottom="10dp"
-        />
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="72dp"
-        android:text="Marketing and Sales"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_button2"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="30dp"
-        android:textAllCaps="false"
-        android:layout_marginBottom="10dp"
-        />
-
 
 </LinearLayout>
 
