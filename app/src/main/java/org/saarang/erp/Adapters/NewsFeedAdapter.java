@@ -1,7 +1,6 @@
 package org.saarang.erp.Adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -55,7 +54,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.tvName.setText(mItems.get(position).getPostedBy());
         holder.tvTitle.setText(mItems.get(position).getTitle());
         String html = "<html><body style=\"text-align:justify\">" + mItems.get(position).getInfo() +  " </body></Html>\n" +
@@ -67,9 +66,11 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 .centerCrop()
                 .placeholder(R.drawable.ic_people)
                 .crossFade()
-                .skipMemoryCache(false)
                 .into(holder.ivProfilePic);
 
+        /**
+         * Alert dialog with contact details
+         */
         holder.ivProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,13 +80,16 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 View dialoglayout = li.inflate(R.layout.alert_profile_dialog, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setView(dialoglayout);
-//                ibCall = (ImageButton)dialoglayout.findViewById(R.id.ibCall);
-//                ibMail = (ImageButton)dialoglayout.findViewById(R.id.ibMail);
-//                ibProfile = (ImageButton)dialoglayout.findViewById(R.id.ibProfile);
+                ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
+                TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
+                tvName.setText(mItems.get(position).getPostedBy());
+                Glide.with(mContext)
+                        .load(mItems.get(position).getProfilePic())
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_people)
+                        .crossFade()
+                        .into(imageView);
 
-                Resources r = mContext.getResources();
-//                int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, r.getDisplayMetrics());
-//                builder.show().getWindow().setLayout(px, ViewGroup.LayoutParams.WRAP_CONTENT);
                 builder.show();
             }
         });
