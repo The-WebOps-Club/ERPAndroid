@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class RegistrationIntentService extends IntentService{
     private static final String TAG = "RegIntentService";
-    String sender_id = "SENDER_ID";
+    String sender_id = "475795801819";
     private static final String[] TOPICS = {"global"};
 
     public RegistrationIntentService() {
@@ -35,7 +35,7 @@ public class RegistrationIntentService extends IntentService{
                 // Initially this call goes out to the network to retrieve the token, subsequent calls
                 // are local.
                 // [START get_token]
-                String token ="noo token";
+                String token ="no token";
                 InstanceID instanceID = InstanceID.getInstance(this);
                 /*String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                         GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
