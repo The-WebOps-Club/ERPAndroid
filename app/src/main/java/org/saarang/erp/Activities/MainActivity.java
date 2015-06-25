@@ -45,7 +45,6 @@ import org.saarang.erp.Fragments.PeopleFragment;
 import org.saarang.erp.Fragments.WallsFragment;
 import org.saarang.erp.R;
 import org.saarang.erp.Services.RegistrationIntentService;
-import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UserState;
 
 import java.util.ArrayList;
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ac_main);
 
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
@@ -93,7 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        setContentView(R.layout.ac_main);
 
+        /**
+         * Action Bar
+         */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -126,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
     }
+
+
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {

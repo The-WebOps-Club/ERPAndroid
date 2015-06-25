@@ -4,12 +4,13 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+
+import org.saarang.erp.Utils.AppConstants;
 
 import java.io.IOException;
 
@@ -39,7 +40,7 @@ public class RegistrationIntentService extends IntentService{
                 InstanceID instanceID = InstanceID.getInstance(this);
                 /*String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                         GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
-                 token = instanceID.getToken(sender_id, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+                 token = instanceID.getToken(AppConstants.GCM_SENDER_ID, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                 // [END get_token]
                 Log.i(TAG, "GCM Registration Token:" + token);
 

@@ -77,18 +77,18 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 LayoutInflater li = (LayoutInflater) mContext
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                View dialoglayout = li.inflate(R.layout.alert_profile_dialog, null);
+                View dialoglayout = li.inflate(R.layout.alert_comments, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setView(dialoglayout);
-                ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
-                TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
-                tvName.setText(mItems.get(position).getPostedBy());
-                Glide.with(mContext)
-                        .load(mItems.get(position).getProfilePic())
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_people)
-                        .crossFade()
-                        .into(imageView);
+//                ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
+//                TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
+//                tvName.setText(mItems.get(position).getPostedBy());
+//                Glide.with(mContext)
+//                        .load(mItems.get(position).getProfilePic())
+//                        .centerCrop()
+//                        .placeholder(R.drawable.ic_people)
+//                        .crossFade()
+//                        .into(imageView);
 
                 builder.show();
             }
