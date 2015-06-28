@@ -3,10 +3,8 @@ package org.saarang.erp.Activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -21,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
-import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.erp.Utils.UserState;
@@ -190,7 +187,6 @@ public class LoginActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             Log.d(LOG_TAG, responseJSON.toString());
             return null;

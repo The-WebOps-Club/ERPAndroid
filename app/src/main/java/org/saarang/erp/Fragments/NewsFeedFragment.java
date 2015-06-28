@@ -52,27 +52,6 @@ public class NewsFeedFragment extends Fragment {
         adapter = new NewsFeedAdapter(getActivity(), arrayList);
         recyclerView.setAdapter(adapter);
 
-        //Proifle things
-//        impic = (ImageView)rootView.findViewById(R.id.imPic);
-//
-//        impic.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//                View dialoglayout = inflater.inflate(R.layout.alert_profile_dialog, null);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                builder.setView(dialoglayout);
-////                ibCall = (ImageButton)dialoglayout.findViewById(R.id.ibCall);
-////                ibMail = (ImageButton)dialoglayout.findViewById(R.id.ibMail);
-////                ibProfile = (ImageButton)dialoglayout.findViewById(R.id.ibProfile);
-//
-//                Resources r = getResources();
-//                int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, r.getDisplayMetrics());
-//                builder.show().getWindow().setLayout(px, ViewGroup.LayoutParams.WRAP_CONTENT);
-////                builder.show();
-//            }
-//        });
         return rootView;
     }
 }
