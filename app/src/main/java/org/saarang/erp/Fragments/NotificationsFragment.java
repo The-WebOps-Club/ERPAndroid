@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.saarang.erp.Adapters.NotificationsAdapter;
-import org.saarang.erp.Objects.ERPPost;
+import org.saarang.erp.Objects.ERPPostTemp;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.DividerItemDecoration;
 import org.saarang.erp.Utils.RandomGenerator;
@@ -24,7 +24,7 @@ public class NotificationsFragment extends Fragment {
     RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    ArrayList<ERPPost> arrayList = new ArrayList<>();
+    ArrayList<ERPPostTemp> arrayList = new ArrayList<>();
 
 
     public NotificationsFragment() {

@@ -19,4 +19,6 @@ public class URLConstants {
     public static String URL_UPDATE2="updateProfile";
 
     public static String URL_REGISTER_DEVICE = SERVER + "api/users/gcmRegister";
+
+    public static String URL_NEWSFEED_PAGE = SERVER + "api/posts/newsfeed/";
 }

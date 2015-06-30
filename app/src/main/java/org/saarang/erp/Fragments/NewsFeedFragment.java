@@ -11,11 +11,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import org.saarang.erp.Adapters.NewsFeedAdapter;
+import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.R;
-import org.saarang.erp.Utils.RandomGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by aqel on 8/5/15.
@@ -32,7 +33,7 @@ public class NewsFeedFragment extends Fragment {
     RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    ArrayList<ERPPost> arrayList = new ArrayList<>();
+    List<ERPPost> arrayList = new ArrayList<>();
 
 
     @Override
@@ -46,8 +47,10 @@ public class NewsFeedFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        //Random dataset
-        arrayList = RandomGenerator.getRandomPosts(15);
+//        //Random dataset
+//        arrayList = RandomGenerator.getRandomPosts(15);
+
+        arrayList = new DatabaseHelper(getActivity()).getAllPosts();
 
         adapter = new NewsFeedAdapter(getActivity(), arrayList);
         recyclerView.setAdapter(adapter);

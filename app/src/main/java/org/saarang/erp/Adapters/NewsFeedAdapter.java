@@ -13,13 +13,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import org.saarang.erp.Fragments.CommentsFragment;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Awanish Raj on 06/06/15.
@@ -28,9 +26,9 @@ import java.util.ArrayList;
 public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>{
 
     Context mContext;
-    ArrayList<ERPPost> mItems;
+    List<ERPPost> mItems;
 
-    public NewsFeedAdapter(Context context, ArrayList<ERPPost> items) {
+    public NewsFeedAdapter(Context context, List<ERPPost> items) {
         mContext = context;
         mItems = items;
     }
@@ -61,18 +59,18 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.tvName.setText(mItems.get(position).getPostedBy());
+//        holder.tvName.setText(mItems.get(position).get);
         holder.tvTitle.setText(mItems.get(position).getTitle());
         String html = "<html><body style=\"text-align:justify\">" + mItems.get(position).getInfo() +  " </body></Html>\n" +
                 "\n";
         holder.tvInfo.setText(Html.fromHtml(html));
-        holder.tvWall.setText(mItems.get(position).getWall());
-        Glide.with(mContext)
-                .load(mItems.get(position).getProfilePic())
-                .centerCrop()
-                .placeholder(R.drawable.ic_people)
-                .crossFade()
-                .into(holder.ivProfilePic);
+        holder.tvWall.setText(mItems.get(position).getWall().getName());
+//        Glide.with(mContext)
+//                .load(mItems.get(position).getProfilePic())
+//                .centerCrop()
+//                .placeholder(R.drawable.ic_people)
+//                .crossFade()
+//                .into(holder.ivProfilePic);
 
         /**
          * Alert dialog with contact details
@@ -88,13 +86,13 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 builder.setView(dialoglayout);
                 ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
                 TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
-                tvName.setText(mItems.get(position).getPostedBy());
-                Glide.with(mContext)
-                        .load(mItems.get(position).getProfilePic())
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_people)
-                        .crossFade()
-                        .into(imageView);
+//                tvName.setText(mItems.get(position).getPostedBy());
+//                Glide.with(mContext)
+//                        .load(mItems.get(position).getProfilePic())
+//                        .centerCrop()
+//                        .placeholder(R.drawable.ic_people)
+//                        .crossFade()
+//                        .into(imageView);
 
                 builder.show();
             }

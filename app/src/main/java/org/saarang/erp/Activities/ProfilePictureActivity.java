@@ -20,14 +20,13 @@ import com.soundcloud.android.crop.Crop;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Utils.SPUtils;
-import org.saarang.erp.Utils.UserState;
-import org.saarang.saarangsdk.Helpers.SaarangImageHelper;
+import org.saarang.erp.IntentService.GetNewsfeed;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.AppConstants;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
+import org.saarang.erp.Utils.UserState;
 import org.saarang.saarangsdk.Helpers.SaarangImageHelper;
 import org.saarang.saarangsdk.Network.ImageUploader;
 import org.saarang.saarangsdk.Objects.PostParam;
@@ -51,6 +50,10 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_profile_picture);
+
+        // Service to get all news feed
+        Intent intent = new Intent(this, GetNewsfeed.class);
+        startService(intent);
 
         UserState.setLastActivity(ProfilePictureActivity.this,2);
 

@@ -76,6 +76,9 @@
             android:name=".Services.RegistrationIntentService"
             android:exported="false">
         </service>
+        <service
+            android:name=".IntentService.GetNewsfeed"
+            android:exported="false"/>
 
     </application>
 

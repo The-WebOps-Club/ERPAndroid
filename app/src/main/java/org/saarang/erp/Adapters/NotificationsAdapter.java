@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.saarang.erp.Objects.ERPPost;
+import org.saarang.erp.Objects.ERPPostTemp;
 import org.saarang.erp.R;
 
 import java.util.ArrayList;
@@ -20,9 +20,9 @@ import java.util.ArrayList;
  */
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolder> {
     Context mContext;
-    ArrayList<ERPPost> mItems;
+    ArrayList<ERPPostTemp> mItems;
 
-    public NotificationsAdapter(Context context,ArrayList<ERPPost> items){
+    public NotificationsAdapter(Context context,ArrayList<ERPPostTemp> items){
         mContext=context;
         mItems=items;
     }
