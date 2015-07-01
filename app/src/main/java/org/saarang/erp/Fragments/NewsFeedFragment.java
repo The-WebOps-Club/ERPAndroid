@@ -114,18 +114,20 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             params.add(new PostParam("date", SPUtils.getLatestPostDate(getActivity())));
 
-            json = PostRequest.execute(URLConstants.URL_NEWSFEED_REFRESH, params, ERPProfile.getERPUserToken(getActivity()));
-            Log.d(LOG_TAG, json.toString());
             try {
+                json = PostRequest.execute(URLConstants.URL_NEWSFEED_REFRESH, params, ERPProfile.getERPUserToken(getActivity()));
+                Log.d(LOG_TAG, "json response" + json.toString());
+
+                // Get the time of latest post and save it to SP
+                SPUtils.setLatestPostDate(getActivity(), json.getJSONObject("data").getJSONArray("response").getJSONObject(0).getString("updatedOn"));
+
                 jsonArray = json.getJSONObject("data").getJSONArray("response");
                 ERPPost.SavePosts(getActivity(),jsonArray);
             } catch (JSONException e){
                 e.printStackTrace();
+            } catch (NullPointerException e){
+                e.printStackTrace();
             }
-
-            Log.d(LOG_TAG, " Date:"+ SPUtils.getLatestPostDate(getActivity()));
-            Log.d(LOG_TAG, "Token:" + ERPProfile.getERPUserToken(getActivity()));
-            Log.d(LOG_TAG, "Url " + URLConstants.URL_NEWSFEED_REFRESH);
 
             return null;
         }
@@ -134,8 +136,10 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
+            if (getActivity() == null ) return;
             arrayList = new DatabaseHelper(getActivity()).getAllPosts();
-            adapter.notifyDataSetChanged();
+            adapter = new NewsFeedAdapter(getActivity(), arrayList);
+            recyclerView.setAdapter(adapter);
 
             swipeRefreshLayout.setRefreshing(false);
         }

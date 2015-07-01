@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,10 @@ import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
-import org.saarang.saarangsdk.Network.GetRequest;
+import org.saarang.saarangsdk.Network.PostRequest;
+import org.saarang.saarangsdk.Objects.PostParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,6 +63,10 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             bAcknowledge = (Button) view.findViewById(R.id.bAcknowledge);
             mView = view.findViewById(android.R.id.content);
         }
+    }
+
+    public void UpdateAdapter(List<ERPPost> items){
+        mItems = items;
     }
 
     @Override
@@ -116,6 +123,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.bComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(LOG_TAG, mItems.get(position).getComments());
                 Intent myIntent = new Intent().setClass(view.getContext(),CommentsActivity.class);
                 view.getContext().startActivity(myIntent);
             }
@@ -152,21 +160,24 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         return mItems.size();
     }
 
-    private class AcknowledgePost extends AsyncTask<String, Void, Void>{
+    private class AcknowledgePost extends AsyncTask<String, Void, Boolean>{
 
         JSONObject jsonObject;
         @Override
-        protected Void doInBackground(String... params) {
-            jsonObject = GetRequest.execute(URLConstants.URL_POST_ACKNOWLEDGE + params[0], ERPProfile.getERPUserToken(mContext));
+        protected Boolean doInBackground(String... params) {
             try {
+                ArrayList<PostParam> param = new ArrayList<>();
+                param.add(new PostParam("a", "Asd"));
+                jsonObject = PostRequest.execute(URLConstants.URL_POST_ACKNOWLEDGE + params[0], param, ERPProfile.getERPUserToken(mContext));
                 if (jsonObject.getInt("status") == 200){
                     DatabaseHelper data = new DatabaseHelper(mContext);
                     data.markPostAsUpdated(params[0]);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                return false;
             }
-            return null;
+            return true;
         }
     }
 }

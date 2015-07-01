@@ -33,9 +33,10 @@ public class GetNewsfeed extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         while (status == 200){
-            json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE+ pageNumber , ERPProfile.getERPUserToken(this));
-            Log.d(LOG_TAG, json.toString());
             try {
+                // Make request
+                json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE + pageNumber, ERPProfile.getERPUserToken(this));
+                Log.d(LOG_TAG, json.toString());
 
                 // Get status of the response
                 status = json.getInt("status");
@@ -61,7 +62,7 @@ public class GetNewsfeed extends IntentService {
             }
         }
 
-        // Mark that newsfeed is downloaded once
+        // Mark that news feed is downloaded once
         SPUtils.setNewsFeedDownloadedOnce(this);
 
     }
