@@ -8,7 +8,7 @@ import org.saarang.erp.Fragments.CommentsFirstFragment;
 import org.saarang.erp.Fragments.CommentsSecondFragment;
 
 /**
- * Created by Moochi on 01-07-2015.
+ * Created by Ajmal on 01-07-2015.
  */
 public class CommentsViewPagerAdapter extends FragmentStatePagerAdapter {
     public CommentsViewPagerAdapter(FragmentManager fm)
@@ -26,7 +26,7 @@ public class CommentsViewPagerAdapter extends FragmentStatePagerAdapter {
         switch(position)
         {
             case 0: return new CommentsFirstFragment();
-            //case 1: return new CommentsSecondFragment();
+            case 1: return new CommentsSecondFragment();
             default : return new CommentsFirstFragment();
         }
     }

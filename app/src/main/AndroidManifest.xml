@@ -50,7 +50,6 @@
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar"
             >
         </activity>
-
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -82,9 +81,6 @@
             android:name=".Services.RegistrationIntentService"
             android:exported="false">
         </service>
-        <service
-            android:name=".IntentService.GetNewsfeed"
-            android:exported="false"/>
 
     </application>
 

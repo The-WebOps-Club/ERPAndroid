@@ -4,8 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:weightSum="1"
-    android:minWidth="600dp"
-    android:minHeight="500dp"
     >
 
     <LinearLayout

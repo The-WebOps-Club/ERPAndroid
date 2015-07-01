@@ -4,8 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:weightSum="1"
-    android:minHeight="400dp"
-    android:minWidth="500dp"
+
     >
 
     <LinearLayout
@@ -27,7 +26,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="21 People Acknowledged"
+            android:text="None Acknowledged"
             android:id="@+id/tvFragmentFirst"
             android:layout_gravity="center"
             android:gravity="center"
@@ -41,6 +40,7 @@
             android:layout_height="36dp"
             android:src="@drawable/ic_navigate_back"
             android:layout_gravity="center"
+            android:id="@+id/ivNextPage"
             />
     </LinearLayout>
 
