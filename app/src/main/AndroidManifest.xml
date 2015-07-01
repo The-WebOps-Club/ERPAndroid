@@ -45,6 +45,12 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".Activities.CommentsActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar"
+            >
+        </activity>
+
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
