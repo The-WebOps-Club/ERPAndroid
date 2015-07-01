@@ -13,10 +13,22 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.saarang.erp.Adapters.NewsFeedAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.SPUtils;
+import org.saarang.erp.Utils.UIUtils;
+import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.Connectivity;
+import org.saarang.saarangsdk.Network.PostRequest;
+import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +50,8 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     private RecyclerView.LayoutManager layoutManager;
     List<ERPPost> arrayList = new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
+    GetNewsFeedTask parseNewsFeed;
+    View rootView;
 
     private static String LOG_TAG = "NewsFeedFragment";
 
@@ -45,7 +59,7 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fr_news_feed, container, false);
+        rootView = inflater.inflate(R.layout.fr_news_feed, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
 
@@ -64,26 +78,70 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         adapter = new NewsFeedAdapter(getActivity(), arrayList);
         recyclerView.setAdapter(adapter);
 
+        parseNewsFeed = new GetNewsFeedTask();
+
         return rootView;
     }
 
     @Override
     public void onRefresh() {
-        Log.d(LOG_TAG, "Refresh");
-        swipeRefreshLayout.setRefreshing(false);
+
+        if (Connectivity.isConnected()){
+            parseNewsFeed = new GetNewsFeedTask();
+            parseNewsFeed.execute();
+        }
+        else{
+            UIUtils.showSnackBar(getActivity().findViewById(android.R.id.content),
+                    getActivity().getResources().getString(R.string.error_connection));
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
     }
 
-    private class getNewsFeed extends AsyncTask<Void, Void, Void>{
+    private class GetNewsFeedTask extends AsyncTask<Void, Void, Void>{
+
+        JSONObject json;
+        ArrayList<PostParam> params = new ArrayList<>();
+        JSONArray jsonArray;
 
         @Override
         protected Void doInBackground(Void... voids) {
+
+            Gson gson = new Gson();
+
+            params.add(new PostParam("date", SPUtils.getLatestPostDate(getActivity())));
+
+            json = PostRequest.execute(URLConstants.URL_NEWSFEED_REFRESH, params , ERPUser.getERPUserToken(getActivity()));
+            Log.d(LOG_TAG, json.toString());
+            try {
+                jsonArray = json.getJSONObject("data").getJSONArray("response");
+                ERPPost.SavePosts(getActivity(),jsonArray);
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+
+            Log.d(LOG_TAG, " Date:"+ SPUtils.getLatestPostDate(getActivity()));
+            Log.d(LOG_TAG, "Token:" + ERPUser.getERPUserToken(getActivity()));
+            Log.d(LOG_TAG, "Url " + URLConstants.URL_NEWSFEED_REFRESH);
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+            arrayList = new DatabaseHelper(getActivity()).getAllPosts();
+            adapter.notifyDataSetChanged();
+
+            swipeRefreshLayout.setRefreshing(false);
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        parseNewsFeed.cancel(true);
     }
 }

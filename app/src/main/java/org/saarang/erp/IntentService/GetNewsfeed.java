@@ -4,14 +4,11 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPUser;
-import org.saarang.erp.Objects.ERPWall;
 import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.GetRequest;
@@ -27,7 +24,6 @@ public class GetNewsfeed extends IntentService {
     int pageNumber = 1;
     int status = 200;
     JSONArray jsonArray;
-    String oldestPost;
 
     public GetNewsfeed() {
         super("GetNewsfeed");
@@ -39,32 +35,31 @@ public class GetNewsfeed extends IntentService {
         while (status == 200){
             json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE+ pageNumber , ERPUser.getERPUserToken(this));
             Log.d(LOG_TAG, json.toString());
-            Gson gson = new Gson();
             try {
 
+                // Get status of the response
                 status = json.getInt("status");
+
+                // Extract posts from response
                 jsonArray = json.getJSONObject("data").getJSONArray("response");
+
+                // Save posts to DB
+                ERPPost.SavePosts(this, jsonArray);
 
                 // Get the time of latest post and save it to SP
                 if (pageNumber == 1)
                     SPUtils.setLatestPostDate(this, json.getJSONObject("data").getJSONArray("response").getJSONObject(0).getString("updatedOn"));
 
-                for (int i = 0; i< jsonArray.length(); i++){
-                    JSONObject post = jsonArray.getJSONObject(i);
-                    ERPWall wall = gson.fromJson(post.getJSONObject("wall").toString(), ERPWall.class);
-                    ERPPost erpPost = new ERPPost(post.getString("_id"), post.getString("info"), post.getString("title"), post.getString("createdOn"), wall);
-                    erpPost.SavePost(this);
-                    oldestPost = post.getString("updatedOn");
-                }
+                // Save time of oldest post to SP
+                SPUtils.setOldestPostDate(this, json.getJSONObject("data").getJSONArray("response").getJSONObject(jsonArray.length() - 1).getString("updatedOn"));
+
                 pageNumber++;
 
             } catch (JSONException e) {
                 status = 300;
+                return;
             }
         }
-
-        // Save time of oldest post to SP
-        SPUtils.setOldestPostDate(this, oldestPost);
 
         // Mark that newsfeed is downloaded once
         SPUtils.setNewsFeedDownloadedOnce(this);

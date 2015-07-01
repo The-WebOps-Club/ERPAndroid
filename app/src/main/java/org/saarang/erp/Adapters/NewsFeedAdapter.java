@@ -3,6 +3,7 @@ package org.saarang.erp.Adapters;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -37,7 +38,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
         TextView tvName, tvTitle, tvInfo, tvWall;
         ImageView ivProfilePic;
-        Button bComment;
+        Button bComment, bAcknowledge;
 
         public ViewHolder(View view) {
             super(view);
@@ -47,6 +48,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             tvWall = (TextView) view.findViewById(R.id.tvWall);
             ivProfilePic = (ImageView) view.findViewById(R.id.ivProfilePic);
             bComment = (Button) view.findViewById(R.id.bComments);
+            bAcknowledge = (Button) view.findViewById(R.id.bAcknowledge);
         }
     }
 
@@ -107,6 +109,19 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 FragmentManager fm = ((Activity) mContext).getFragmentManager();
                 CommentsFragment.newInstance()
                         .show(fm, "Title");
+            }
+        });
+
+        if (mItems.get(position).isAcknowledged()){
+            holder.bAcknowledge.setTextColor(Color.BLACK);
+        }
+
+        holder.bAcknowledge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.bAcknowledge.setEnabled(false);
+                holder.bAcknowledge.setText("Acknowledged");
+                holder.bAcknowledge.setTextColor(mContext.getResources().getColor(R.color.indigo_color_disabled));
             }
         });
     }

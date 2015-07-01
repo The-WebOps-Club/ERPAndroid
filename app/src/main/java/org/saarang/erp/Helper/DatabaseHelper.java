@@ -26,17 +26,6 @@ public class DatabaseHelper {
     private final Context ourContext;
     private SQLiteDatabase ourDatabase;
 
-
-
-//    private static final String DATABASE_TABLE = "tags";
-//    public static final String KEY_ROWID = "_id";
-//    public static final String TAG_ID = "tag_id";
-//    public static final String TAG_NAME = "tag_name";
-//    public static final String TAG_CATEGORY = "tag_category";
-
-
-
-
     private static class DbHelper extends SQLiteOpenHelper {
 
         public DbHelper(Context context) {
@@ -80,10 +69,6 @@ public class DatabaseHelper {
         return id;
     }
 
-//    public static String[] columns = {KEY_ROWID, COLUMN_LOGIC, COLUMN_POST_ID, COLUMN_INFO, COLUMN_WALL, COLUMN_TITLE, COLUMN_DATE,
-//            COLUMN_ACKNOWLEDGE,COLUMN_COMMENTS};
-//
-//    public ERPPost(String postId, String info, String title, String createdOn, ERPWall wall) {
     public List<ERPPost> getAllPosts () {
         open();
         String[] columns = ERPPost.columns;
@@ -91,13 +76,14 @@ public class DatabaseHelper {
         List<ERPPost> arrayList = new ArrayList<>();
         Gson gson = new Gson();
         while ( c.moveToNext() ){
-            ERPPost post = new ERPPost(c.getString(2), c.getString(3), c.getString(5), c.getString(6), gson.fromJson(c.getString(4), ERPWall.class) );
+            ERPPost post = new ERPPost(c.getString(2), c.getString(3), c.getString(5), c.getString(6),
+                    gson.fromJson(c.getString(4), ERPWall.class), (c.getInt(9) > 0) );
             arrayList.add(post);
         }
-
         close();
         return arrayList;
     }
+
 
 
 //    public long addTag(ContentValues cv){

@@ -53,7 +53,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.ac_profile_picture);
 
         // Check if News feed is downloaded once
-        if (SPUtils.ifNewsFeedDownloaded(this)) {
+        if (!SPUtils.ifNewsFeedDownloaded(this)) {
 
             // Start service to download
             Intent intent = new Intent(this, GetNewsfeed.class);
@@ -70,7 +70,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         tvChangeImage.setOnClickListener(this);
         ivProfilePic.setOnClickListener(this);
 
-        //Check if profile picture is already set
+        // Check if profile picture is already set
         if (ERPUser.getUserProfilePic(this) != ""){
             File imgFile = new  File(ERPUser.getUserProfilePic(this));
             if(imgFile.exists()){
