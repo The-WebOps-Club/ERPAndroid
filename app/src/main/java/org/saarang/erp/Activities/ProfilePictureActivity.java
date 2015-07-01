@@ -20,14 +20,14 @@ import com.soundcloud.android.crop.Crop;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Utils.SPUtils;
-import org.saarang.erp.Utils.UserState;
-import org.saarang.saarangsdk.Helpers.SaarangImageHelper;
-import org.saarang.erp.Objects.ERPUser;
+import org.saarang.erp.IntentService.GetNewsfeed;
+import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.AppConstants;
+import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
+import org.saarang.erp.Utils.UserState;
 import org.saarang.saarangsdk.Helpers.SaarangImageHelper;
 import org.saarang.saarangsdk.Network.ImageUploader;
 import org.saarang.saarangsdk.Objects.PostParam;
@@ -52,18 +52,27 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_profile_picture);
 
+        // Check if News feed is downloaded once
+        if (!SPUtils.ifNewsFeedDownloaded(this)) {
+
+            // Start service to download
+            Intent intent = new Intent(this, GetNewsfeed.class);
+            startService(intent);
+
+        }
+
         UserState.setLastActivity(ProfilePictureActivity.this,2);
 
-        // Buttons and onclick listeners for them
+        // Buttons and onclick listeners
         ivProfilePic = (ImageView) findViewById(R.id.ivProfilePic);
         tvChangeImage = (TextView) findViewById(R.id.tvChangeImage);
         tvContinue = (TextView) findViewById(R.id.tvContinue);
         tvChangeImage.setOnClickListener(this);
         ivProfilePic.setOnClickListener(this);
 
-        //Check if profile picture is already set
-        if (ERPUser.getUserProfilePic(this) != ""){
-            File imgFile = new  File(ERPUser.getUserProfilePic(this));
+        // Check if profile picture is already set
+        if (ERPProfile.getUserProfilePic(this) != ""){
+            File imgFile = new  File(ERPProfile.getUserProfilePic(this));
             if(imgFile.exists()){
                 Bitmap profilePic = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 ivProfilePic.setImageBitmap(profilePic);
@@ -77,14 +86,6 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
        // if (file.exists ()) file.delete ();
         destination = Uri.fromFile(file);
         Crop.of(source, destination).asSquare().start(this);
-//        try {
-//            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),destination);
-//            ivProfilePic.setImageBitmap(bitmap);
-//            Bitmap croppedImage = SaarangImageHelper.compressSaveImage(ProfilePictureActivity.this, bitmap,
-//                    AppConstants.PROFILE_PICTURE);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         tvContinue.setOnClickListener(this);
         Log.d(LOG_TAG, "Image destinaton" + destination);
     }
@@ -192,8 +193,8 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
             pDialog.dismiss();
             switch (status){
                 case 200:
-                    ERPUser.setUserProfilePic(ProfilePictureActivity.this, profilePicPath);
-                    ERPUser.setUserProfilePicId(ProfilePictureActivity.this, fileId);
+                    ERPProfile.setUserProfilePic(ProfilePictureActivity.this, profilePicPath);
+                    ERPProfile.setUserProfilePicId(ProfilePictureActivity.this, fileId);
                     Intent intent = new Intent(ProfilePictureActivity.this, UpdateProfileActivity.class);
                     startActivity(intent);
                     finish();

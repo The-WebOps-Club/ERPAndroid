@@ -1,6 +1,6 @@
 package org.saarang.erp.Utils;
 
-import org.saarang.erp.Objects.ERPPost;
+import org.saarang.erp.Objects.ERPPostTemp;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,14 +10,14 @@ import java.util.Random;
  */
 public class RandomGenerator {
 
-    public static ArrayList<ERPPost> getRandomPosts(int count){
+    public static ArrayList<ERPPostTemp> getRandomPosts(int count){
         /**
          * Generating random data set
          */
-        ArrayList<ERPPost> list = new ArrayList<>();
+        ArrayList<ERPPostTemp> list = new ArrayList<>();
         for (int i= 1; i<count; i++){
             int random = new Random().nextInt(11);
-            ERPPost post = new ERPPost();
+            ERPPostTemp post = new ERPPostTemp();
             post.setInfo(infos[random]);
             post.setPostedBy(createdBy[random]);
             post.setTitle(titles[random]);
