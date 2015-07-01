@@ -1,7 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.saarang.erp.Activities.MainActivity$NewsFeedFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
@@ -10,4 +11,4 @@
         android:fastScrollEnabled="true"
         android:overScrollMode="always" />
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

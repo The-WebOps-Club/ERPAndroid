@@ -24,6 +24,7 @@ import org.saarang.erp.IntentService.GetNewsfeed;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.AppConstants;
+import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.erp.Utils.UserState;
@@ -51,13 +52,18 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_profile_picture);
 
-        // Service to get all news feed
-        Intent intent = new Intent(this, GetNewsfeed.class);
-        startService(intent);
+        // Check if News feed is downloaded once
+        if (SPUtils.ifNewsFeedDownloaded(this)) {
+
+            // Start service to download
+            Intent intent = new Intent(this, GetNewsfeed.class);
+            startService(intent);
+
+        }
 
         UserState.setLastActivity(ProfilePictureActivity.this,2);
 
-        // Buttons and onclick listeners for them
+        // Buttons and onclick listeners
         ivProfilePic = (ImageView) findViewById(R.id.ivProfilePic);
         tvChangeImage = (TextView) findViewById(R.id.tvChangeImage);
         tvContinue = (TextView) findViewById(R.id.tvContinue);
@@ -80,14 +86,6 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
        // if (file.exists ()) file.delete ();
         destination = Uri.fromFile(file);
         Crop.of(source, destination).asSquare().start(this);
-//        try {
-//            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),destination);
-//            ivProfilePic.setImageBitmap(bitmap);
-//            Bitmap croppedImage = SaarangImageHelper.compressSaveImage(ProfilePictureActivity.this, bitmap,
-//                    AppConstants.PROFILE_PICTURE);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         tvContinue.setOnClickListener(this);
         Log.d(LOG_TAG, "Image destinaton" + destination);
     }

@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.Objects.ERPWall;
+import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.GetRequest;
 
@@ -26,9 +27,10 @@ public class GetNewsfeed extends IntentService {
     int pageNumber = 1;
     int status = 200;
     JSONArray jsonArray;
+    String oldestPost;
 
     public GetNewsfeed() {
-        super("GetNewfeed");
+        super("GetNewsfeed");
     }
 
     @Override
@@ -39,20 +41,34 @@ public class GetNewsfeed extends IntentService {
             Log.d(LOG_TAG, json.toString());
             Gson gson = new Gson();
             try {
+
                 status = json.getInt("status");
-                pageNumber++;
                 jsonArray = json.getJSONObject("data").getJSONArray("response");
+
+                // Get the time of latest post and save it to SP
+                if (pageNumber == 1)
+                    SPUtils.setLatestPostDate(this, json.getJSONObject("data").getJSONArray("response").getJSONObject(0).getString("updatedOn"));
+
                 for (int i = 0; i< jsonArray.length(); i++){
                     JSONObject post = jsonArray.getJSONObject(i);
-//                    String postId, String info, String title, String createdOn, ERPWall wall
                     ERPWall wall = gson.fromJson(post.getJSONObject("wall").toString(), ERPWall.class);
                     ERPPost erpPost = new ERPPost(post.getString("_id"), post.getString("info"), post.getString("title"), post.getString("createdOn"), wall);
                     erpPost.SavePost(this);
+                    oldestPost = post.getString("updatedOn");
                 }
+                pageNumber++;
+
             } catch (JSONException e) {
                 status = 300;
             }
         }
 
+        // Save time of oldest post to SP
+        SPUtils.setOldestPostDate(this, oldestPost);
+
+        // Mark that newsfeed is downloaded once
+        SPUtils.setNewsFeedDownloadedOnce(this);
+
     }
+
 }
