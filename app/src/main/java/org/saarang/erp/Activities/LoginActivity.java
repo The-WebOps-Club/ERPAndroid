@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Objects.ERPUser;
+import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -182,7 +182,7 @@ public class LoginActivity extends Activity {
             try {
                 status = responseJSON.getInt("status");
                 if (status == 200){
-                    ERPUser.saveUser(LoginActivity.this, responseJSON);
+                    ERPProfile.saveUser(LoginActivity.this, responseJSON);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

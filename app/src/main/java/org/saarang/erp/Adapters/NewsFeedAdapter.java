@@ -2,7 +2,7 @@ package org.saarang.erp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -13,9 +13,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.saarang.erp.Activities.CommentsActivity;
+import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
+import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.UIUtils;
+import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.Connectivity;
+import org.saarang.saarangsdk.Network.GetRequest;
 
 import java.util.List;
 
@@ -27,6 +35,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     Context mContext;
     List<ERPPost> mItems;
+    private static String LOG_TAG = "NewsFeedAdapter";
 
     public NewsFeedAdapter(Context context, List<ERPPost> items) {
         mContext = context;
@@ -38,6 +47,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         TextView tvName, tvTitle, tvInfo, tvWall;
         ImageView ivProfilePic;
         Button bComment, bAcknowledge;
+        View mView;
 
         public ViewHolder(View view) {
             super(view);
@@ -48,6 +58,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             ivProfilePic = (ImageView) view.findViewById(R.id.ivProfilePic);
             bComment = (Button) view.findViewById(R.id.bComments);
             bAcknowledge = (Button) view.findViewById(R.id.bAcknowledge);
+            mView = view.findViewById(android.R.id.content);
         }
     }
 
@@ -111,21 +122,51 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         });
 
         if (mItems.get(position).isAcknowledged()){
-            holder.bAcknowledge.setTextColor(Color.BLACK);
+            markAsAcknowledged(holder.bAcknowledge);
         }
 
         holder.bAcknowledge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.bAcknowledge.setEnabled(false);
-                holder.bAcknowledge.setText("Acknowledged");
-                holder.bAcknowledge.setTextColor(mContext.getResources().getColor(R.color.indigo_color_disabled));
+                if (Connectivity.isConnected()){
+                    new AcknowledgePost().execute( mItems.get(position).getPostId() );
+                    markAsAcknowledged(holder.bAcknowledge);
+                }
+                else{
+                    UIUtils.showSnackBar(holder.tvName,
+                            mContext.getResources().getString(R.string.error_connection));
+                }
             }
         });
     }
 
+    private void markAsAcknowledged(Button bAcknowledge) {
+        bAcknowledge.setEnabled(false);
+        bAcknowledge.setText("Acknowledged");
+        bAcknowledge.setTextColor(mContext.getResources().getColor(R.color.indigo_color_disabled));
+    }
+
+
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    private class AcknowledgePost extends AsyncTask<String, Void, Void>{
+
+        JSONObject jsonObject;
+        @Override
+        protected Void doInBackground(String... params) {
+            jsonObject = GetRequest.execute(URLConstants.URL_POST_ACKNOWLEDGE + params[0], ERPProfile.getERPUserToken(mContext));
+            try {
+                if (jsonObject.getInt("status") == 200){
+                    DatabaseHelper data = new DatabaseHelper(mContext);
+                    data.markPostAsUpdated(params[0]);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

@@ -84,6 +84,13 @@ public class DatabaseHelper {
         return arrayList;
     }
 
+    public void markPostAsUpdated(String postId){
+        open();
+        ContentValues cv = new ContentValues();
+        cv.put(ERPPost.COLUMN_IF_ACKNOWLEDGED, 1);
+        ourDatabase.update(ERPPost.TABLE_NAME, cv, ERPPost.COLUMN_POST_ID+" = ?", new String[]{postId});
+        close();
+    }
 
 
 //    public long addTag(ContentValues cv){

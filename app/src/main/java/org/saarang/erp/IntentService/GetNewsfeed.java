@@ -8,7 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPPost;
-import org.saarang.erp.Objects.ERPUser;
+import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.GetRequest;
@@ -33,7 +33,7 @@ public class GetNewsfeed extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         while (status == 200){
-            json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE+ pageNumber , ERPUser.getERPUserToken(this));
+            json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE+ pageNumber , ERPProfile.getERPUserToken(this));
             Log.d(LOG_TAG, json.toString());
             try {
 

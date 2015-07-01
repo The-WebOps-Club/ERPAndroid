@@ -12,8 +12,7 @@ import com.google.android.gms.iid.InstanceID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Activities.LoginActivity;
-import org.saarang.erp.Objects.ERPUser;
+import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.Utils.AppConstants;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.PostRequest;
@@ -99,7 +98,7 @@ public class RegistrationIntentService extends IntentService{
 
         //Making request
 
-        JSONObject responseJSON = PostRequest.execute(urlString, params, ERPUser.getERPUserToken(this));
+        JSONObject responseJSON = PostRequest.execute(urlString, params, ERPProfile.getERPUserToken(this));
         Log.d(TAG, responseJSON.toString());
         if (responseJSON == null) {
 

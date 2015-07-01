@@ -125,6 +125,7 @@ public class ERPPost {
         cv.put(COLUMN_DATE, createdOn);
         cv.put(COLUMN_ACKNOWLEDGE, " ");
         cv.put(COLUMN_ACKNOWLEDGE, 0);
+        cv.put(COLUMN_COMMENTS, "");
         DatabaseHelper data = new DatabaseHelper(context);
         return data.addNewsFeed(cv);
     }

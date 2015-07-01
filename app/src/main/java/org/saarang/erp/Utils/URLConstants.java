@@ -23,4 +23,6 @@ public class URLConstants {
     public static String URL_NEWSFEED_PAGE = SERVER + "api/posts/newsfeed/";
     public static String URL_NEWSFEED_REFRESH = SERVER + "api/posts/newsfeed/refresh";
 
+    public static String URL_POST_ACKNOWLEDGE = SERVER + "api/posts/";
+
 }

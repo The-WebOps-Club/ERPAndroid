@@ -21,7 +21,7 @@ import com.soundcloud.android.crop.Crop;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.IntentService.GetNewsfeed;
-import org.saarang.erp.Objects.ERPUser;
+import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.AppConstants;
 import org.saarang.erp.Utils.SPUtils;
@@ -71,8 +71,8 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         ivProfilePic.setOnClickListener(this);
 
         // Check if profile picture is already set
-        if (ERPUser.getUserProfilePic(this) != ""){
-            File imgFile = new  File(ERPUser.getUserProfilePic(this));
+        if (ERPProfile.getUserProfilePic(this) != ""){
+            File imgFile = new  File(ERPProfile.getUserProfilePic(this));
             if(imgFile.exists()){
                 Bitmap profilePic = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 ivProfilePic.setImageBitmap(profilePic);
@@ -193,8 +193,8 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
             pDialog.dismiss();
             switch (status){
                 case 200:
-                    ERPUser.setUserProfilePic(ProfilePictureActivity.this, profilePicPath);
-                    ERPUser.setUserProfilePicId(ProfilePictureActivity.this, fileId);
+                    ERPProfile.setUserProfilePic(ProfilePictureActivity.this, profilePicPath);
+                    ERPProfile.setUserProfilePicId(ProfilePictureActivity.this, fileId);
                     Intent intent = new Intent(ProfilePictureActivity.this, UpdateProfileActivity.class);
                     startActivity(intent);
                     finish();

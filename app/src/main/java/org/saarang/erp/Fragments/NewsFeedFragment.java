@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import org.saarang.erp.Adapters.NewsFeedAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
-import org.saarang.erp.Objects.ERPUser;
+import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
@@ -114,7 +114,7 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             params.add(new PostParam("date", SPUtils.getLatestPostDate(getActivity())));
 
-            json = PostRequest.execute(URLConstants.URL_NEWSFEED_REFRESH, params, ERPUser.getERPUserToken(getActivity()));
+            json = PostRequest.execute(URLConstants.URL_NEWSFEED_REFRESH, params, ERPProfile.getERPUserToken(getActivity()));
             Log.d(LOG_TAG, json.toString());
             try {
                 jsonArray = json.getJSONObject("data").getJSONArray("response");
@@ -124,7 +124,7 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
 
             Log.d(LOG_TAG, " Date:"+ SPUtils.getLatestPostDate(getActivity()));
-            Log.d(LOG_TAG, "Token:" + ERPUser.getERPUserToken(getActivity()));
+            Log.d(LOG_TAG, "Token:" + ERPProfile.getERPUserToken(getActivity()));
             Log.d(LOG_TAG, "Url " + URLConstants.URL_NEWSFEED_REFRESH);
 
             return null;

@@ -1,10 +1,8 @@
 package org.saarang.erp.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,9 +18,8 @@ import android.widget.Spinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Objects.ERPUser;
+import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
-import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.erp.Utils.UserState;
@@ -67,11 +64,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         //Set the stored text into fields
 
-        etName.setText(ERPUser.getERPUserName(UpdateProfileActivity.this));
-        etSummerLocation.setText(ERPUser.getERPUserSummerLocation(UpdateProfileActivity.this));
-        etPhone.setText(ERPUser.getERPUserPhoneNumber(UpdateProfileActivity.this));
-        etAlternateNumber.setText(ERPUser.getERPUserAlternateNumber(UpdateProfileActivity.this));
-        etRoomNumber.setText(ERPUser.getERPUserRoomNumber(UpdateProfileActivity.this));
+        etName.setText(ERPProfile.getERPUserName(UpdateProfileActivity.this));
+        etSummerLocation.setText(ERPProfile.getERPUserSummerLocation(UpdateProfileActivity.this));
+        etPhone.setText(ERPProfile.getERPUserPhoneNumber(UpdateProfileActivity.this));
+        etAlternateNumber.setText(ERPProfile.getERPUserAlternateNumber(UpdateProfileActivity.this));
+        etRoomNumber.setText(ERPProfile.getERPUserRoomNumber(UpdateProfileActivity.this));
 
 
         //Setting up Hostels spinner
@@ -137,7 +134,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     private class SendUpdate extends AsyncTask<String, Void,Void>{
         ArrayList<PostParam> putData= new ArrayList<>();
-        String urlString = URLConstants.SERVER + URLConstants.URL_UPDATE1+"/"+ERPUser.getERPUserId(UpdateProfileActivity.this)+"/"+URLConstants.URL_UPDATE2;
+        String urlString = URLConstants.SERVER + URLConstants.URL_UPDATE1+"/"+ ERPProfile.getERPUserId(UpdateProfileActivity.this)+"/"+URLConstants.URL_UPDATE2;
         int status = 400;
 
             @Override
@@ -161,11 +158,11 @@ public class UpdateProfileActivity extends AppCompatActivity {
                putData.add(new PostParam("phoneNumber", param[2]));
                putData.add(new PostParam("alternateNumber", param[3]));
                putData.add(new PostParam("roomNumber", param[4]));
-               putData.add(new PostParam("profilePic", ERPUser.getUserProfilePic(UpdateProfileActivity.this)));
+               putData.add(new PostParam("profilePic", ERPProfile.getUserProfilePic(UpdateProfileActivity.this)));
               putData.add(new PostParam("hostel",param[5]));
 
                //Making request
-               JSONObject responseJSON = PostRequest.execute(urlString, putData, ERPUser.getERPUserToken(UpdateProfileActivity.this));
+               JSONObject responseJSON = PostRequest.execute(urlString, putData, ERPProfile.getERPUserToken(UpdateProfileActivity.this));
                if (responseJSON == null) {
                    return null;
                }
@@ -173,7 +170,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                try {
                    status = responseJSON.getInt("status");
                    if (status == 200){
-                       ERPUser.saveUser(UpdateProfileActivity.this, responseJSON);
+                       ERPProfile.saveUser(UpdateProfileActivity.this, responseJSON);
                    }
                } catch (JSONException e) {
                    e.printStackTrace();

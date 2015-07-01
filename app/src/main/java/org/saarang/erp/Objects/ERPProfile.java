@@ -9,7 +9,7 @@ import org.json.JSONObject;
 /**
  * Created by Ahammad on 16/06/15.
  */
-public class ERPUser {
+public class ERPProfile {
 
     public static String spUser = "spUser";
     public static String spName = "spName";
