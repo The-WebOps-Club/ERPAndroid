@@ -3,6 +3,7 @@ package org.saarang.erp.Adapters;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -15,7 +16,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.saarang.erp.Fragments.CommentsFragment;
+import org.saarang.erp.Activities.CommentsActivity;
+import org.saarang.erp.Activities.MainActivity;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.R;
 
@@ -106,9 +108,8 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.bComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = ((Activity) mContext).getFragmentManager();
-                CommentsFragment.newInstance()
-                        .show(fm, "Title");
+                Intent myIntent = new Intent().setClass(view.getContext(),CommentsActivity.class);
+                view.getContext().startActivity(myIntent);
             }
         });
     }

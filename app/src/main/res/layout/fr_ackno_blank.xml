@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="1"
+    android:minHeight="400dp"
+    android:minWidth="500dp"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_navigate_front"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="People who Acknowledged"
+            android:id="@+id/tvFragmentFirst"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="100"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black_color_primary_text"
+            />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/black_color_divider"
+             />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:paddingTop="16dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_comment_big"
+            android:id="@+id/ivNoComment"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="No one Acknowledged yet"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="16dp"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

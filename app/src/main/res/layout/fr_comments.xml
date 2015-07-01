@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="1"
+    android:minWidth="600dp"
+    android:minHeight="500dp"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        >
+
+        <TextView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Back"
+            android:textColor="@color/black_color_secondary"
+            android:id="@+id/bBack"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="21 People Acknowledged"
+            android:id="@+id/tvFragmentFirst"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="100"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black_color_primary_text"
+            />
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_navigate_back"
+            android:layout_gravity="center"
+            android:id="@+id/ivNextPage"
+            />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/black_color_divider"
+             />
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvComments"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:fastScrollAlwaysVisible="true"
+            android:fastScrollEnabled="true"
+            android:overScrollMode="always"
+            android:layout_weight="1"
+            />
+
+
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/black_color_divider"
+        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:weightSum="100"
+        android:padding="8dp">
+
+
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etComment"
+            android:layout_weight="100"
+            android:layout_gravity="center"
+            android:maxLines="3"/>
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/ic_send"
+            android:layout_gravity="center"
+
+             />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
