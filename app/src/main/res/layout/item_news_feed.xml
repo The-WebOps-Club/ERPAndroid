@@ -76,7 +76,7 @@
                         android:textIsSelectable="false"
                         android:textColor="@color/indigo_color_disabled"
                         android:textSize="12sp" />
-                    
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

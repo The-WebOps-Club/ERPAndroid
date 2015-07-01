@@ -1,26 +1,42 @@
 package org.saarang.erp.Fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.saarang.erp.Adapters.NewsFeedAdapter;
+import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
-import org.saarang.erp.Utils.RandomGenerator;
+import org.saarang.erp.Utils.SPUtils;
+import org.saarang.erp.Utils.UIUtils;
+import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.Connectivity;
+import org.saarang.saarangsdk.Network.PostRequest;
+import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by aqel on 8/5/15.
  */
-public class NewsFeedFragment extends Fragment {
+public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public NewsFeedFragment() {
     }
@@ -85,7 +101,7 @@ public class NewsFeedFragment extends Fragment {
 
     }
 
-    private class GetNewsFeedTask extends AsyncTask<Void, Void, Void>{
+    private class GetNewsFeedTask extends AsyncTask<Void, Void, Void> {
 
         JSONObject json;
         ArrayList<PostParam> params = new ArrayList<>();
@@ -98,7 +114,7 @@ public class NewsFeedFragment extends Fragment {
 
             params.add(new PostParam("date", SPUtils.getLatestPostDate(getActivity())));
 
-            json = PostRequest.execute(URLConstants.URL_NEWSFEED_REFRESH, params , ERPUser.getERPUserToken(getActivity()));
+            json = PostRequest.execute(URLConstants.URL_NEWSFEED_REFRESH, params, ERPUser.getERPUserToken(getActivity()));
             Log.d(LOG_TAG, json.toString());
             try {
                 jsonArray = json.getJSONObject("data").getJSONArray("response");
