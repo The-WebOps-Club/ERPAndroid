@@ -10,15 +10,24 @@ import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.saarang.erp.Activities.LoginActivity;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.Utils.AppConstants;
+import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.PostRequest;
+import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class RegistrationIntentService extends IntentService{
     private static final String TAG = "RegIntentService";
     String sender_id = "475795801819";
     private static final String[] TOPICS = {"global"};
+    String Old_ID,token;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -27,6 +36,7 @@ public class RegistrationIntentService extends IntentService{
     @Override
     protected void onHandleIntent(Intent intent) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Old_ID = sharedPreferences.getString("token", "");
 
         try {
             // In the (unlikely) event that multiple refresh operations occur simultaneously,
@@ -36,7 +46,7 @@ public class RegistrationIntentService extends IntentService{
                 // Initially this call goes out to the network to retrieve the token, subsequent calls
                 // are local.
                 // [START get_token]
-                String token ="no token";
+                token ="no token";
                 InstanceID instanceID = InstanceID.getInstance(this);
                 /*String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                         GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
@@ -53,7 +63,8 @@ public class RegistrationIntentService extends IntentService{
                 // You should store a boolean that indicates whether the generated token has been
                 // sent to your server. If the boolean is false, send the token to your server,
                 // otherwise your server should have already received the token.
-                sharedPreferences.edit().putBoolean("sentTokenToServer", true).apply();
+
+
                 // [END register_for_gcm]
             }
         } catch (Exception e) {
@@ -73,10 +84,41 @@ public class RegistrationIntentService extends IntentService{
      * Modify this method to associate the user's GCM registration token with any server-side account
      * maintained by your application.
      *
-     * @param token The new token.
+     * token The new token.
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(String freshtoken) {
         // Add custom implementation, as needed.
+        ArrayList<PostParam> params = new ArrayList<>();
+        int status = 400;
+        String urlString = URLConstants.URL_REGISTER_DEVICE;
+
+        //Adding Parameters
+        params.add(new PostParam("deviceId", freshtoken));
+        if (!Old_ID.equals(""))
+            params.add(new PostParam("oldId", Old_ID));
+
+        //Making request
+
+        JSONObject responseJSON = PostRequest.execute(urlString, params, ERPUser.getERPUserToken(this));
+        Log.d(TAG, responseJSON.toString());
+        if (responseJSON == null) {
+
+        }
+
+        try {
+            status = responseJSON.getInt("status");
+            if (status == 200){
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                sharedPreferences.edit().putString("token", token).apply();
+                sharedPreferences.edit().putBoolean("sentTokenToServer", true).apply();
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG, responseJSON.toString());
+
     }
 
     /**
