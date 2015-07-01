@@ -7,4 +7,7 @@
     android:layout_height="match_parent"
     android:fastScrollAlwaysVisible="true"
     android:fastScrollEnabled="true"
-    android:overScrollMode="always" />
+    android:overScrollMode="always"
+    />
+
+

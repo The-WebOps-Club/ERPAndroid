@@ -1,17 +1,23 @@
 package org.saarang.erp.Adapters;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.saarang.erp.Activities.CommentsActivity;
+import org.saarang.erp.Activities.MainActivity;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.R;
 
@@ -35,6 +41,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
         TextView tvName, tvTitle, tvInfo, tvWall;
         ImageView ivProfilePic;
+        Button bComment;
 
         public ViewHolder(View view) {
             super(view);
@@ -43,6 +50,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             tvInfo = (TextView) view.findViewById(R.id.tvInfo);
             tvWall = (TextView) view.findViewById(R.id.tvWall);
             ivProfilePic = (ImageView) view.findViewById(R.id.ivProfilePic);
+            bComment = (Button) view.findViewById(R.id.bComments);
         }
     }
 
@@ -77,23 +85,33 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 LayoutInflater li = (LayoutInflater) mContext
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                View dialoglayout = li.inflate(R.layout.alert_comments, null);
+                View dialoglayout = li.inflate(R.layout.alert_profile_dialog, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setView(dialoglayout);
-//                ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
-//                TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
-//                tvName.setText(mItems.get(position).getPostedBy());
-//                Glide.with(mContext)
-//                        .load(mItems.get(position).getProfilePic())
-//                        .centerCrop()
-//                        .placeholder(R.drawable.ic_people)
-//                        .crossFade()
-//                        .into(imageView);
+                ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
+                TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
+                tvName.setText(mItems.get(position).getPostedBy());
+                Glide.with(mContext)
+                        .load(mItems.get(position).getProfilePic())
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_people)
+                        .crossFade()
+                        .into(imageView);
 
                 builder.show();
             }
         });
 
+        /**
+         * Alert dialog for comment
+         */
+        holder.bComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent().setClass(view.getContext(),CommentsActivity.class);
+                view.getContext().startActivity(myIntent);
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/llItemComment">
 
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/placeholder_profile"
+        android:id="@+id/ivComment"
+        android:layout_margin="8dp"
+        android:layout_gravity="top"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:weightSum="100"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_notification_head"
+            android:text="Aqel Ahammad"
+            android:id="@+id/tvComment1"
+            android:paddingTop="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/black_color_primary_text"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Welcome everyone to the wall . And this is a test commment. Welcome everyone to the wall . And this is a test commment"
+            android:id="@+id/tvComment2"
+            android:layout_weight="100"
+            android:textColor="@color/black_color_primary_text"
+            />
+
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5 minutes ago"
+            android:id="@+id/tvComment3"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:paddingTop="5dp"
+            android:paddingBottom="6dp"
+            />
+
+    </LinearLayout>
 </LinearLayout>
