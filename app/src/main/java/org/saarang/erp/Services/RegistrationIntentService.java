@@ -97,7 +97,6 @@ public class RegistrationIntentService extends IntentService{
             params.add(new PostParam("oldId", Old_ID));
 
         //Making request
-
         JSONObject responseJSON = PostRequest.execute(urlString, params, ERPProfile.getERPUserToken(this));
         Log.d(TAG, responseJSON.toString());
         if (responseJSON == null) {

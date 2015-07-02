@@ -77,7 +77,8 @@ public class DatabaseHelper {
         Gson gson = new Gson();
         while ( c.moveToNext() ){
             ERPPost post = new ERPPost(c.getString(2), c.getString(3), c.getString(5), c.getString(6),
-                    gson.fromJson(c.getString(4), ERPWall.class), (c.getInt(9) > 0), c.getString(8), c.getString(7), c.getString(10) );
+                    gson.fromJson(c.getString(4), ERPWall.class), (c.getInt(9) > 0), c.getString(8), c.getString(7),
+                    c.getString(10), c.getString(11) );
             arrayList.add(post);
         }
         close();

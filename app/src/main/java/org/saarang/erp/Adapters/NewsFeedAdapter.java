@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,18 +78,20 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-//        holder.tvName.setText(mItems.get(position).get);
+
+        holder.tvName.setText(mItems.get(position).getPostedBy().getName());
         holder.tvTitle.setText(mItems.get(position).getTitle());
-        String html = "<html><body style=\"text-align:justify\">" + mItems.get(position).getInfo() +  " </body></Html>\n" +
-                "\n";
-        holder.tvInfo.setText(Html.fromHtml(html));
+
+        holder.tvInfo.setText(mItems.get(position).getInfo());
         holder.tvWall.setText(mItems.get(position).getWall().getName());
-//        Glide.with(mContext)
-//                .load(mItems.get(position).getProfilePic())
-//                .centerCrop()
-//                .placeholder(R.drawable.ic_people)
-//                .crossFade()
-//                .into(holder.ivProfilePic);
+
+        final String profilePicUrl = URLConstants.SERVER + "api/users/" + mItems.get(position).getPostedBy().get_id() + "/profilePic";
+        Glide.with(mContext)
+                .load(profilePicUrl)
+                .centerCrop()
+                .placeholder(R.drawable.ic_people)
+                .crossFade()
+                .into(holder.ivProfilePic);
 
         /**
          * Alert dialog with contact details
@@ -99,18 +102,18 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 LayoutInflater li = (LayoutInflater) mContext
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                View dialoglayout = li.inflate(R.layout.alert_comments, null);
+                View dialoglayout = li.inflate(R.layout.alert_profile_dialog, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setView(dialoglayout);
                 ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
                 TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
-//                tvName.setText(mItems.get(position).getPostedBy());
-//                Glide.with(mContext)
-//                        .load(mItems.get(position).getProfilePic())
-//                        .centerCrop()
-//                        .placeholder(R.drawable.ic_people)
-//                        .crossFade()
-//                        .into(imageView);
+                tvName.setText(mItems.get(position).getPostedBy().getName());
+                Glide.with(mContext)
+                        .load(profilePicUrl)
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_people)
+                        .crossFade()
+                        .into(imageView);
 
                 builder.show();
             }

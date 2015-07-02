@@ -31,7 +31,6 @@ public class NewPostActivity extends AppCompatActivity {
     EditText etBody;
     ArrayList<ERPWall> wallList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
