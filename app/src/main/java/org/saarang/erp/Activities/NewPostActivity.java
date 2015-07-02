@@ -32,6 +32,7 @@ public class NewPostActivity extends AppCompatActivity {
                 findViewById(R.id.tvDeps);
         textView.setAdapter(adapter);
 
+
     }
 
 
