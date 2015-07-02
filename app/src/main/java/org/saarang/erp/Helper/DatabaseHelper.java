@@ -92,6 +92,14 @@ public class DatabaseHelper {
         close();
     }
 
+    public void updateComment(String postId, String comment){
+        open();
+        ContentValues cv = new ContentValues();
+        cv.put(ERPPost.COLUMN_COMMENTS, comment);
+        ourDatabase.update(ERPPost.TABLE_NAME, cv, ERPPost.COLUMN_POST_ID+" = ?", new String[]{postId});
+        close();
+    }
+
 
 //    public long addTag(ContentValues cv){
 //        long id = ourDatabase.insert(DATABASE_TABLE, null, cv);
