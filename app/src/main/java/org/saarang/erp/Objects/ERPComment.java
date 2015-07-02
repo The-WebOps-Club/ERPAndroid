@@ -1,11 +1,25 @@
 package org.saarang.erp.Objects;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Ahammad on 28/06/15.
  */
 public class ERPComment {
     String info;
     String _id;
+
+    public ERPComment(String _id, String info) {
+        this.info = info;
+        this._id = _id;
+    }
 
     public String getInfo() {
         return info;
@@ -50,4 +64,21 @@ public class ERPComment {
     String userId;
     String createdOn;
     ERPUser createdBy;
+
+    public static List<ERPComment> getCommentsFromString(String commentString){
+        List<ERPComment> comments = new ArrayList<>();
+        Gson gson = new Gson();
+        try {
+            JSONObject json = new JSONObject("{ \"comments\": " + commentString + " }");
+            JSONArray array = json.getJSONArray("comments");
+            for (int i =0; i<array.length(); i++){
+                JSONObject commentJSON =   array.getJSONObject(i);
+                ERPComment comment = new ERPComment(commentJSON.getString("_id"), commentJSON.getString("info"));
+                comments.add(comment);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return comments;
+    }
 }

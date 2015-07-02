@@ -208,6 +208,7 @@ public class LoginActivity extends Activity {
                     }
                     ERPProfile.setUserWalls(LoginActivity.this, gson.toJson(walls));
                     Log.d(LOG_TAG, "walls are "+  ERPProfile.getUserWalls(LoginActivity.this));
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

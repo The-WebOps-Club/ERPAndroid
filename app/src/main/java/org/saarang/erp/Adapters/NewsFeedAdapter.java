@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,11 +122,10 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.bComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(LOG_TAG, mItems.get(position).getComments());
-                Log.d(LOG_TAG, mItems.get(position).getAcknowledge());
                 Intent myIntent = new Intent(view.getContext(),CommentsActivity.class);
                 myIntent.putExtra(CommentsActivity.EXTRA_COMMENTS, mItems.get(position).getComments());
                 myIntent.putExtra(CommentsActivity.EXTRA_ACKNOWLEDGMENTS, mItems.get(position).getAcknowledge());
+                myIntent.putExtra(CommentsActivity.EXTRA_POSTID, mItems.get(position).getPostId());
                 view.getContext().startActivity(myIntent);
             }
         });
