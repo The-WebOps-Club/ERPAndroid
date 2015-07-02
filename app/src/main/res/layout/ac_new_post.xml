@@ -48,16 +48,6 @@
         android:layout_marginTop="16dp"
         android:paddingLeft="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Set title:"
-            android:id="@+id/textView2"
-            android:gravity="center_vertical"
-            android:paddingRight="8dp"
-            android:textColor="@color/app_color" />
-
         <android.support.design.widget.TextInputLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -68,7 +58,7 @@
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:id="@+id/etTitle"
-                android:hint="Put post title"
+                android:hint="Post title"
                 />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

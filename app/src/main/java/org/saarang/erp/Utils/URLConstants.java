@@ -24,6 +24,8 @@ public class URLConstants {
 
     public static String URL_POST_ACKNOWLEDGE = SERVER + "api/posts/";
     public static String URL_POST_COMMENT_ADD = SERVER + "api/posts/addComment/";
+    public static String URL_POST_NEW = SERVER + "api/posts/";
+
 
 
 }
