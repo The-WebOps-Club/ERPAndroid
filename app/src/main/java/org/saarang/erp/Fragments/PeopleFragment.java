@@ -19,6 +19,9 @@ public class PeopleFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    String[] departements = {"Finance", "Publicity", "Design and Media", "Marketing and Sales",
+            "Mobile Operations", "Web Operations"};
+
     public PeopleFragment() {
     }
 
@@ -37,6 +40,15 @@ public class PeopleFragment extends Fragment {
         adapter = new PeopleAdapter(getActivity());
 
         recyclerView.setAdapter(adapter);
+        RecyclerView rvPeople = (RecyclerView)rootView.findViewById(R.id.rvPeople);
+
+        // use a linear layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvPeople.setLayoutManager(layoutManager);
+
+        // set the adapter
+        PeopleAdapter adapter = new PeopleAdapter(getActivity(), departements);
+        rvPeople.setAdapter(adapter);
         return rootView;
     }
 }

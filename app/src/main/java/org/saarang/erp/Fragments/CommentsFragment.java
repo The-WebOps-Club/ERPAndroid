@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Activities.CommentsActivity;
 import org.saarang.erp.Adapters.CommentsAdapter;
+import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPComment;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
@@ -125,6 +127,8 @@ public class CommentsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new CommentsAdapter(getActivity(), commentsList);
+
+
         recyclerView.setAdapter(adapter);
     }
 
@@ -143,6 +147,8 @@ public class CommentsFragment extends Fragment {
         String comment;
         JSONObject json;
         ArrayList<PostParam> params;
+        int status = 989;
+        String newComments;
 
         @Override
         protected void onPreExecute() {
@@ -161,6 +167,17 @@ public class CommentsFragment extends Fragment {
             params.add(new PostParam("postId", postId));
             params.add(new PostParam("comment", comment));
             json = PostRequest.execute(URLConstants.URL_POST_COMMENT_ADD, params, ERPProfile.getERPUserToken(getActivity()));
+            try {
+                status = json.getInt("status");
+                if (status == 200){
+                    newComments = json.getJSONObject("data").getJSONArray("comments").toString();
+                    Log.d(LOG_TAG, "Comments " + newComments);
+                    DatabaseHelper data = new DatabaseHelper(getActivity());
+                    data.updateComment(postId, newComments );
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             Log.d(LOG_TAG, json.toString());
             return null;
         }
@@ -169,6 +186,12 @@ public class CommentsFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             pDialog.dismiss();
             etComment.setText("");
+            if (status == 200){
+                commentsList = ERPComment.getCommentsFromString(newComments);
+                recyclerView.setLayoutManager(layoutManager);
+                adapter = new CommentsAdapter(getActivity(), commentsList);
+                recyclerView.setAdapter(adapter);
+            }
         }
     }
 
