@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +86,6 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.tvWall.setText(mItems.get(position).getWall().getName());
 
         final String profilePicUrl = URLConstants.SERVER + "api/users/" + mItems.get(position).getPostedBy().get_id() + "/profilePic";
-        Log.d(LOG_TAG, profilePicUrl);
         Glide.with(mContext)
                 .load(profilePicUrl)
                 .centerCrop()
