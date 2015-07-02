@@ -202,7 +202,7 @@ public class LoginActivity extends Activity {
                     for (int i =0; i< department.length(); i++){
                         walls.add(gson.fromJson(department.getJSONObject(i).toString(), ERPWall.class ));
                     }
-                    subDepartment = user.getJSONArray("department");
+                    subDepartment = user.getJSONArray("subDepartment");
                     for (int i =0; i< subDepartment.length(); i++){
                         walls.add(gson.fromJson(subDepartment.getJSONObject(i).toString(), ERPWall.class ));
                     }
