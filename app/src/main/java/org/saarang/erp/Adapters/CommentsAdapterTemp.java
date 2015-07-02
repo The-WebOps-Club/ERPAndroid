@@ -16,13 +16,12 @@ import org.saarang.erp.Helper.TimeHelper;
 import org.saarang.erp.R;
 
 
-public class CommentsFirstAdapter extends RecyclerView.Adapter<CommentsFirstAdapter.ViewHolder> {
+public class CommentsAdapterTemp extends RecyclerView.Adapter<CommentsAdapterTemp.ViewHolder> {
 
     Context mContext;
 
 
-
-    public CommentsFirstAdapter(Context context){
+    public CommentsAdapterTemp(Context context){
         mContext=context;
     }
 
@@ -40,13 +39,14 @@ public class CommentsFirstAdapter extends RecyclerView.Adapter<CommentsFirstAdap
         }
     }
     @Override
-    public CommentsFirstAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CommentsAdapterTemp.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CommentsFirstAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(CommentsAdapterTemp.ViewHolder holder, int position) {
+
 
     }
 
