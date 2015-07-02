@@ -24,7 +24,6 @@ import org.saarang.erp.IntentService.GetNewsfeed;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.AppConstants;
-import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.erp.Utils.UserState;
@@ -53,13 +52,13 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.ac_profile_picture);
 
         // Check if News feed is downloaded once
-        if ( !SPUtils.ifNewsFeedDownloaded(this) ) {
+//        if ( !SPUtils.ifNewsFeedDownloaded(this) ) {
 
             // Start service to download
             Intent intent = new Intent(this, GetNewsfeed.class);
             startService(intent);
 
-        }
+//        }
 
         UserState.setLastActivity(ProfilePictureActivity.this,2);
 

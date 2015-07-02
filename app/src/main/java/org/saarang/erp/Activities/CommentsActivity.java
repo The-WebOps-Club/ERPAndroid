@@ -3,9 +3,6 @@ package org.saarang.erp.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.widget.ImageView;
 
 import org.saarang.erp.Adapters.CommentsViewPagerAdapter;
 import org.saarang.erp.R;
@@ -13,6 +10,8 @@ import org.saarang.saarangsdk.Views.NonSwipeableViewPager;
 
 public class CommentsActivity extends FragmentActivity {
 
+    public static String EXTRA_COMMENTS = "comments";
+    public static String EXTRA_ACKNOWLEDGMENTS = "acknowledgments";
 
     CommentsViewPagerAdapter pageAdapter;
 

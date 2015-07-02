@@ -38,8 +38,7 @@ public class ERPPost {
     public static String ERPNEWSFEED_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
             KEY_ROWID + " INTEGER " + " PRIMARY KEY , " +
             COLUMN_LOGIC + " INTEGER " + " NOT NULL , " +
-
-            COLUMN_POST_ID + " TEXT NOT NULL UNIQUE , " +
+            COLUMN_POST_ID + " TEXT NOT NULL UNIQUE ON CONFLICT REPLACE , " +
             COLUMN_INFO + " TEXT NOT NULL , " +
             COLUMN_WALL + " TEXT  , " +
             COLUMN_TITLE + " TEXT  , " +
