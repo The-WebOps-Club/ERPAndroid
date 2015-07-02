@@ -35,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvDeps"
                 android:layout_marginRight="8dp"
-                android:hint="Select wall" />
+                android:hint="Select wall"
+                android:autoText="false" />
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
