@@ -21,7 +21,8 @@ public class NewPostActivity extends AppCompatActivity {
 
         Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tb);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        tb.setNavigationIcon(R.drawable.ic_arrow_left);
 
         Intent intent = getIntent();
 
@@ -35,5 +36,15 @@ public class NewPostActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
