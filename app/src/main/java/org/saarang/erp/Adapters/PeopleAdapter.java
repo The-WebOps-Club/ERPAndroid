@@ -9,19 +9,16 @@ package org.saarang.erp.Adapters;
         import android.support.v7.widget.RecyclerView;
 
 
-        import android.support.v7.widget.RecyclerView;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
-        import android.widget.Button;
         import android.widget.ImageView;
         import android.widget.TextView;
 
         import org.saarang.erp.R;
-        import org.w3c.dom.Text;
 
 
-public class WallsAdapter extends RecyclerView.Adapter<WallsAdapter.ViewHolder> {
+public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder> {
 
     String[] departments={
             "Finance",
@@ -39,37 +36,37 @@ public class WallsAdapter extends RecyclerView.Adapter<WallsAdapter.ViewHolder> 
     Context mContext;
 
 
-    public WallsAdapter(Context context){
+    public PeopleAdapter(Context context){
         mContext=context;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivWall;
-        TextView tvWallName, tvWallPeople;
+        ImageView ivPeople;
+        TextView tvPeopleName, tvPeoplePeople;
         CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            ivWall=(ImageView)itemView.findViewById(R.id.ivWall);
-            tvWallName=(TextView)itemView.findViewById(R.id.tvWall1);
-            tvWallPeople=(TextView)itemView.findViewById(R.id.tvWall2);
+            ivPeople=(ImageView)itemView.findViewById(R.id.ivPeople);
+            tvPeopleName=(TextView)itemView.findViewById(R.id.tvPeople1);
+            tvPeoplePeople=(TextView)itemView.findViewById(R.id.tvPeople2);
 
-            /*cardView = (CardView) itemView.findViewById(R.id.cvWall);
+            /*cardView = (CardView) itemView.findViewById(R.id.cvPeople);
             cardView.setCardElevation(15f);
             cardView.setRadius(36f);*/
         }
     }
     @Override
-    public WallsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_walls, parent, false);
+    public PeopleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_people, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(WallsAdapter.ViewHolder holder, int position) {
-        holder.tvWallName.setText(departments[position]);
-        holder.tvWallPeople.setText(people[position]+" Members");
+    public void onBindViewHolder(PeopleAdapter.ViewHolder holder, int position) {
+        holder.tvPeopleName.setText(departments[position]);
+        holder.tvPeoplePeople.setText(people[position]+" Members");
 
     }
 

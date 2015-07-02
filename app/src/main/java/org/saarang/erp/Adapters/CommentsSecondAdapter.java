@@ -25,16 +25,14 @@ public class CommentsSecondAdapter extends RecyclerView.Adapter<CommentsSecondAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivPic;
+        ImageView ivComment;
         TextView tvCommentName,tvCommentComment,tvCommentTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            ivPic=(ImageView)itemView.findViewById(R.id.ivPic);
+            ivComment=(ImageView)itemView.findViewById(R.id.ivComment);
             tvCommentName=(TextView)itemView.findViewById(R.id.tvComment1);
-
-
         }
     }
     @Override
@@ -45,13 +43,15 @@ public class CommentsSecondAdapter extends RecyclerView.Adapter<CommentsSecondAd
 
     @Override
     public void onBindViewHolder(CommentsSecondAdapter.ViewHolder holder, int position) {
-    }
 
+
+    }
 
     @Override
     public int getItemCount() {
         return 16;
     }
+
 
 }
 

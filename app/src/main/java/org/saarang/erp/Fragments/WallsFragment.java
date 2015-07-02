@@ -8,9 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.saarang.erp.Adapters.WallsAdapter;
+import org.saarang.erp.Adapters.PeopleAdapter;
 import org.saarang.erp.R;
-import org.saarang.erp.Utils.DividerItemDecoration;
 
 /**
  * Created by aqel on 8/5/15.
@@ -27,17 +26,6 @@ public class WallsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fr_walls, container, false);
-
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-
-
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new WallsAdapter(getActivity());
-
-        recyclerView.setAdapter(adapter);
         return rootView;
     }
 }
