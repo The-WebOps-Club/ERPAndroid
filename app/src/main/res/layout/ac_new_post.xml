@@ -5,7 +5,7 @@
     android:orientation="vertical"
     tools:context="org.saarang.erp.Activities.NewPostActivity"
     android:background="#ffededed">
-    <include layout="@layout/toolbar_update_profile"/>
+    <include layout="@layout/toolbar_new_post"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -14,21 +14,22 @@
         android:paddingLeft="16dp"
         android:layout_marginRight="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/app_color"
-            android:text="Post to:"
-            android:id="@+id/textView"
-            android:paddingRight="8dp"
-            android:gravity="center_vertical" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:textColor="@color/app_color"-->
+            <!--android:text="Post to:"-->
+            <!--android:id="@+id/textView"-->
+            <!--android:paddingRight="8dp"-->
+            <!--android:gravity="center_vertical" />-->
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tilWall"
-            android:layout_marginLeft="3dp">
+            android:id="@+id/tilWall">
+            <!--android:layout_marginLeft="3dp"-->
+
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +80,7 @@
         android:background="#ffe6e6e6"
         android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
-        android:paddingLeft="16dp">
+        android:layout_marginLeft="16dp">
 
 
         <EditText
@@ -90,31 +91,14 @@
             android:ems="10"
             android:id="@+id/etBody"
             android:hint="What is on your mind?"
-            android:minLines="5"
+            android:minLines="14"
             android:gravity="top|left"
             android:paddingLeft="4dp"
             android:paddingTop="8dp"
             android:paddingRight="4dp"
             android:paddingBottom="8dp"
-            android:maxLines="10"
             android:nestedScrollingEnabled="true" />
 
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            android:id="@+id/button"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="33dp" />
-    </RelativeLayout>
 
 </LinearLayout>
