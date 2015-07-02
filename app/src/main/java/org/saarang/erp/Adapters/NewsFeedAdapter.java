@@ -77,7 +77,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-//        holder.tvName.setText(mItems.get(position).get);
+        holder.tvName.setText(mItems.get(position).getPostedBy().getName());
         holder.tvTitle.setText(mItems.get(position).getTitle());
         String html = "<html><body style=\"text-align:justify\">" + mItems.get(position).getInfo() +  " </body></Html>\n" +
                 "\n";
@@ -104,7 +104,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 builder.setView(dialoglayout);
                 ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
                 TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
-//                tvName.setText(mItems.get(position).getPostedBy());
+//                tvName.setText(mItems.get(position).getPostedBy().getName());
 //                Glide.with(mContext)
 //                        .load(mItems.get(position).getProfilePic())
 //                        .centerCrop()

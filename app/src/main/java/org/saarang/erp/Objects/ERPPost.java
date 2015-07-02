@@ -2,6 +2,7 @@ package org.saarang.erp.Objects;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -16,9 +17,10 @@ import org.saarang.erp.Helper.DatabaseHelper;
 public class ERPPost {
 
 
-    String postId, info, title, createdOn, comments, acknowledge, updatedOn;
+    String postId, info, title, createdOn, comments, acknowledge, updatedOn, createdBy;
     ERPWall wall;
 
+    Gson gson = new Gson();
 
     boolean ifAcknowledged;
 
@@ -35,6 +37,7 @@ public class ERPPost {
     public static String COLUMN_IF_ACKNOWLEDGED = "ifAcknowleged";
     public static String COLUMN_COMMENTS = "comments";
     public static String COLUMN_UPDATED = "updated";
+    public static String COLUMN_CREATED_BY = "createdBy";
 
     public static String ERPNEWSFEED_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
             KEY_ROWID + " INTEGER " + " PRIMARY KEY , " +
@@ -47,15 +50,16 @@ public class ERPPost {
             COLUMN_ACKNOWLEDGE + " TEXT  , " +
             COLUMN_IF_ACKNOWLEDGED + " NUMBER  , " +
             COLUMN_COMMENTS + " TEXT , " +
-            COLUMN_UPDATED + " TEXT   " +
+            COLUMN_UPDATED + " TEXT ,  " +
+            COLUMN_CREATED_BY + " TEXT   " +
             " );";
 
     public static String[] columns = {KEY_ROWID, COLUMN_LOGIC, COLUMN_POST_ID, COLUMN_INFO, COLUMN_WALL, COLUMN_TITLE, COLUMN_DATE,
-            COLUMN_ACKNOWLEDGE,COLUMN_COMMENTS, COLUMN_IF_ACKNOWLEDGED, COLUMN_UPDATED};
+            COLUMN_ACKNOWLEDGE,COLUMN_COMMENTS, COLUMN_IF_ACKNOWLEDGED, COLUMN_UPDATED, COLUMN_CREATED_BY};
 
 
     public ERPPost(String postId, String info, String title, String createdOn, ERPWall wall, boolean ifAcknowledged,
-        String comments, String acknowledge, String updatedOn) {
+        String comments, String acknowledge, String updatedOn, String createdBy) {
         this.postId = postId;
         this.info = info;
         this.title = title;
@@ -65,6 +69,7 @@ public class ERPPost {
         this.comments = comments;
         this.acknowledge = acknowledge;
         this.updatedOn = updatedOn;
+        this.createdBy = createdBy;
     }
 
     public ERPPost(){
@@ -132,9 +137,14 @@ public class ERPPost {
         this.acknowledge = acknowledge;
     }
 
-
     public void setAcknowledged(boolean ifAcknowledged) {
         this.ifAcknowledged = ifAcknowledged;
+    }
+
+    public ERPUser getPostedBy(){
+        ERPUser user = gson.fromJson(createdBy, ERPUser.class);
+        Log.d("ERPPost", createdBy);
+        return user;
     }
 
     public long SavePost(Context context){
@@ -149,6 +159,7 @@ public class ERPPost {
         cv.put(COLUMN_IF_ACKNOWLEDGED, 0);
         cv.put(COLUMN_COMMENTS, comments);
         cv.put(COLUMN_UPDATED, updatedOn);
+        cv.put(COLUMN_CREATED_BY, createdBy);
         DatabaseHelper data = new DatabaseHelper(context);
         return data.addNewsFeed(cv);
     }
@@ -162,7 +173,7 @@ public class ERPPost {
                 ERPWall wall = gson.fromJson(post.getJSONObject("wall").toString(), ERPWall.class);
                 ERPPost erpPost = new ERPPost(post.getString("_id"), post.getString("info"), post.getString("title"), post.getString("createdOn"),
                         wall, false, post.getJSONArray("comments").toString(), post.getJSONArray("acknowledged").toString(),
-                        post.getString("updatedOn"));
+                        post.getString("updatedOn"), post.getString("createdBy"));
                 erpPost.SavePost(context);
             }
         } catch (JSONException e){
