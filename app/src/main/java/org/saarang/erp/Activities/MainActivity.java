@@ -115,12 +115,15 @@ public class MainActivity extends AppCompatActivity {
             setupViewPager(viewPager);
         }
 
+        final Intent intentPost = new Intent(this, NewPostActivity.class);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Pained", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                startActivity(intentPost);
             }
         });
 
