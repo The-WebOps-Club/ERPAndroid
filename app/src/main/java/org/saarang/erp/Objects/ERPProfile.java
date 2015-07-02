@@ -23,6 +23,7 @@ public class ERPProfile {
     public static String spId="spId";
     public static String spProfilePic = "spProfilePic";
     public static String spProfilePicId = "spProfilePicId";
+    public static String spWalls = "spWalls";
 
     String id, phoneNumber,alternateNumber, summerLocation, roomNumber, rollNumber, name;
 
@@ -117,6 +118,21 @@ public class ERPProfile {
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spId, "");
     }
+
+    public static void setUserWalls(Context context, String walls){
+        SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(spWalls, walls);
+        editor.commit();
+    }
+
+    public static String getUserWalls(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spWalls, "");
+    }
+
+
+
 
 
 

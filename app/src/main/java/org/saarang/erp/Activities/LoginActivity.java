@@ -206,7 +206,8 @@ public class LoginActivity extends Activity {
                     for (int i =0; i< subDepartment.length(); i++){
                         walls.add(gson.fromJson(subDepartment.getJSONObject(i).toString(), ERPWall.class ));
                     }
-                    Log.d(LOG_TAG, "walls are "+  gson.toJson(walls));
+                    ERPProfile.setUserWalls(LoginActivity.this, gson.toJson(walls));
+                    Log.d(LOG_TAG, "walls are "+  ERPProfile.getUserWalls(LoginActivity.this));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
