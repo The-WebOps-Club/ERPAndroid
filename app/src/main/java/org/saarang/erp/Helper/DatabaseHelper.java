@@ -72,12 +72,12 @@ public class DatabaseHelper {
     public List<ERPPost> getAllPosts () {
         open();
         String[] columns = ERPPost.columns;
-        Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, columns, null, null, null, null,  ERPPost.COLUMN_DATE + " DESC ");
+        Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, columns, null, null, null, null,  ERPPost.COLUMN_UPDATED + " DESC ");
         List<ERPPost> arrayList = new ArrayList<>();
         Gson gson = new Gson();
         while ( c.moveToNext() ){
             ERPPost post = new ERPPost(c.getString(2), c.getString(3), c.getString(5), c.getString(6),
-                    gson.fromJson(c.getString(4), ERPWall.class), (c.getInt(9) > 0), c.getString(8), c.getString(7) );
+                    gson.fromJson(c.getString(4), ERPWall.class), (c.getInt(9) > 0), c.getString(8), c.getString(7), c.getString(10) );
             arrayList.add(post);
         }
         close();
