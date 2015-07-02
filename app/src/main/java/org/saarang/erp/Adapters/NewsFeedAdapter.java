@@ -23,8 +23,10 @@ import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
-import org.saarang.saarangsdk.Network.GetRequest;
+import org.saarang.saarangsdk.Network.PostRequest;
+import org.saarang.saarangsdk.Objects.PostParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,6 +64,10 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         }
     }
 
+    public void UpdateAdapter(List<ERPPost> items){
+        mItems = items;
+    }
+
     @Override
     public NewsFeedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -93,7 +99,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 LayoutInflater li = (LayoutInflater) mContext
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                View dialoglayout = li.inflate(R.layout.alert_profile_dialog, null);
+                View dialoglayout = li.inflate(R.layout.alert_comments, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setView(dialoglayout);
                 ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
@@ -116,7 +122,10 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.bComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent().setClass(view.getContext(),CommentsActivity.class);
+                Intent myIntent = new Intent(view.getContext(),CommentsActivity.class);
+                myIntent.putExtra(CommentsActivity.EXTRA_COMMENTS, mItems.get(position).getComments());
+                myIntent.putExtra(CommentsActivity.EXTRA_ACKNOWLEDGMENTS, mItems.get(position).getAcknowledge());
+                myIntent.putExtra(CommentsActivity.EXTRA_POSTID, mItems.get(position).getPostId());
                 view.getContext().startActivity(myIntent);
             }
         });
@@ -152,21 +161,24 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         return mItems.size();
     }
 
-    private class AcknowledgePost extends AsyncTask<String, Void, Void>{
+    private class AcknowledgePost extends AsyncTask<String, Void, Boolean>{
 
         JSONObject jsonObject;
         @Override
-        protected Void doInBackground(String... params) {
-            jsonObject = GetRequest.execute(URLConstants.URL_POST_ACKNOWLEDGE + params[0], ERPProfile.getERPUserToken(mContext));
+        protected Boolean doInBackground(String... params) {
             try {
+                ArrayList<PostParam> param = new ArrayList<>();
+                param.add(new PostParam("a", "Asd"));
+                jsonObject = PostRequest.execute(URLConstants.URL_POST_ACKNOWLEDGE + params[0], param, ERPProfile.getERPUserToken(mContext));
                 if (jsonObject.getInt("status") == 200){
                     DatabaseHelper data = new DatabaseHelper(mContext);
                     data.markPostAsUpdated(params[0]);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                return false;
             }
-            return null;
+            return true;
         }
     }
 }

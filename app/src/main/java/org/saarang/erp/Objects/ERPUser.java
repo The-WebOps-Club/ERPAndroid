@@ -1,20 +1,10 @@
 package org.saarang.erp.Objects;
 
 /**
- * Created by Ahammad on 30/06/15.
+ * Created by Ahammad on 02/07/15.
  */
-public class ERPWall {
-
-    String _id, name, parentId;
-
-    public String getId() {
-        return _id;
-    }
-
-    public ERPWall(String id, String name) {
-        this._id = id;
-        this.name = name;
-    }
+public class ERPUser {
+    String _id, name;
 
     public String get_id() {
         return _id;

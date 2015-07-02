@@ -53,7 +53,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.ac_profile_picture);
 
         // Check if News feed is downloaded once
-        if (!SPUtils.ifNewsFeedDownloaded(this)) {
+        if ( !SPUtils.ifNewsFeedDownloaded(this) ) {
 
             // Start service to download
             Intent intent = new Intent(this, GetNewsfeed.class);
@@ -175,7 +175,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
             String link = URLConstants.SERVER + URLConstants.URL_UPLOAD;
             profilePicPath = getCacheDir().toString() +"/saved_images/" + AppConstants.PROFILE_PICTURE + ".jpg";
 //            profilePicPath = "/data/data/org.saarang.erp/cache/saved_images/" + AppConstants.PROFILE_PICTURE + ".jpg";
-            JSONObject json = ImageUploader.execute( link, profilePicPath);
+            JSONObject json = ImageUploader.execute( link, profilePicPath, ERPProfile.getERPUserToken(ProfilePictureActivity.this));
             try {
                 status = json.getInt("status");
                 fileId = json.getJSONObject("data").getString("fileId");

@@ -4,8 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:weightSum="1"
-    android:minWidth="600dp"
-    android:minHeight="500dp"
+
     >
 
     <LinearLayout
@@ -20,6 +19,7 @@
             android:layout_height="36dp"
             android:src="@drawable/ic_navigate_front"
             android:layout_gravity="center"
+            android:id="@+id/ivPrevPage"
             />
 
         <TextView

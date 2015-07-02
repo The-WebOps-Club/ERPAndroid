@@ -5,7 +5,6 @@ package org.saarang.erp.Adapters;
  */
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,29 +12,33 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.saarang.erp.Objects.ERPComment;
 import org.saarang.erp.R;
+
+import java.util.List;
 
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
 
     Context mContext;
+    List<ERPComment> items;
 
-
-    public CommentsAdapter(Context context){
+    public CommentsAdapter(Context context,  List<ERPComment> items){
         mContext=context;
+        this.items = items;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivComment;
-        TextView tvCommentName,tvCommentComment,tvCommentTime;
+        ImageView ivProfilePic;
+        TextView tvProfileName, tvComment, tvTime;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            ivComment=(ImageView)itemView.findViewById(R.id.ivComment);
-            tvCommentName=(TextView)itemView.findViewById(R.id.tvComment1);
-            tvCommentComment=(TextView)itemView.findViewById(R.id.tvComment2);
-            tvCommentTime=(TextView)itemView.findViewById(R.id.tvComment3);
+            ivProfilePic =(ImageView)itemView.findViewById(R.id.ivComment);
+            tvProfileName =(TextView)itemView.findViewById(R.id.tvComment1);
+            tvComment =(TextView)itemView.findViewById(R.id.tvComment2);
+            tvTime =(TextView)itemView.findViewById(R.id.tvComment3);
         }
     }
     @Override
@@ -45,14 +48,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(CommentsAdapter.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.tvComment.setText(items.get(position).getInfo());
 
     }
 
     @Override
     public int getItemCount() {
-        return 16;
+        return items.size();
     }
 
 

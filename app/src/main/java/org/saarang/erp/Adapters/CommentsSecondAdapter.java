@@ -15,12 +15,12 @@ import android.widget.TextView;
 import org.saarang.erp.R;
 
 
-public class AcknoAdapter extends RecyclerView.Adapter<AcknoAdapter.ViewHolder> {
+public class CommentsSecondAdapter extends RecyclerView.Adapter<CommentsSecondAdapter.ViewHolder> {
 
     Context mContext;
 
 
-    public AcknoAdapter(Context context){
+    public CommentsSecondAdapter(Context context){
         mContext=context;
     }
 
@@ -33,18 +33,16 @@ public class AcknoAdapter extends RecyclerView.Adapter<AcknoAdapter.ViewHolder> 
 
             ivComment=(ImageView)itemView.findViewById(R.id.ivComment);
             tvCommentName=(TextView)itemView.findViewById(R.id.tvComment1);
-            tvCommentComment=(TextView)itemView.findViewById(R.id.tvComment2);
-            tvCommentTime=(TextView)itemView.findViewById(R.id.tvComment3);
         }
     }
     @Override
-    public AcknoAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CommentsSecondAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ackno, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(AcknoAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(CommentsSecondAdapter.ViewHolder holder, int position) {
 
 
     }
