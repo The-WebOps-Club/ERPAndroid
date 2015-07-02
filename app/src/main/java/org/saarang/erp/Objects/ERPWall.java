@@ -5,14 +5,23 @@ package org.saarang.erp.Objects;
  */
 public class ERPWall {
 
-    String id, name, parentId;
+    String _id, name, parentId;
 
     public String getId() {
-        return id;
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public ERPWall(String id, String name) {
+        this._id = id;
+        this.name = name;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getName() {
@@ -21,13 +30,5 @@ public class ERPWall {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
     }
 }

@@ -15,9 +15,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPWall;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -28,6 +32,7 @@ import org.saarang.saarangsdk.Objects.PostParam;
 import org.saarang.saarangsdk.Utils.StringValidator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class LoginActivity extends Activity {
@@ -151,6 +156,10 @@ public class LoginActivity extends Activity {
 
         ArrayList<PostParam> params = new ArrayList<>();
         int status = 400;
+        JSONObject user;
+        JSONArray groups, department,subDepartment;
+        Gson gson = new Gson();
+
 
         @Override
         protected void onPreExecute() {
@@ -170,7 +179,6 @@ public class LoginActivity extends Activity {
             //Adding Parameters
             params.add(new PostParam("email", param[0]));
             params.add(new PostParam("password", param[1]));
-            params.add(new PostParam("deviceId", "password"));
 
             //Making request
 
@@ -183,6 +191,22 @@ public class LoginActivity extends Activity {
                 status = responseJSON.getInt("status");
                 if (status == 200){
                     ERPProfile.saveUser(LoginActivity.this, responseJSON);
+                    user = responseJSON.getJSONObject("data").getJSONObject("user");
+                    List<ERPWall> walls = new ArrayList<>();
+                    walls.add(new ERPWall(user.getString("wall"), user.getString("name") ));
+                    groups = user.getJSONArray("groups");
+                    for (int i =0; i< groups.length(); i++){
+                        walls.add(gson.fromJson(groups.getJSONObject(i).toString(), ERPWall.class ));
+                    }
+                    department = user.getJSONArray("department");
+                    for (int i =0; i< department.length(); i++){
+                        walls.add(gson.fromJson(department.getJSONObject(i).toString(), ERPWall.class ));
+                    }
+                    subDepartment = user.getJSONArray("department");
+                    for (int i =0; i< subDepartment.length(); i++){
+                        walls.add(gson.fromJson(subDepartment.getJSONObject(i).toString(), ERPWall.class ));
+                    }
+                    Log.d(LOG_TAG, "walls are "+  gson.toJson(walls));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -235,6 +259,7 @@ public class LoginActivity extends Activity {
 
             try {
                 status = responseJSON.getInt("status");
+                if (status != 200) return null;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
