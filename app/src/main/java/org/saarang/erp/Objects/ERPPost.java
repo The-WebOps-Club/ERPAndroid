@@ -2,7 +2,6 @@ package org.saarang.erp.Objects;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -143,7 +142,6 @@ public class ERPPost {
 
     public ERPUser getPostedBy(){
         ERPUser user = gson.fromJson(createdBy, ERPUser.class);
-        Log.d("ERPPost", createdBy);
         return user;
     }
 
