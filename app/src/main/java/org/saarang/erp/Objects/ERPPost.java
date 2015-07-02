@@ -16,7 +16,7 @@ import org.saarang.erp.Helper.DatabaseHelper;
 public class ERPPost {
 
 
-    String postId, info, title, createdOn, comments, acknowledge;
+    String postId, info, title, createdOn, comments, acknowledge, updatedOn;
     ERPWall wall;
 
 
@@ -34,6 +34,7 @@ public class ERPPost {
     public static String COLUMN_ACKNOWLEDGE = "acknowledge";
     public static String COLUMN_IF_ACKNOWLEDGED = "ifAcknowleged";
     public static String COLUMN_COMMENTS = "comments";
+    public static String COLUMN_UPDATED = "updated";
 
     public static String ERPNEWSFEED_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
             KEY_ROWID + " INTEGER " + " PRIMARY KEY , " +
@@ -45,15 +46,16 @@ public class ERPPost {
             COLUMN_DATE + " TEXT NOT NULL , " +
             COLUMN_ACKNOWLEDGE + " TEXT  , " +
             COLUMN_IF_ACKNOWLEDGED + " NUMBER  , " +
-            COLUMN_COMMENTS + " TEXT   " +
+            COLUMN_COMMENTS + " TEXT , " +
+            COLUMN_UPDATED + " TEXT   " +
             " );";
 
     public static String[] columns = {KEY_ROWID, COLUMN_LOGIC, COLUMN_POST_ID, COLUMN_INFO, COLUMN_WALL, COLUMN_TITLE, COLUMN_DATE,
-            COLUMN_ACKNOWLEDGE,COLUMN_COMMENTS, COLUMN_IF_ACKNOWLEDGED};
+            COLUMN_ACKNOWLEDGE,COLUMN_COMMENTS, COLUMN_IF_ACKNOWLEDGED, COLUMN_UPDATED};
 
 
     public ERPPost(String postId, String info, String title, String createdOn, ERPWall wall, boolean ifAcknowledged,
-        String comments, String acknowledge) {
+        String comments, String acknowledge, String updatedOn) {
         this.postId = postId;
         this.info = info;
         this.title = title;
@@ -62,7 +64,7 @@ public class ERPPost {
         this.ifAcknowledged = ifAcknowledged;
         this.comments = comments;
         this.acknowledge = acknowledge;
-
+        this.updatedOn = updatedOn;
     }
 
     public ERPPost(){
@@ -146,6 +148,7 @@ public class ERPPost {
         cv.put(COLUMN_ACKNOWLEDGE, acknowledge);
         cv.put(COLUMN_IF_ACKNOWLEDGED, 0);
         cv.put(COLUMN_COMMENTS, comments);
+        cv.put(COLUMN_UPDATED, updatedOn);
         DatabaseHelper data = new DatabaseHelper(context);
         return data.addNewsFeed(cv);
     }
@@ -158,7 +161,8 @@ public class ERPPost {
                 JSONObject post = jsonArray.getJSONObject(i);
                 ERPWall wall = gson.fromJson(post.getJSONObject("wall").toString(), ERPWall.class);
                 ERPPost erpPost = new ERPPost(post.getString("_id"), post.getString("info"), post.getString("title"), post.getString("createdOn"),
-                        wall, false, post.getJSONArray("comments").toString(), post.getJSONArray("acknowledged").toString());
+                        wall, false, post.getJSONArray("comments").toString(), post.getJSONArray("acknowledged").toString(),
+                        post.getString("updatedOn"));
                 erpPost.SavePost(context);
             }
         } catch (JSONException e){
