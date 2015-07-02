@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 import org.saarang.erp.Activities.CommentsActivity;
@@ -20,7 +21,6 @@ import org.saarang.erp.Adapters.CommentsAdapter;
 import org.saarang.erp.Objects.ERPComment;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
-import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
@@ -105,10 +105,12 @@ public class CommentsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (Connectivity.isConnected()){
+                    String comment = etComment.getText().toString();
+                    if (comment.isEmpty()) return;
                     addComment = new AddComment();
-                    addComment.execute(etComment.getText().toString());
+                    addComment.execute(comment);
                 }else {
-                    UIUtils.showSnackBar(rootView, getActivity().getResources().getString(R.string.error_connection));
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                 }
             }
         });
