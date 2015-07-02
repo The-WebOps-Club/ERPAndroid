@@ -1,17 +1,10 @@
 package org.saarang.erp.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
@@ -32,7 +25,6 @@ public class NewPostActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
 
-
         Intent intent = getIntent();
 
         //Add array adapter for dropdown edit text
@@ -41,6 +33,7 @@ public class NewPostActivity extends ActionBarActivity {
         AutoCompleteTextView textView = (AutoCompleteTextView)
                 findViewById(R.id.tvDeps);
         textView.setAdapter(adapter);
+
 
     }
 
