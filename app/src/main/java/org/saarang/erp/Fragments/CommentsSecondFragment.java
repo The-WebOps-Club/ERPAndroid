@@ -20,15 +20,17 @@ public class CommentsSecondFragment extends Fragment {
 
 
     int acknoLayout[] = {R.layout.fr_ackno, R.layout.fr_ackno_blank};
-    int position = 0;
+
     View rootView;
 
     RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    int position = 0;
     ImageView ivPrev;
-    // decide position according to number of people commented/ acknowledged is zero or not
+    // decide position according to number of people commented/ acknowledged is zero or not.
+    // and set the layout accordingly.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (position == 0) {
@@ -47,9 +49,7 @@ public class CommentsSecondFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((CommentsActivity)getActivity()).switchFragment(0);
-                //  Ruined my whole night
-                //switchFragment() is the custom defined function in the Activity where Viewpager is
-                //defined .
+                //switchFragment() is the custom defined function in the Activity where Viewpager is defined .
             }
         });
 

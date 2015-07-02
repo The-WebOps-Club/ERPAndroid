@@ -10,7 +10,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@drawable/placeholder_profile"
-        android:id="@+id/ivComment"
+        android:id="@+id/ivPic"
         android:layout_margin="8dp"
         android:layout_gravity="top"/>
 

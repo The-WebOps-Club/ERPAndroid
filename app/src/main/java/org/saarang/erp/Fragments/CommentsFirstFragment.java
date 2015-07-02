@@ -34,7 +34,8 @@ public class CommentsFirstFragment extends Fragment {
     TextView tvBack;
     View rootView;
 
-       // decide position according to number of people commented/ acknowledged is zero or not
+    // decide position according to number of people commented/ acknowledged is zero or not.
+    // and set the layout accordingly.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (position == 0) {
@@ -53,9 +54,7 @@ public class CommentsFirstFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((CommentsActivity)getActivity()).switchFragment(1);
-                // Ruined my whole night
-                //switchFragment() is the custom defined function in the Activity where Viewpager is
-                //defined
+                //switchFragment() is the custom defined function in the Activity where Viewpager is defined.
             }
         });
 
