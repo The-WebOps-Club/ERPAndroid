@@ -19,6 +19,8 @@ package org.saarang.erp.Activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -140,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent intentPost = new Intent(this, NewPostActivity.class);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
