@@ -197,6 +197,7 @@ public class CommentsFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             pDialog.dismiss();
+            if (getActivity() == null) return;
             etComment.setText("");
             if (status == 200){
                 commentsList = ERPComment.getCommentsFromString(newComments);
