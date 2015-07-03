@@ -28,6 +28,7 @@ import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
 import org.saarang.saarangsdk.Views.NonSwipeableViewPager;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,22 +44,24 @@ public class CommentsFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     ImageView ivNext, ivSend;
-    TextView tvBack;
+    TextView tvBack, tvNumAcknowledged;
     EditText etComment;
 
     View rootView;
     private static String ARG_COMMENT = "arg_comment";
     private static String ARG_POSTID = "arg_postId";
     private static String LOG_TAG = "CommentsFragment";
+    private static String ARG_ACKNONUM = "arg_acknoNum";
     String comments, postId;
     List<ERPComment> commentsList;
     AddComment addComment;
+    int acknoNum;
 
     // decide position according to number of people commented/ acknowledged is zero or not
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Safty check :P
+        // Safety check :P
         if (getArguments() == null){
             rootView = inflater.inflate(R.layout.fr_comments_blank, container, false);
             return rootView;
@@ -67,7 +70,8 @@ public class CommentsFragment extends Fragment {
         // Retrieving comment from argument
         comments = getArguments().getString(ARG_COMMENT);
         commentsList = ERPComment.getCommentsFromString(comments);
-
+        // Retrieving no. of people acknowledged from argument
+        acknoNum = getArguments().getInt(ARG_ACKNONUM);
         // Post Id
         postId = getArguments().getString(ARG_POSTID);
 
@@ -78,6 +82,16 @@ public class CommentsFragment extends Fragment {
             rootView = inflater.inflate(R.layout.fr_comments, container, false);
             setRecycler(rootView);
         }
+
+
+        //Number of people acknowledged
+        tvNumAcknowledged=(TextView)rootView.findViewById(R.id.tvFragmentFirst);
+        if(acknoNum == 0)
+             tvNumAcknowledged.setText("No one acknowledged");
+        else if (acknoNum == 1)
+            tvNumAcknowledged.setText(acknoNum + " Person Acknowledged");
+        else
+            tvNumAcknowledged.setText(acknoNum + " People Acknowledged");
 
         // Next Button
         ivNext=(ImageView)rootView.findViewById(R.id.ivNextPage);
@@ -127,16 +141,15 @@ public class CommentsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new CommentsAdapter(getActivity(), commentsList);
-
-
         recyclerView.setAdapter(adapter);
     }
 
-    public Fragment newInstance(String postId, String comments){
+    public Fragment newInstance(String postId, String comments, int acknoNum){
         CommentsFragment fragment = new CommentsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_COMMENT, comments);
         args.putString(ARG_POSTID, postId);
+        args.putInt(ARG_ACKNONUM, acknoNum);
         fragment.setArguments(args);
         return fragment;
     }

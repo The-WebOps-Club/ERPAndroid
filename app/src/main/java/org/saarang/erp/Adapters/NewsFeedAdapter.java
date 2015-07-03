@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Activities.CommentsActivity;
 import org.saarang.erp.Helper.DatabaseHelper;
+import org.saarang.saarangsdk.Helpers.TimeHelper;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
@@ -29,6 +32,7 @@ import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by Ahammad on 06/06/15.
@@ -38,6 +42,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     Context mContext;
     List<ERPPost> mItems;
+    TimeHelper th=new TimeHelper();
     private static String LOG_TAG = "NewsFeedAdapter";
 
     public NewsFeedAdapter(Context context, List<ERPPost> items) {
@@ -47,7 +52,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView tvName, tvTitle, tvInfo, tvWall;
+        TextView tvName, tvTitle, tvInfo, tvWall, tvPostDate;
         ImageView ivProfilePic;
         Button bComment, bAcknowledge;
         View mView;
@@ -62,6 +67,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             bComment = (Button) view.findViewById(R.id.bComments);
             bAcknowledge = (Button) view.findViewById(R.id.bAcknowledge);
             mView = view.findViewById(android.R.id.content);
+            tvPostDate= (TextView)view.findViewById(R.id.tvPostDate);
         }
     }
 
@@ -80,6 +86,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.tvName.setText(mItems.get(position).getPostedBy().getName());
+        holder.tvPostDate.setText(th.getRelative(mItems.get(position).getCreatedOn()));
         holder.tvTitle.setText(mItems.get(position).getTitle());
 
         holder.tvInfo.setText(mItems.get(position).getInfo());

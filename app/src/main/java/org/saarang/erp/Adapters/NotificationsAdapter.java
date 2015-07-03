@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.saarang.saarangsdk.Helpers.TimeHelper;
 import org.saarang.erp.Objects.ERPPostTemp;
 import org.saarang.erp.R;
 
@@ -22,6 +23,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     Context mContext;
     ArrayList<ERPPostTemp> mItems;
 
+
+
+
     public NotificationsAdapter(Context context,ArrayList<ERPPostTemp> items){
         mContext=context;
         mItems=items;
@@ -30,9 +34,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-
         TextView tvNotification1,tvNotification2;
         ImageView ivNotification;
+
+
         public ViewHolder(View itemView) {
             super(itemView);
             tvNotification1=(TextView) itemView.findViewById(R.id.tvNotification1);
@@ -49,8 +54,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public void onBindViewHolder(NotificationsAdapter.ViewHolder holder, int position) {
-       holder.tvNotification1.setText(mItems.get(position).getPostedBy()+" "+mItems.get(position).getAction()
-               +"\nOn "+mItems.get(position).getWall()+" Wall");
+        holder.tvNotification1.setText(mItems.get(position).getPostedBy() + " " + mItems.get(position).getAction()
+                + "\nOn " + mItems.get(position).getWall() + " Wall");
 
         Glide.with(mContext)
                 .load(mItems.get(position).getProfilePic())
@@ -60,6 +65,10 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                 .skipMemoryCache(false)
                 .into(holder.ivNotification);
 
+        TimeHelper th=new TimeHelper();
+        String testTime="2015-07-02T09:31:35.333Z";
+
+        holder.tvNotification2.setText(th.getRelative(testTime));
     }
 
     @Override

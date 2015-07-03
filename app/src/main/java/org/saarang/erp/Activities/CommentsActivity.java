@@ -3,8 +3,10 @@ package org.saarang.erp.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import org.saarang.erp.Adapters.CommentsViewPagerAdapter;
+import org.saarang.erp.Objects.ERPAcknowledged;
 import org.saarang.erp.Objects.ERPComment;
 import org.saarang.erp.R;
 import org.saarang.saarangsdk.Views.NonSwipeableViewPager;
@@ -14,7 +16,7 @@ import java.util.List;
 public class CommentsActivity extends FragmentActivity {
 
     CommentsViewPagerAdapter pageAdapter;
-    String comments, acknowledgment, postId;
+    String comments, acknowledgment, postId, postDate;
     public NonSwipeableViewPager mpager;
 
     public static String EXTRA_COMMENTS = "comments";
@@ -32,7 +34,9 @@ public class CommentsActivity extends FragmentActivity {
         acknowledgment = getIntent().getStringExtra(EXTRA_ACKNOWLEDGMENTS);
         postId = getIntent().getStringExtra(EXTRA_POSTID);
 
-        List<ERPComment> list = ERPComment.getCommentsFromString(comments);
+//        List<ERPComment> list = ERPComment.getCommentsFromString(comments);
+//
+
 
         pageAdapter = new CommentsViewPagerAdapter(getSupportFragmentManager(), postId, comments, acknowledgment);
         mpager=(NonSwipeableViewPager)findViewById(R.id.vpComments);

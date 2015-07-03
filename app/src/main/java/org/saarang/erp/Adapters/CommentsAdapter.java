@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import org.saarang.erp.Objects.ERPComment;
 import org.saarang.erp.R;
+import org.saarang.saarangsdk.Helpers.TimeHelper;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     Context mContext;
     List<ERPComment> items;
+    TimeHelper th=new TimeHelper();
 
     public CommentsAdapter(Context context,  List<ERPComment> items){
         mContext=context;
@@ -50,7 +52,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvComment.setText(items.get(position).getInfo());
-
+        holder.tvProfileName.setText(items.get(position).getCreatedBy().getName());
+        holder.tvTime.setText(th.getRelative(items.get(position).getCreatedOn()));
     }
 
     @Override

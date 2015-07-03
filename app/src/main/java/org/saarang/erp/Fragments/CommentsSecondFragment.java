@@ -11,7 +11,10 @@ import android.widget.ImageView;
 
 import org.saarang.erp.Activities.CommentsActivity;
 import org.saarang.erp.Adapters.CommentsSecondAdapter;
+import org.saarang.erp.Objects.ERPAcknowledged;
 import org.saarang.erp.R;
+
+import java.util.List;
 
 /**
  * Created by Ajmal on 01-07-2015.
@@ -19,7 +22,7 @@ import org.saarang.erp.R;
 public class CommentsSecondFragment extends Fragment {
 
 
-    int acknoLayout[] = {R.layout.fr_ackno, R.layout.fr_ackno_blank};
+    int acknoLayouts[] = {R.layout.fr_ackno, };
     int position = 0;
     View rootView;
 
@@ -27,20 +30,35 @@ public class CommentsSecondFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private static String ARG_ACKNOWLEDGEMENT="arg_ackno";
+    private static String ARG_POSTID = "arg_postId";
+
+    String acknowledged;
+    List<ERPAcknowledged> acknowledgedList;
+
     ImageView ivPrev;
     // decide position according to number of people commented/ acknowledged is zero or not
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (position == 0) {
 
-             rootView = inflater.inflate(acknoLayout[position], container, false);
-            setRecycler(rootView);
+        //Another Safety check :P
+        if (getArguments() == null){
+            rootView = inflater.inflate(R.layout.fr_ackno_blank, container, false);
+            return rootView;
+        }
+        // Retrieving acknowledgements from argument
+        acknowledged = getArguments().getString(ARG_ACKNOWLEDGEMENT);
+        acknowledgedList = ERPAcknowledged.getAcknowledgedFromString(acknowledged);
 
+        // Checking if there are people acknowledged
+        if (acknowledgedList.size() == 0) {
+             rootView = inflater.inflate(R.layout.fr_ackno_blank, container, false);
         } else {
-            rootView = inflater.inflate(acknoLayout[position], container, false);
+            rootView = inflater.inflate(R.layout.fr_ackno, container, false);
+            setRecycler(rootView);
         }
 
-
+        // Previous page of ViewPager
         ivPrev=(ImageView)rootView.findViewById(R.id.ivPrevPage);
 
         ivPrev.setOnClickListener(new View.OnClickListener() {
@@ -58,13 +76,22 @@ public class CommentsSecondFragment extends Fragment {
 
     }
 
+    public Fragment newInstance(String postId, String acknowledgement){
+        CommentsSecondFragment fragment = new CommentsSecondFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_ACKNOWLEDGEMENT, acknowledgement);
+        args.putString(ARG_POSTID, postId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public void setRecycler(View rootView) {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.rvAckno);
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new CommentsSecondAdapter(getActivity());
+        adapter = new CommentsSecondAdapter(getActivity(), acknowledgedList);
         recyclerView.setAdapter(adapter);
 
 

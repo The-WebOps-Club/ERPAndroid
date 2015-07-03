@@ -82,12 +82,13 @@
             android:ems="10"
             android:id="@+id/etBody"
             android:hint="What is on your mind?"
-            android:minLines="14"
+            android:minLines="5"
             android:gravity="top|left"
             android:paddingLeft="4dp"
             android:paddingTop="8dp"
             android:paddingRight="4dp"
             android:paddingBottom="8dp"
+            android:maxLines="10"
             android:nestedScrollingEnabled="true" />
 
     </LinearLayout>
