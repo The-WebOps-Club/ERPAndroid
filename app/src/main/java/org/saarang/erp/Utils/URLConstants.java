@@ -5,8 +5,8 @@ package org.saarang.erp.Utils;
  */
 public class URLConstants {
 
-//      public static String SERVER = "http://erptest.saarang.org/";
-    public static String SERVER = "http://192.168.0.128:9000/";
+      public static String SERVER = "http://erptest.saarang.org/";
+//    public static String SERVER = "http://192.168.0.128:9000/";
 
     public static String URL_LOGIN = "auth/local/mobile";
     public static String URL_FORGOT_PASSWORD = "api/users/forgotPassword";
@@ -24,6 +24,8 @@ public class URLConstants {
 
     public static String URL_POST_ACKNOWLEDGE = SERVER + "api/posts/";
     public static String URL_POST_COMMENT_ADD = SERVER + "api/posts/addComment/";
+    public static String URL_POST_NEW = SERVER + "api/posts/";
+
 
 
 }
