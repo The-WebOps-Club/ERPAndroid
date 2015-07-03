@@ -45,7 +45,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_new_post);
 
-        Log.d("ARRAY", ERPProfile.getUserWalls(this));
         Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -59,10 +58,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         makeArray();
 
         //Add array adapter for dropdown edit text
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, departements);
-        tvDep = (AutoCompleteTextView)
-                findViewById(R.id.tvDeps);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, departements);
+        tvDep = (AutoCompleteTextView) findViewById(R.id.tvDeps);
         tvDep.setAdapter(adapter);
 
         etBody = (EditText) findViewById(R.id.etBody);
