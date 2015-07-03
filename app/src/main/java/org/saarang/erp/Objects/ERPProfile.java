@@ -75,7 +75,7 @@ public class ERPProfile {
 
     public static String getUserProfilePic(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
-        return pref.getString(spProfilePicId, "");
+        return pref.getString(spProfilePic, "");
     }
 
     public static void setUserProfilePicId(Context context, String path){
@@ -87,7 +87,7 @@ public class ERPProfile {
 
     public static String getUserProfilePicId(Context context){
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
-        return pref.getString(spProfilePic, "");
+        return pref.getString(spProfilePicId, "");
     }
 
     public static String getERPUserToken(Context context){

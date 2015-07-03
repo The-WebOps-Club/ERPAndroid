@@ -35,7 +35,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     String id;
     ArrayList<ERPWall> wallList;
     Button bSubmit;
-    String title, body, department;
+    String title, body, department, departmentId;
     CreateNewPost createNewPost;
     AutoCompleteTextView tvDep;
     private static String LOG_TAG = "NewPostActivity";
@@ -46,7 +46,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.ac_new_post);
 
         Log.d("ARRAY", ERPProfile.getUserWalls(this));
-        Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar tb = (Toolbar)findViewById(R.id.toolbarNewPost);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
@@ -97,12 +97,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 title = etTitle.getText().toString();
                 body = etBody.getText().toString();
                 department = tvDep.getText().toString();
-                if ( title.isEmpty() || body.isEmpty() ){
+                departmentId = getId(department);
+                if ( title.isEmpty() || body.isEmpty() || departmentId.isEmpty() ){
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Invalid inputs");
                     return;
                 }
                 createNewPost = new CreateNewPost();
-                createNewPost.execute(title, body, getId(department));
+                createNewPost.execute(title, body, departmentId);
                 break;
         }
     }
