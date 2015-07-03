@@ -6,12 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.google.gson.Gson;
-
 import org.saarang.erp.Objects.ERPPost;
-import org.saarang.erp.Objects.ERPWall;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,14 +69,7 @@ public class DatabaseHelper {
         open();
         String[] columns = ERPPost.columns;
         Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, columns, null, null, null, null,  ERPPost.COLUMN_UPDATED + " DESC ");
-        List<ERPPost> arrayList = new ArrayList<>();
-        Gson gson = new Gson();
-        while ( c.moveToNext() ){
-            ERPPost post = new ERPPost(c.getString(2), c.getString(3), c.getString(5), c.getString(6),
-                    gson.fromJson(c.getString(4), ERPWall.class), (c.getInt(9) > 0), c.getString(8), c.getString(7),
-                    c.getString(10), c.getString(11) );
-            arrayList.add(post);
-        }
+        List<ERPPost> arrayList = ERPPost.getArrayList(c);
         close();
         return arrayList;
     }
@@ -99,6 +88,16 @@ public class DatabaseHelper {
         cv.put(ERPPost.COLUMN_COMMENTS, comment);
         ourDatabase.update(ERPPost.TABLE_NAME, cv, ERPPost.COLUMN_POST_ID+" = ?", new String[]{postId});
         close();
+    }
+
+    public List<ERPPost> getPostsFromWall (String wallId) {
+        open();
+        String[] columns = ERPPost.columns;
+        Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, columns, ERPPost.COLUMN_WALL + " LIKE ?", new String[]{ "%" + wallId + "%"},
+                null, null,  ERPPost.COLUMN_UPDATED + " DESC ");
+        List<ERPPost> arrayList = ERPPost.getArrayList(c);
+        close();
+        return arrayList;
     }
 
 

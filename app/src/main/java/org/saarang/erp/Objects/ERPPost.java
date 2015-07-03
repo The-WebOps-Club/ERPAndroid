@@ -2,6 +2,7 @@ package org.saarang.erp.Objects;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
 import com.google.gson.Gson;
 
@@ -9,6 +10,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Helper.DatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ahammad on 30/06/15.
@@ -177,5 +181,17 @@ public class ERPPost {
         } catch (JSONException e){
             e.printStackTrace();
         }
+    }
+
+    public static List<ERPPost> getArrayList(Cursor c){
+        List<ERPPost> arrayList = new ArrayList<>();
+        Gson gson = new Gson();
+        while ( c.moveToNext() ){
+            ERPPost post = new ERPPost(c.getString(2), c.getString(3), c.getString(5), c.getString(6),
+                    gson.fromJson(c.getString(4), ERPWall.class), (c.getInt(9) > 0), c.getString(8), c.getString(7),
+                    c.getString(10), c.getString(11) );
+            arrayList.add(post);
+        }
+        return arrayList;
     }
 }
