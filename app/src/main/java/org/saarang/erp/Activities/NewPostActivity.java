@@ -56,6 +56,14 @@ public class NewPostActivity extends AppCompatActivity {
                 findViewById(R.id.tvDeps);
         tvDep.setAdapter(adapter);
 
+        tvDep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    tvDep.showDropDown();
+            }
+        });
+
         etTitle = (EditText)findViewById(R.id.etTitle);
         etBody = (EditText)findViewById(R.id.etBody);
 

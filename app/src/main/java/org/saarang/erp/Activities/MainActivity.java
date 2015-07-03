@@ -17,6 +17,8 @@
 package org.saarang.erp.Activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent intentPost = new Intent(this, NewPostActivity.class);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
