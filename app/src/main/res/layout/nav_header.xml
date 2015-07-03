@@ -35,7 +35,7 @@
         android:layout_height="72dp"
         android:src="@drawable/bg_ajmal"
         app:border_width="2dp"
-        app:border_color="#9cfc00"
+        app:border_color="#9cfc01"
         android:layout_marginLeft="25dp"
         android:layout_marginStart="40dp"
         android:layout_centerVertical="true"

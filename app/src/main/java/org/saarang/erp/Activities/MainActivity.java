@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 4:
                 break;
-
         }
 
         setContentView(R.layout.ac_main);
