@@ -92,6 +92,10 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateVisible">
         </activity>
+        <activity android:name=".Activities.WallActivity"
+            android:label="">
+
+        </activity>
     </application>
 
 </manifest>

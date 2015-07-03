@@ -37,7 +37,7 @@ public class NewPostActivity extends AppCompatActivity {
         setContentView(R.layout.ac_new_post);
 
         Log.d("ARRAY", ERPProfile.getUserWalls(this));
-        Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar tb = (Toolbar)findViewById(R.id.toolbarNewPost);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
