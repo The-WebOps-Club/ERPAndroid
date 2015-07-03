@@ -159,6 +159,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                putData.add(new PostParam("alternateNumber", param[3]));
                putData.add(new PostParam("roomNumber", param[4]));
                putData.add(new PostParam("profilePic", ERPProfile.getUserProfilePicId(UpdateProfileActivity.this)));
+              Log.d(LOG_TAG + " pic id", ERPProfile.getUserProfilePicId(UpdateProfileActivity.this));
               putData.add(new PostParam("hostel",param[5]));
 
                //Making request

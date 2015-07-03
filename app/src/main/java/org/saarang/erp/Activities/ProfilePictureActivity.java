@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -46,6 +47,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
     TextView tvChangeImage, tvContinue;
     ProgressDialog pDialog;
     UpdateProfile updateProfile;
+    String filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +84,9 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
     }
 
     private void beginCrop(Uri source) {
-        File file = new File(getCacheDir(), "cropped");
-       // if (file.exists ()) file.delete ();
+//        File file = new File(getCacheDir(), "cropped");
+        File file = new File(Environment.getExternalStorageDirectory(), "cropped");
+        if (file.exists ()) file.delete ();
         destination = Uri.fromFile(file);
         Crop.of(source, destination).asSquare().start(this);
         tvContinue.setOnClickListener(this);
@@ -115,7 +118,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), destination);
                 ivProfilePic.setImageBitmap(bitmap);
-                SaarangImageHelper.compressSaveImage(ProfilePictureActivity.this, bitmap,
+                filePath = SaarangImageHelper.compressSaveImage(ProfilePictureActivity.this, bitmap,
                         AppConstants.PROFILE_PICTURE);
                 tvContinue.setTextColor(ProfilePictureActivity.this.getResources().getColor(R.color.white));
             } catch (IOException e) {
@@ -175,7 +178,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
             String link = URLConstants.SERVER + URLConstants.URL_UPLOAD;
             profilePicPath = getCacheDir().toString() +"/saved_images/" + AppConstants.PROFILE_PICTURE + ".jpg";
 //            profilePicPath = "/data/data/org.saarang.erp/cache/saved_images/" + AppConstants.PROFILE_PICTURE + ".jpg";
-            JSONObject json = ImageUploader.execute( link, profilePicPath, ERPProfile.getERPUserToken(ProfilePictureActivity.this));
+            JSONObject json = ImageUploader.execute( link, filePath, ERPProfile.getERPUserToken(ProfilePictureActivity.this));
             try {
                 status = json.getInt("status");
                 fileId = json.getJSONObject("data").getString("fileId");
