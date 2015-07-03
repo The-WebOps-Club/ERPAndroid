@@ -100,6 +100,16 @@ public class DatabaseHelper {
         return arrayList;
     }
 
+    public String getComments(String postId){
+        String comment = " ";
+        open();
+        Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, new String[]{ERPPost.COLUMN_COMMENTS}, ERPPost.COLUMN_POST_ID + " = ?",
+                new String[]{postId}, null, null,  ERPPost.COLUMN_UPDATED + " DESC ");
+        while (c.moveToNext()){
+            comment = c.getString(0);
+        }
+        return comment;
+    }
 
     public ERPPost getRandomPost(){
 

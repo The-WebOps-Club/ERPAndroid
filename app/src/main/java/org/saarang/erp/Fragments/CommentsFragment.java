@@ -66,13 +66,17 @@ public class CommentsFragment extends Fragment {
             return rootView;
         }
 
+        // Post Id
+        postId = getArguments().getString(ARG_POSTID);
+
         // Retrieving comment from argument
-        comments = getArguments().getString(ARG_COMMENT);
+//        comments = getArguments().getString(ARG_COMMENT);
+        DatabaseHelper data = new DatabaseHelper(getActivity());
+        comments = data.getComments(postId);
+
         commentsList = ERPComment.getCommentsFromString(comments);
         // Retrieving no. of people acknowledged from argument
         acknoNum = getArguments().getInt(ARG_ACKNONUM);
-        // Post Id
-        postId = getArguments().getString(ARG_POSTID);
 
         // Checking if there are comments
         if (commentsList.size() == 0){
@@ -200,6 +204,11 @@ public class CommentsFragment extends Fragment {
             if (getActivity() == null) return;
             etComment.setText("");
             if (status == 200){
+//                getActivity().getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .detach(newInstance(postId, "A", acknoNum))
+//                        .attach(newInstance(postId, "A", acknoNum))
+//                        .commit();
                 commentsList = ERPComment.getCommentsFromString(newComments);
                 recyclerView.setLayoutManager(layoutManager);
                 adapter = new CommentsAdapter(getActivity(), commentsList);
