@@ -45,6 +45,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_new_post);
 
+        Log.d("ARRAY", ERPProfile.getUserWalls(this));
         Toolbar tb = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -62,8 +63,16 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         tvDep = (AutoCompleteTextView) findViewById(R.id.tvDeps);
         tvDep.setAdapter(adapter);
 
-        etBody = (EditText) findViewById(R.id.etBody);
-        etTitle = (EditText) findViewById(R.id.etTitle);
+        tvDep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    tvDep.showDropDown();
+            }
+        });
+
+        etTitle = (EditText)findViewById(R.id.etTitle);
+        etBody = (EditText)findViewById(R.id.etBody);
 
         bSubmit = (Button) findViewById(R.id.bSubmit);
         bSubmit.setOnClickListener(this);
