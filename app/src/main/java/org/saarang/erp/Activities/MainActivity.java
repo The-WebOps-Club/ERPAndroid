@@ -16,8 +16,14 @@
 
 package org.saarang.erp.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -35,20 +41,30 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 
 import org.saarang.erp.Fragments.NewsFeedFragment;
 import org.saarang.erp.Fragments.NotificationsFragment;
 import org.saarang.erp.Fragments.PeopleFragment;
 import org.saarang.erp.Fragments.WallsFragment;
+import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Services.RegistrationIntentService;
+import org.saarang.erp.Utils.URLConstants;
 import org.saarang.erp.Utils.UserState;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * TODO
@@ -57,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    CircleImageView pro_pic;
+    TextView username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +110,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.ac_main);
-
+        username = (TextView)findViewById(R.id.user_name);
+        username.setText(ERPProfile.getERPUserName(MainActivity.this));
+        pro_pic = (CircleImageView)findViewById(R.id.profile_image);
+        Log.d("pro_id", ERPProfile.getUserProfilePicId(MainActivity.this));
+        pro_pic.setImageURI(Uri.fromFile(new File(ERPProfile.getUserProfilePicId(MainActivity.this))));
         /**
          * Action Bar
          */
@@ -185,32 +207,92 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    static class Adapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragments = new ArrayList<>();
-        private final List<String> mFragmentTitles = new ArrayList<>();
+    public void logout(MenuItem item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("SaarangERP");
+        builder.setMessage("Are you sure you want to logout?");
+        //Creating ok button with listener
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("Alert", " Ok");
+                        clearApplicationData();
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        prefs.edit().putString("delete", "hellothisisacheck").apply();
+                        Log.d("delete", prefs.getString("delete", "nope"));
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.clear();
+                        editor.commit();
+                        Log.d("delete", prefs.getString("delete", "nope"));
+                        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(getBaseContext());
+                        try {
+                            gcm.unregister();
+                        } catch (IOException e) {
+                            System.out.println("Error Message: " + e.getMessage());
+                        }
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(i);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
 
-        public Adapter(FragmentManager fm) {
-            super(fm);
-        }
+                    }
 
-        public void addFragment(Fragment fragment, String title) {
-            mFragments.add(fragment);
-            mFragmentTitles.add(title);
-        }
+                    public void clearApplicationData() {
+                        File cache = getCacheDir();
+                        File appDir = new File(cache.getParent());
+                        if (appDir.exists()) {
+                            String[] children = appDir.list();
+                            for (String s : children) {
+                                if (!s.equals("lib")) {
+                                    deleteDir(new File(appDir, s));
+                                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s + " DELETED");
+                                }
+                            }
+                        }
+                    }
 
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(position);
-        }
+                    public static boolean deleteDir(File dir) {
+                        if (dir != null && dir.isDirectory()) {
+                            String[] children = dir.list();
+                            for (int i = 0; i < children.length; i++) {
+                                boolean success = deleteDir(new File(dir, children[i]));
+                                if (!success) {
+                                    return false;
+                                }
+                            }
+                        }
 
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
+                        return dir.delete();
+                    }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
-        }
-    }
-}
+                    static class Adapter extends FragmentPagerAdapter {
+                        private final List<Fragment> mFragments = new ArrayList<>();
+                        private final List<String> mFragmentTitles = new ArrayList<>();
+
+                        public Adapter(FragmentManager fm) {
+                            super(fm);
+                        }
+
+                        public void addFragment(Fragment fragment, String title) {
+                            mFragments.add(fragment);
+                            mFragmentTitles.add(title);
+                        }
+
+                        @Override
+                        public Fragment getItem(int position) {
+                            return mFragments.get(position);
+                        }
+
+                        @Override
+                        public int getCount() {
+                            return mFragments.size();
+                        }
+
+                        @Override
+                        public CharSequence getPageTitle(int position) {
+                            return mFragmentTitles.get(position);
+                        }
+                    }
+                }
