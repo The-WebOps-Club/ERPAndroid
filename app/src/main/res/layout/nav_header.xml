@@ -28,14 +28,29 @@
         android:scaleType="centerCrop"
         android:src="@drawable/bg_saarang"
         />
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/bg_ajmal"
+        app:border_width="2dp"
+        app:border_color="#9cfc01"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="40dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Username"
+        android:id="@+id/user_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="19dp"
+        android:padding="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:padding="16dp"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

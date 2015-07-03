@@ -27,6 +27,7 @@ public class RegistrationIntentService extends IntentService{
     String sender_id = "475795801819";
     private static final String[] TOPICS = {"global"};
     String Old_ID,token;
+    Boolean senttokentoserver;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -45,15 +46,20 @@ public class RegistrationIntentService extends IntentService{
                 // Initially this call goes out to the network to retrieve the token, subsequent calls
                 // are local.
                 // [START get_token]
-                token ="no token";
+                token ="no  token";
                 InstanceID instanceID = InstanceID.getInstance(this);
                 /*String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
                         GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);*/
                  token = instanceID.getToken(AppConstants.GCM_SENDER_ID, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+                if((!token.equals(Old_ID)))
+                    sharedPreferences.edit().putBoolean("sentTokenToServer", false).apply();
                 // [END get_token]
                 Log.i(TAG, "GCM Registration Token:" + token);
 
                 // TODO: Implement this method to send any registration to your app's servers.
+
+                senttokentoserver = sharedPreferences.getBoolean("sentTokenToServer", false);
+                if((!token.equals(Old_ID))||(!senttokentoserver))
                 sendRegistrationToServer(token);
 
                 // Subscribe to topic channels
@@ -88,7 +94,7 @@ public class RegistrationIntentService extends IntentService{
     private void sendRegistrationToServer(String freshtoken) {
         // Add custom implementation, as needed.
         ArrayList<PostParam> params = new ArrayList<>();
-        int status = 400;
+        int status;
         String urlString = URLConstants.URL_REGISTER_DEVICE;
 
         //Adding Parameters
