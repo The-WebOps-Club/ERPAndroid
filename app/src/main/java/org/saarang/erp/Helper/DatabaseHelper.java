@@ -101,6 +101,10 @@ public class DatabaseHelper {
     }
 
 
+    public ERPPost getRandomPost(){
+
+        return getAllPosts().get(0);
+    }
 //    public long addTag(ContentValues cv){
 //        long id = ourDatabase.insert(DATABASE_TABLE, null, cv);
 //        return id;
