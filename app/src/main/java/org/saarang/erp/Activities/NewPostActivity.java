@@ -10,7 +10,7 @@ import android.widget.AutoCompleteTextView;
 
 import org.saarang.erp.R;
 
-public class NewPostActivity extends ActionBarActivity {
+public class NewPostActivity extends AppCompatActivity {
 
     String[] departements = {"Finance", "Publicity", "Design and Media", "Marketing and Sales",
             "Mobile Operations", "Web Operations"};

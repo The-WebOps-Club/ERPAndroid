@@ -1,5 +1,7 @@
 package org.saarang.erp.Objects;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -15,10 +17,13 @@ import java.util.List;
 public class ERPComment {
     String info;
     String _id;
+    Gson gson = new Gson();
 
-    public ERPComment(String _id, String info) {
+    public ERPComment(String _id, String info, String createdOn, String createdBy) {
         this.info = info;
         this._id = _id;
+        this.createdOn= createdOn;
+        this.createdBy = gson.fromJson(createdBy, ERPUser.class);
     }
 
     public String getInfo() {
@@ -73,7 +78,9 @@ public class ERPComment {
             JSONArray array = json.getJSONArray("comments");
             for (int i =0; i<array.length(); i++){
                 JSONObject commentJSON =   array.getJSONObject(i);
-                ERPComment comment = new ERPComment(commentJSON.getString("_id"), commentJSON.getString("info"));
+                Log.d("commentJson",commentJSON.toString());
+                ERPComment comment = new ERPComment(commentJSON.getString("_id"), commentJSON.getString("info"),
+                        commentJSON.getString("createdOn"), commentJSON.getString("createdBy"));
                 comments.add(comment);
             }
         } catch (JSONException e) {

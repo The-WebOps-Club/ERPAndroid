@@ -10,7 +10,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@drawable/placeholder_profile"
-        android:id="@+id/ivComment"
+        android:id="@+id/ivAcknoUser"
         android:layout_margin="8dp"
         android:layout_gravity="top"/>
 
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_notification_head"
             android:text="Aqel Ahammad"
-            android:id="@+id/tvComment1"
+            android:id="@+id/tvAcknoName"
             android:textColor="@color/black_color_primary_text"
             android:gravity="center_vertical"
             android:layout_gravity="center_vertical"

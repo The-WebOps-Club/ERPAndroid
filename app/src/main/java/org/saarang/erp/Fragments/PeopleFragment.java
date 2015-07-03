@@ -15,7 +15,7 @@ import org.saarang.erp.R;
  * Created by aqel on 8/5/15.
  */
 public class PeopleFragment extends Fragment {
-    RecyclerView recyclerView;
+    RecyclerView rvPeople;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -30,24 +30,14 @@ public class PeopleFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fr_people, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
-
-
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new PeopleAdapter(getActivity());
-
-        recyclerView.setAdapter(adapter);
-        RecyclerView rvPeople = (RecyclerView)rootView.findViewById(R.id.rvPeople);
+        rvPeople = (RecyclerView)rootView.findViewById(R.id.rvPeople);
 
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvPeople.setLayoutManager(layoutManager);
 
         // set the adapter
-        PeopleAdapter adapter = new PeopleAdapter(getActivity(), departements);
+        PeopleAdapter adapter = new PeopleAdapter(getActivity());
         rvPeople.setAdapter(adapter);
         return rootView;
     }

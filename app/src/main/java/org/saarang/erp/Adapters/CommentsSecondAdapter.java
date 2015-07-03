@@ -6,33 +6,38 @@ package org.saarang.erp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.saarang.erp.Objects.ERPAcknowledged;
 import org.saarang.erp.R;
+
+import java.util.List;
 
 
 public class CommentsSecondAdapter extends RecyclerView.Adapter<CommentsSecondAdapter.ViewHolder> {
 
     Context mContext;
+    List<ERPAcknowledged> items;
 
-
-    public CommentsSecondAdapter(Context context){
+    public CommentsSecondAdapter(Context context ,List<ERPAcknowledged> items){
         mContext=context;
+        this.items = items;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivComment;
-        TextView tvCommentName,tvCommentComment,tvCommentTime;
+        ImageView ivAcknoUser;
+        TextView tvAcknoName;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            ivComment=(ImageView)itemView.findViewById(R.id.ivComment);
-            tvCommentName=(TextView)itemView.findViewById(R.id.tvComment1);
+            ivAcknoUser=(ImageView)itemView.findViewById(R.id.ivAcknoUser);
+            tvAcknoName=(TextView)itemView.findViewById(R.id.tvAcknoName);
         }
     }
     @Override
@@ -43,13 +48,14 @@ public class CommentsSecondAdapter extends RecyclerView.Adapter<CommentsSecondAd
 
     @Override
     public void onBindViewHolder(CommentsSecondAdapter.ViewHolder holder, int position) {
-
-
+        // Setting name
+        holder.tvAcknoName.setText(items.get(position).getCreatedBy().getName());
+        Log.d("sase",items.get(position).getCreatedBy().getName());
     }
 
     @Override
     public int getItemCount() {
-        return 16;
+        return items.size();
     }
 
 

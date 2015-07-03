@@ -86,6 +86,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.tvName.setText(mItems.get(position).getPostedBy().getName());
+        holder.tvPostDate.setText(th.getRelative(mItems.get(position).getCreatedOn()));
         holder.tvTitle.setText(mItems.get(position).getTitle());
 
         holder.tvInfo.setText(mItems.get(position).getInfo());
