@@ -159,7 +159,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                putData.add(new PostParam("alternateNumber", param[3]));
                putData.add(new PostParam("roomNumber", param[4]));
                putData.add(new PostParam("profilePic", ERPProfile.getUserProfilePic(UpdateProfileActivity.this)));
-              putData.add(new PostParam("hostel",param[5]));
+               putData.add(new PostParam("hostel",param[5]));
 
                //Making request
                JSONObject responseJSON = PostRequest.execute(urlString, putData, ERPProfile.getERPUserToken(UpdateProfileActivity.this));
@@ -171,6 +171,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                    status = responseJSON.getInt("status");
                    if (status == 200){
                        ERPProfile.saveUser(UpdateProfileActivity.this, responseJSON);
+                       ERPProfile.saveUpdatedUser(UpdateProfileActivity.this, putData);
                    }
                } catch (JSONException e) {
                    e.printStackTrace();

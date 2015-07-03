@@ -2,15 +2,20 @@ package org.saarang.erp.Objects;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.saarangsdk.Objects.PostParam;
+
+import java.util.ArrayList;
 
 /**
  * Created by Ahammad on 16/06/15.
  */
 public class ERPProfile {
 
+    private static String LOG_TAG="ERPProfile";
     public static String spUser = "spUser";
     public static String spName = "spName";
     public static String spToken = "sptoken";
@@ -25,8 +30,9 @@ public class ERPProfile {
     public static String spProfilePicId = "spProfilePicId";
     public static String spWalls = "spWalls";
 
-    String id, phoneNumber,alternateNumber, summerLocation, roomNumber, rollNumber, name;
 
+    String id, phoneNumber,alternateNumber, summerLocation, roomNumber, rollNumber, name;
+    public ArrayList<PostParam> pData;
     public static void saveUser(Context context, JSONObject json){
 
         try {
@@ -131,6 +137,22 @@ public class ERPProfile {
         return pref.getString(spWalls, "");
     }
 
+    public static void saveUpdatedUser(Context context, ArrayList<PostParam> postData){
+
+        SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(spName, postData.get(0).getValue());
+        //editor.putString(spToken, ERPProfile.getERPUserToken(context));
+        // editor.putString(spId, ERPProfile.getERPUserId(context));
+        editor.putString(spAlternateNumber, postData.get(3).getValue());
+        editor.putString(spPhoneNumber, postData.get(2).getValue());
+        // editor.putString(spRollNumber, rollNumber);
+        editor.putString(spSummerLocation, postData.get(1).getValue());
+       // editor.putString(spEmail, email);
+        editor.putString(spRoomNumber, postData.get(4).getValue());
+        editor.commit();
+        Log.d(LOG_TAG,""+ editor);
+    }
 
 
 
