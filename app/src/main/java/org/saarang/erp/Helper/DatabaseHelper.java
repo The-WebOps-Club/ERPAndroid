@@ -90,10 +90,10 @@ public class DatabaseHelper {
         close();
     }
 
-    public List<ERPPost> getPostsFromWall (String postId) {
+    public List<ERPPost> getPostsFromWall (String wallId) {
         open();
         String[] columns = ERPPost.columns;
-        Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, columns, ERPPost.COLUMN_POST_ID + " = ?", new String[]{postId},
+        Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, columns, ERPPost.COLUMN_WALL + " LIKE ?", new String[]{ "%" + wallId + "%"},
                 null, null,  ERPPost.COLUMN_UPDATED + " DESC ");
         List<ERPPost> arrayList = ERPPost.getArrayList(c);
         close();
