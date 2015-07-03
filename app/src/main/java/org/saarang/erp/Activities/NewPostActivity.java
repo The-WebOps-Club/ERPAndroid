@@ -1,19 +1,44 @@
 package org.saarang.erp.Activities;
 
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONObject;
+import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPWall;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.UIUtils;
+import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.PostRequest;
+import org.saarang.saarangsdk.Objects.PostParam;
 
-public class NewPostActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
-    String[] departements = {"Finance", "Publicity", "Design and Media", "Marketing and Sales",
-            "Mobile Operations", "Web Operations"};
+public class NewPostActivity extends AppCompatActivity implements View.OnClickListener {
+
+    int length;
+    EditText etTitle, etBody;
+    String[] departements;
+    String id;
+    ArrayList<ERPWall> wallList;
+    Button bSubmit;
+    String title, body, department;
+    CreateNewPost createNewPost;
+    AutoCompleteTextView tvDep;
+    private static String LOG_TAG = "NewPostActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,30 +61,15 @@ public class NewPostActivity extends AppCompatActivity {
         //Add array adapter for dropdown edit text
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, departements);
-        final AutoCompleteTextView tvDep = (AutoCompleteTextView)
+        tvDep = (AutoCompleteTextView)
                 findViewById(R.id.tvDeps);
         tvDep.setAdapter(adapter);
 
-        etTitle = (EditText)findViewById(R.id.etTitle);
-        etBody = (EditText)findViewById(R.id.etBody);
         etBody = (EditText) findViewById(R.id.etBody);
         etTitle = (EditText) findViewById(R.id.etTitle);
 
-
-        Button bDone = (Button)findViewById(R.id.bDone);
-        bDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String wallSelected = tvDep.getText().toString();
-                getId(wallSelected);
-                Log.d("ID", id);
-                String title = etTitle.getText().toString();
-                String body = etBody.getText().toString();
-            }
-        });
-
         bSubmit = (Button) findViewById(R.id.bSubmit);
-
+        bSubmit.setOnClickListener(this);
 
     }
 
@@ -80,23 +90,28 @@ public class NewPostActivity extends AppCompatActivity {
             case R.id.bSubmit:
                 title = etTitle.getText().toString();
                 body = etBody.getText().toString();
+                department = tvDep.getText().toString();
                 if ( title.isEmpty() || body.isEmpty() ){
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Invalid inputs");
                     return;
                 }
                 createNewPost = new CreateNewPost();
-                createNewPost.execute(title, body);
+                createNewPost.execute(title, body, getId(department));
                 break;
         }
     }
 
-    private class CreateNewPost extends AsyncTask<String, Void, Void>{
+    private class CreateNewPost extends AsyncTask<String, Void, Void> {
 
         JSONObject json;
         ArrayList<PostParam> params;
         @Override
         protected Void doInBackground(String... param) {
-            json = PostRequest.execute(URLConstants.URL_POST_NEW, null, ERPProfile.getERPUserToken(NewPostActivity.this));
+            params = new ArrayList<>();
+            params.add(new PostParam( "title" , param[0]));
+            params.add(new PostParam( "info" , param[1]));
+            params.add(new PostParam( "destId" , param[2]));
+            json = PostRequest.execute(URLConstants.URL_POST_NEW, params, ERPProfile.getERPUserToken(NewPostActivity.this));
             Log.d(LOG_TAG, json.toString());
             return null;
         }
@@ -117,10 +132,11 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     //method to get id of wall
-    public void getId(String s){
+    public String getId(String s){
         for (int i = 0; i<length; i++){
             if(wallList.get(i).getName().equalsIgnoreCase(s))
                 id = wallList.get(i).getId();
         }
+        return id;
     }
 }
