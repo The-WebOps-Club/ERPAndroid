@@ -13,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import org.saarang.erp.Objects.ERPAcknowledged;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.URLConstants;
 
 import java.util.List;
 
@@ -50,6 +53,13 @@ public class CommentsSecondAdapter extends RecyclerView.Adapter<CommentsSecondAd
     public void onBindViewHolder(CommentsSecondAdapter.ViewHolder holder, int position) {
         // Setting name
         holder.tvAcknoName.setText(items.get(position).getCreatedBy().getName());
+        final String profilePicUrl = URLConstants.SERVER + "api/users/" + items.get(position).getCreatedBy().get_id() + "/profilePic";
+        Glide.with(mContext)
+                .load(profilePicUrl)
+                .centerCrop()
+                .placeholder(R.drawable.ic_people)
+                .crossFade()
+                .into(holder.ivAcknoUser);
     }
 
     @Override

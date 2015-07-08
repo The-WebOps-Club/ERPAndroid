@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
+        Log.i("user_id",ERPProfile.getERPUserId(this));
 
         //Read last user state and redirect
         Intent intent;
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         username.setText(ERPProfile.getERPUserName(MainActivity.this));
         pro_pic = (CircleImageView)findViewById(R.id.profile_image);
         Log.d("pro_id", ERPProfile.getUserProfilePicId(MainActivity.this));
-        pro_pic.setImageURI(Uri.fromFile(new File(ERPProfile.getUserProfilePic (MainActivity.this))));
+        pro_pic.setImageURI(Uri.fromFile(new File(ERPProfile.getUserProfilePic(MainActivity.this))));
         /**
          * Action Bar
          */
