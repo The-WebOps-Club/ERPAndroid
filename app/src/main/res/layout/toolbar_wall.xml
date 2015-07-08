@@ -12,8 +12,4 @@
     app:popupTheme="@style/Base.Theme.DesignDemo"
     app:theme="@style/Base.Theme.DesignDemo"
     app:layout_scrollFlags="scroll|enterAlways"
-    >
-
-
-
-    </android.support.v7.widget.Toolbar>
+    />
