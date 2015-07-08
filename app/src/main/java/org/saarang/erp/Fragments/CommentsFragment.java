@@ -1,6 +1,7 @@
 package org.saarang.erp.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -55,6 +56,9 @@ public class CommentsFragment extends Fragment {
     List<ERPComment> commentsList;
     AddComment addComment;
     int acknoNum;
+    boolean noComments = false;
+    private static CommentsListener listener;
+
 
     // decide position according to number of people commented/ acknowledged is zero or not
     @Override
@@ -75,29 +79,40 @@ public class CommentsFragment extends Fragment {
         comments = data.getComments(postId);
 
         commentsList = ERPComment.getCommentsFromString(comments);
+
         // Retrieving no. of people acknowledged from argument
         acknoNum = getArguments().getInt(ARG_ACKNONUM);
 
         // Checking if there are comments
         if (commentsList.size() == 0){
             rootView = inflater.inflate(R.layout.fr_comments_blank, container, false);
+            noComments = true;
         } else {
             rootView = inflater.inflate(R.layout.fr_comments, container, false);
             setRecycler(rootView);
         }
 
+        setUpView(rootView);
+
+        return rootView;
+    }
+
+    private void setUpView(View rootView) {
+        tvNumAcknowledged=(TextView)rootView.findViewById(R.id.tvFragmentFirst);
+        ivNext=(ImageView)rootView.findViewById(R.id.ivNextPage);
+        tvBack = (TextView) rootView.findViewById(R.id.bBack);
+        ivSend = (ImageView) rootView.findViewById(R.id.ivSend);
+        etComment = (EditText) rootView.findViewById(R.id.etComment);
 
         //Number of people acknowledged
-        tvNumAcknowledged=(TextView)rootView.findViewById(R.id.tvFragmentFirst);
         if(acknoNum == 0)
-             tvNumAcknowledged.setText("No one acknowledged");
+            tvNumAcknowledged.setText("No one acknowledged");
         else if (acknoNum == 1)
             tvNumAcknowledged.setText(acknoNum + " Person Acknowledged");
         else
             tvNumAcknowledged.setText(acknoNum + " People Acknowledged");
 
         // Next Button
-        ivNext=(ImageView)rootView.findViewById(R.id.ivNextPage);
         ivNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,16 +124,12 @@ public class CommentsFragment extends Fragment {
         });
 
         // Back Butoon
-        tvBack = (TextView) rootView.findViewById(R.id.bBack);
         tvBack.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 (getActivity()).finish();
             }
         }));
-
-        ivSend = (ImageView) rootView.findViewById(R.id.ivSend);
-        etComment = (EditText) rootView.findViewById(R.id.etComment);
 
         ivSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +145,6 @@ public class CommentsFragment extends Fragment {
             }
         });
 
-        return rootView;
     }
 
     public void setRecycler(View rootView) {
@@ -147,10 +157,9 @@ public class CommentsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    public Fragment newInstance(String postId, String comments, int acknoNum){
+    public Fragment newInstance(String postId, int acknoNum){
         CommentsFragment fragment = new CommentsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_COMMENT, comments);
         args.putString(ARG_POSTID, postId);
         args.putInt(ARG_ACKNONUM, acknoNum);
         fragment.setArguments(args);
@@ -204,15 +213,29 @@ public class CommentsFragment extends Fragment {
             if (getActivity() == null) return;
             etComment.setText("");
             if (status == 200){
+
 //                getActivity().getSupportFragmentManager()
 //                        .beginTransaction()
 //                        .detach(newInstance(postId, "A", acknoNum))
 //                        .attach(newInstance(postId, "A", acknoNum))
 //                        .commit();
+
                 commentsList = ERPComment.getCommentsFromString(newComments);
-                recyclerView.setLayoutManager(layoutManager);
-                adapter = new CommentsAdapter(getActivity(), commentsList);
-                recyclerView.setAdapter(adapter);
+//                recyclerView.setLayoutManager(layoutManager);
+//                adapter = new CommentsAdapter(getActivity(), commentsList);
+//                recyclerView.setAdapter(adapter);
+                if (noComments){
+                    LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.fr_comments, null);
+                    ViewGroup rootView = (ViewGroup) getView();
+                    rootView.removeAllViews();
+                    rootView.addView(view);
+                    setUpView(view);
+                    setRecycler(view);
+                    noComments = false;
+                } else setRecycler(rootView);
+
+                if (listener!= null) listener.onCommentsAdded();
             }
         }
     }
@@ -222,6 +245,14 @@ public class CommentsFragment extends Fragment {
         super.onDestroy();
         if ( addComment!= null )
             addComment.cancel(true);
+    }
+
+    public interface CommentsListener{
+        void onCommentsAdded();
+    }
+
+    public static void setOnChangeListener(CommentsListener lis){
+        listener = lis;
     }
 
 }

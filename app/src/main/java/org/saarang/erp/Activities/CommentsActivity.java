@@ -6,14 +6,12 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.saarang.erp.Adapters.CommentsViewPagerAdapter;
-import org.saarang.erp.Objects.ERPAcknowledged;
-import org.saarang.erp.Objects.ERPComment;
+import org.saarang.erp.Fragments.CommentsFragment;
+import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.R;
 import org.saarang.saarangsdk.Views.NonSwipeableViewPager;
 
-import java.util.List;
-
-public class CommentsActivity extends FragmentActivity {
+public class CommentsActivity extends FragmentActivity implements CommentsFragment.CommentsListener{
 
     CommentsViewPagerAdapter pageAdapter;
     String comments, acknowledgment, postId, postDate;
@@ -31,16 +29,20 @@ public class CommentsActivity extends FragmentActivity {
         setContentView(R.layout.ac_comments);
 
         comments = getIntent().getStringExtra(EXTRA_COMMENTS);
-        acknowledgment = getIntent().getStringExtra(EXTRA_ACKNOWLEDGMENTS);
+//        acknowledgment = getIntent().getStringExtra(EXTRA_ACKNOWLEDGMENTS);
         postId = getIntent().getStringExtra(EXTRA_POSTID);
 
 //        List<ERPComment> list = ERPComment.getCommentsFromString(comments);
 //
+        DatabaseHelper data = new DatabaseHelper(this);
+        acknowledgment = data.getAcknowledgment(postId);
 
 
-        pageAdapter = new CommentsViewPagerAdapter(getSupportFragmentManager(), postId, comments, acknowledgment);
+        pageAdapter = new CommentsViewPagerAdapter(getSupportFragmentManager(), postId, acknowledgment);
         mpager=(NonSwipeableViewPager)findViewById(R.id.vpComments);
         mpager.setAdapter(pageAdapter);
+
+        CommentsFragment.setOnChangeListener(this);
 
     }
 
@@ -48,4 +50,10 @@ public class CommentsActivity extends FragmentActivity {
         mpager.setCurrentItem(target);
     }
 
+
+    @Override
+    public void onCommentsAdded() {
+        mpager.setCurrentItem(0);
+        Log.d(LOG_TAG, "Comment added");
+    }
 }

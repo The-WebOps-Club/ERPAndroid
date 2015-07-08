@@ -33,7 +33,7 @@ public class CommentsSecondFragment extends Fragment {
     private static String ARG_ACKNOWLEDGEMENT="arg_ackno";
     private static String ARG_POSTID = "arg_postId";
 
-    String acknowledged;
+    String acknowledged, postId;
     List<ERPAcknowledged> acknowledgedList;
 
     ImageView ivPrev;
@@ -46,6 +46,10 @@ public class CommentsSecondFragment extends Fragment {
             rootView = inflater.inflate(R.layout.fr_ackno_blank, container, false);
             return rootView;
         }
+
+        // Post Id
+        postId = getArguments().getString(ARG_POSTID);
+
         // Retrieving acknowledgements from argument
         acknowledged = getArguments().getString(ARG_ACKNOWLEDGEMENT);
         acknowledgedList = ERPAcknowledged.getAcknowledgedFromString(acknowledged);

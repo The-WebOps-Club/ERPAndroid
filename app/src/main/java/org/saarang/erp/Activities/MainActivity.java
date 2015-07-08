@@ -19,16 +19,14 @@ package org.saarang.erp.Activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -45,11 +43,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
 
 import org.saarang.erp.Fragments.NewsFeedFragment;
 import org.saarang.erp.Fragments.NotificationsFragment;
@@ -58,7 +54,6 @@ import org.saarang.erp.Fragments.WallsFragment;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Services.RegistrationIntentService;
-import org.saarang.erp.Utils.URLConstants;
 import org.saarang.erp.Utils.UserState;
 
 import java.io.File;
@@ -115,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         username.setText(ERPProfile.getERPUserName(MainActivity.this));
         pro_pic = (CircleImageView)findViewById(R.id.profile_image);
         Log.d("pro_id", ERPProfile.getUserProfilePicId(MainActivity.this));
-        pro_pic.setImageURI(Uri.fromFile(new File(ERPProfile.getUserProfilePicId(MainActivity.this))));
+        pro_pic.setImageURI(Uri.fromFile(new File(ERPProfile.getUserProfilePic (MainActivity.this))));
         /**
          * Action Bar
          */
