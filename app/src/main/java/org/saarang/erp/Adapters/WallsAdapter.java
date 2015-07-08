@@ -55,6 +55,9 @@ public class WallsAdapter extends RecyclerView.Adapter<WallsAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent((MainActivity)mContext, WallActivity.class);
+                intent.putExtra(WallActivity.EXTRA_WALLID, mItems.get(position).get_id());
+                intent.putExtra(WallActivity.EXTRA_WALL_NAME,mItems.get(position).getName());
+                mContext.startActivity(intent);
             }
         });
         holder.card_view.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +65,7 @@ public class WallsAdapter extends RecyclerView.Adapter<WallsAdapter.ViewHolder> 
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, WallActivity.class);
                 intent.putExtra(WallActivity.EXTRA_WALLID, mItems.get(position).get_id());
+                intent.putExtra(WallActivity.EXTRA_WALL_NAME,mItems.get(position).getName());
                 mContext.startActivity(intent);
             }
         });

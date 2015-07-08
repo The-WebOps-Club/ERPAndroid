@@ -71,11 +71,11 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="@string/postDate"
                         android:id="@+id/tvPostDate"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="11dp"
                         android:textIsSelectable="false"
-                        android:textColor="@color/indigo_color_disabled"
-                        android:textSize="12sp" />
+                        android:textColor="@color/black_color_disabled"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                         android:text="@string/location"
                         android:id="@+id/tvWall"
                         android:layout_marginLeft="10dp"
-                        android:textColor="@color/indigo_color_secondary"
+                        android:textColor="@color/black_color_secondary"
                         android:layout_marginTop="5dp" />
 
 
@@ -158,7 +158,7 @@
                     android:gravity="center"
                     android:paddingBottom="5dp"
                     android:textSize="14sp"
-                    android:textColor="@color/indigo_color_secondary"
+                    android:textColor="@color/black_color_secondary"
                     android:layout_weight="50" />
                 <!--android:textColor="#ff9e9e9e"-->
                 <Button
@@ -171,7 +171,7 @@
                     android:paddingBottom="5dp"
                     android:textSize="14sp"
                     android:layout_weight="50"
-                    android:textColor="@color/indigo_color_secondary"
+                    android:textColor="@color/black_color_secondary"
                     android:gravity="center" />
 
             </LinearLayout>

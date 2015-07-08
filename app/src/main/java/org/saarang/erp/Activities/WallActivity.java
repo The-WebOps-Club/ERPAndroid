@@ -1,10 +1,17 @@
 package org.saarang.erp.Activities;
 
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
 
 import org.saarang.erp.Adapters.NewsFeedAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
@@ -24,10 +31,11 @@ public class WallActivity extends AppCompatActivity implements SwipeRefreshLayou
     List<ERPPost> arrayList = new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerView;
-    String postId;
+    String postId, wallName;
 
     private static String LOG_TAG = "WallActivity";
     public static String EXTRA_WALLID = "wallId";
+    public static String EXTRA_WALL_NAME= "wallName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +43,10 @@ public class WallActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         setContentView(R.layout.ac_wall);
 
+
         postId = getIntent().getExtras().getString(EXTRA_WALLID);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        wallName = getIntent().getExtras().getString(EXTRA_WALL_NAME);
+        recyclerView = (RecyclerView) findViewById(R.id.rvWallActivity);
 
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
@@ -45,9 +55,31 @@ public class WallActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-//        //Random dataset
-//        arrayList = RandomGenerator.getRandomPosts(15);
+        //Adding toolbar
+        Toolbar tb = (Toolbar)findViewById(R.id.toolbarWallActivity);
+        setSupportActionBar(tb);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        tb.setNavigationIcon(R.drawable.ic_arrow_left);
 
+        //Set title of the Wall
+        setTitle(wallName);
+
+        //Setting floating action button
+        final Intent intentPost = new Intent(this, NewPostActivity.class);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabWallActivity);
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Snackbar.make(view, "Pained", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                startActivity(intentPost);
+            }
+        });
+
+
+        // Getting posts
         arrayList = new DatabaseHelper(this).getPostsFromWall(postId);
 
         adapter = new NewsFeedAdapter(this, arrayList);
@@ -55,6 +87,13 @@ public class WallActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     }
 
+    //On Click of back navigation button finish() this activity
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        finish();
+        return true;
+
+    }
     @Override
     public void onRefresh() {
 

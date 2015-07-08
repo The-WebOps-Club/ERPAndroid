@@ -3,6 +3,9 @@ package org.saarang.erp.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +28,7 @@ import java.util.ArrayList;
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolder> {
     Context mContext;
     ArrayList<ERPPostTemp> mItems;
-
+    String notification_text;
 
 
 
@@ -60,8 +63,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public void onBindViewHolder(final NotificationsAdapter.ViewHolder holder, int position) {
-        holder.tvNotification1.setText(mItems.get(position).getPostedBy() + " " + mItems.get(position).getAction()
-                + "\nOn " + mItems.get(position).getWall() + " Wall");
+
+
+        // using html for setting color only for the name of posted person.
+        notification_text = "<font color = '#3F51B5'> " +mItems.get(position).getPostedBy() +" </font>"+ " " +
+                mItems.get(position).getAction()
+                + "\nOn " + mItems.get(position).getWall() + " Wall";
+
+        holder.tvNotification1.setText(Html.fromHtml(notification_text));
 
         Glide.with(mContext)
                 .load(mItems.get(position).getProfilePic())

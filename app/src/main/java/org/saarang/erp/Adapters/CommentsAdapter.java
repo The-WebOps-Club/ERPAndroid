@@ -6,14 +6,18 @@ package org.saarang.erp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import org.saarang.erp.Objects.ERPComment;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Helpers.TimeHelper;
 
 import java.util.List;
@@ -24,6 +28,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     Context mContext;
     List<ERPComment> items;
     TimeHelper th=new TimeHelper();
+    private String LOG_TAG = "Comments Adapter";
 
     public CommentsAdapter(Context context,  List<ERPComment> items){
         mContext=context;
@@ -53,7 +58,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvComment.setText(items.get(position).getInfo());
         holder.tvProfileName.setText(items.get(position).getCreatedBy().getName());
+        final String profilePicUrl = URLConstants.SERVER + "api/users/" + items.get(position).getCreatedBy().get_id() + "/profilePic";
+        Glide.with(mContext)
+                .load(profilePicUrl)
+                .centerCrop()
+                .placeholder(R.drawable.ic_people)
+                .crossFade()
+                .into(holder.ivProfilePic);
         holder.tvTime.setText(th.getRelative(items.get(position).getCreatedOn()));
+        Log.d(LOG_TAG,th.getRelative(items.get(position).getCreatedOn()) + items.get(position).getInfo() );
     }
 
     @Override
