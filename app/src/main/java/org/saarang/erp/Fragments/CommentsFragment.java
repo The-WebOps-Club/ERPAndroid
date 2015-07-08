@@ -156,10 +156,9 @@ public class CommentsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    public Fragment newInstance(String postId, String comments, int acknoNum){
+    public Fragment newInstance(String postId, int acknoNum){
         CommentsFragment fragment = new CommentsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_COMMENT, comments);
         args.putString(ARG_POSTID, postId);
         args.putInt(ARG_ACKNONUM, acknoNum);
         fragment.setArguments(args);

@@ -8,20 +8,17 @@ import org.saarang.erp.Fragments.CommentsFragment;
 import org.saarang.erp.Fragments.CommentsSecondFragment;
 import org.saarang.erp.Objects.ERPAcknowledged;
 
-import java.util.List;
-
 /**
  * Created by Ajmal on 01-07-2015.
  */
 public class CommentsViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    String comments, acknowledgment, postId;
+    String  acknowledgment, postId;
     int acknoNum;
 
-    public CommentsViewPagerAdapter(FragmentManager fm, String postId, String comments, String acknowledgment)
+    public CommentsViewPagerAdapter(FragmentManager fm, String postId, String acknowledgment)
     {
         super(fm);
-        this.comments = comments;
         this.acknowledgment = acknowledgment;
         this.postId = postId;
         this.acknoNum = ERPAcknowledged.getAcknowledgedFromString(acknowledgment).size();
@@ -38,9 +35,9 @@ public class CommentsViewPagerAdapter extends FragmentStatePagerAdapter {
 
         switch(position)
         {
-            case 0: return new CommentsFragment().newInstance(postId, comments, acknoNum);
+            case 0: return new CommentsFragment().newInstance(postId,  acknoNum);
             case 1: return new CommentsSecondFragment().newInstance(postId, acknowledgment);
-            default : return new CommentsFragment().newInstance(postId, comments,acknoNum);
+            default : return new CommentsFragment().newInstance(postId, acknoNum);
         }
     }
 }

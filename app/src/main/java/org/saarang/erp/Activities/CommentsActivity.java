@@ -35,7 +35,7 @@ public class CommentsActivity extends FragmentActivity implements CommentsFragme
 //
 
 
-        pageAdapter = new CommentsViewPagerAdapter(getSupportFragmentManager(), postId, comments, acknowledgment);
+        pageAdapter = new CommentsViewPagerAdapter(getSupportFragmentManager(), postId, acknowledgment);
         mpager=(NonSwipeableViewPager)findViewById(R.id.vpComments);
         mpager.setAdapter(pageAdapter);
 
