@@ -7,6 +7,7 @@ import android.util.Log;
 
 import org.saarang.erp.Adapters.CommentsViewPagerAdapter;
 import org.saarang.erp.Fragments.CommentsFragment;
+import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.R;
 import org.saarang.saarangsdk.Views.NonSwipeableViewPager;
 
@@ -28,11 +29,13 @@ public class CommentsActivity extends FragmentActivity implements CommentsFragme
         setContentView(R.layout.ac_comments);
 
         comments = getIntent().getStringExtra(EXTRA_COMMENTS);
-        acknowledgment = getIntent().getStringExtra(EXTRA_ACKNOWLEDGMENTS);
+//        acknowledgment = getIntent().getStringExtra(EXTRA_ACKNOWLEDGMENTS);
         postId = getIntent().getStringExtra(EXTRA_POSTID);
 
 //        List<ERPComment> list = ERPComment.getCommentsFromString(comments);
 //
+        DatabaseHelper data = new DatabaseHelper(this);
+        acknowledgment = data.getAcknowledgment(postId);
 
 
         pageAdapter = new CommentsViewPagerAdapter(getSupportFragmentManager(), postId, acknowledgment);

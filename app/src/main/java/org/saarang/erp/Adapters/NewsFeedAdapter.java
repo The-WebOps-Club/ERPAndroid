@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +14,23 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Activities.CommentsActivity;
 import org.saarang.erp.Helper.DatabaseHelper;
-import org.saarang.saarangsdk.Helpers.TimeHelper;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Helpers.TimeHelper;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * Created by Ahammad on 06/06/15.
@@ -148,7 +146,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 if (Connectivity.isConnected()){
-                    new AcknowledgePost().execute( mItems.get(position).getPostId() );
+                    new AcknowledgePost().execute( mItems.get(position).getPostId(), mItems.get(position).getAcknowledge() );
                     markAsAcknowledged(holder.bAcknowledge);
                 }
                 else{
@@ -182,7 +180,12 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 jsonObject = PostRequest.execute(URLConstants.URL_POST_ACKNOWLEDGE + params[0], param, ERPProfile.getERPUserToken(mContext));
                 if (jsonObject.getInt("status") == 200){
                     DatabaseHelper data = new DatabaseHelper(mContext);
-                    data.markPostAsUpdated(params[0]);
+                    JSONArray jsonArray = new JSONArray(params[1]);
+                    jsonArray.put(new JSONObject("{" +
+                            "\"_id\":\""+ ERPProfile.getERPUserId(mContext) +  "\"," +
+                            "\"name\": \"" + ERPProfile.getERPUserName(mContext) +"\"" +
+                            "}"));
+                    data.markPostAsUpdated(params[0], jsonArray.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

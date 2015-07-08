@@ -74,10 +74,11 @@ public class DatabaseHelper {
         return arrayList;
     }
 
-    public void markPostAsUpdated(String postId){
+    public void markPostAsUpdated(String postId, String acknowledgment){
         open();
         ContentValues cv = new ContentValues();
         cv.put(ERPPost.COLUMN_IF_ACKNOWLEDGED, 1);
+        cv.put(ERPPost.COLUMN_ACKNOWLEDGE, acknowledgment);
         ourDatabase.update(ERPPost.TABLE_NAME, cv, ERPPost.COLUMN_POST_ID+" = ?", new String[]{postId});
         close();
     }
@@ -108,6 +109,19 @@ public class DatabaseHelper {
         while (c.moveToNext()){
             comment = c.getString(0);
         }
+        close();
+        return comment;
+    }
+
+    public String getAcknowledgment(String postId){
+        String comment = " ";
+        open();
+        Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, new String[]{ERPPost.COLUMN_ACKNOWLEDGE}, ERPPost.COLUMN_POST_ID + " = ?",
+                new String[]{postId}, null, null,  ERPPost.COLUMN_UPDATED + " DESC ");
+        while (c.moveToNext()){
+            comment = c.getString(0);
+        }
+        close();
         return comment;
     }
 

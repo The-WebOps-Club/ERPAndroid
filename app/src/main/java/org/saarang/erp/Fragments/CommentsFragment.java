@@ -79,6 +79,7 @@ public class CommentsFragment extends Fragment {
         comments = data.getComments(postId);
 
         commentsList = ERPComment.getCommentsFromString(comments);
+
         // Retrieving no. of people acknowledged from argument
         acknoNum = getArguments().getInt(ARG_ACKNONUM);
 

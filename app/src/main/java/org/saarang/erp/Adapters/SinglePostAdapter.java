@@ -1,12 +1,9 @@
 package org.saarang.erp.Adapters;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +16,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import org.apache.http.impl.conn.SingleClientConnManager;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Activities.CommentsActivity;
 import org.saarang.erp.Activities.SinglePostActivity;
-import org.saarang.erp.Fragments.CommentsFragment;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPComment;
 import org.saarang.erp.Objects.ERPPost;
@@ -39,8 +34,6 @@ import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.saarang.erp.Activities.SinglePostActivity.*;
 
 /**
  * Created by Seetharaman on 04-07-2015.
@@ -252,7 +245,12 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
                 jsonObject = PostRequest.execute(URLConstants.URL_POST_ACKNOWLEDGE + params[0], param, ERPProfile.getERPUserToken(mContext));
                 if (jsonObject.getInt("status") == 200){
                     DatabaseHelper data = new DatabaseHelper(mContext);
-                    data.markPostAsUpdated(params[0]);
+                    JSONArray jsonArray = new JSONArray(params[1]);
+                    jsonArray.put(new JSONObject("{" +
+                            "\"_id\":\""+ ERPProfile.getERPUserId(mContext) +  "\"," +
+                            "\"name\": \"" + ERPProfile.getERPUserName(mContext) +"\"" +
+                            "}"));
+                    data.markPostAsUpdated(params[0], jsonArray.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
