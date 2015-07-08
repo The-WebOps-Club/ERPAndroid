@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         username.setText(ERPProfile.getERPUserName(MainActivity.this));
         pro_pic = (CircleImageView)findViewById(R.id.profile_image);
         Log.d("pro_id", ERPProfile.getUserProfilePicId(MainActivity.this));
-        pro_pic.setImageURI(Uri.fromFile(new File(ERPProfile.getUserProfilePic(MainActivity.this))));
+        //pro_pic.setImageURI(Uri.fromFile(new File(ERPProfile.getUserProfilePic(MainActivity.this))));
         /**
          * Action Bar
          */
@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println("Error Message: " + e.getMessage());
                         }
                         Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        finish();
                         startActivity(i);
             }
         });
