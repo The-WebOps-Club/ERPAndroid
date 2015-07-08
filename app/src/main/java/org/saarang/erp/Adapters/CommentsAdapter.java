@@ -6,7 +6,6 @@ package org.saarang.erp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
                 .crossFade()
                 .into(holder.ivProfilePic);
         holder.tvTime.setText(th.getRelative(items.get(position).getCreatedOn()));
-        Log.d(LOG_TAG,th.getRelative(items.get(position).getCreatedOn()) + items.get(position).getInfo() );
     }
 
     @Override

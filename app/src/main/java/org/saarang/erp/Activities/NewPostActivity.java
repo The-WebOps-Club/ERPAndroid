@@ -135,7 +135,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (status == 200)
+            if (status/100 == 2)
                 NewPostActivity.this.finish();
         }
     }
