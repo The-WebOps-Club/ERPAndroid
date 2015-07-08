@@ -6,6 +6,7 @@ package org.saarang.erp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     Context mContext;
     List<ERPComment> items;
     TimeHelper th=new TimeHelper();
+    private String LOG_TAG = "Comments Adapter";
 
     public CommentsAdapter(Context context,  List<ERPComment> items){
         mContext=context;
@@ -54,6 +56,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         holder.tvComment.setText(items.get(position).getInfo());
         holder.tvProfileName.setText(items.get(position).getCreatedBy().getName());
         holder.tvTime.setText(th.getRelative(items.get(position).getCreatedOn()));
+        Log.d(LOG_TAG,th.getRelative(items.get(position).getCreatedOn()) + items.get(position).getInfo() );
     }
 
     @Override
