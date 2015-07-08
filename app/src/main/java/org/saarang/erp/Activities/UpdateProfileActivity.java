@@ -172,6 +172,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                    status = responseJSON.getInt("status");
                    if (status == 200){
                        ERPProfile.saveUser(UpdateProfileActivity.this, responseJSON);
+                       ERPProfile.saveUpdatedUser(UpdateProfileActivity.this, putData);
                    }
                } catch (JSONException e) {
                    e.printStackTrace();

@@ -51,6 +51,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
 
+
         Gson gson = new Gson();
         wallList = gson.fromJson( ERPProfile.getUserWalls(this), new TypeToken<List<ERPWall>>(){}.getType());
 

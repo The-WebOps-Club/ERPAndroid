@@ -45,7 +45,7 @@
                 android:text="Members"
                 android:id="@+id/textView4"
                 android:layout_gravity="center"
-                android:textColor="#ffffff"
+                android:textColor="@color/white_color_primary_text"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -58,7 +58,9 @@
             android:layout_weight="100"
             android:gravity="left|center_vertical"
             android:paddingLeft="16dp"
-            android:textColor="#ff000000" />
+            android:textColor="@color/indigo_color_primary_text"
+            android:textStyle="bold"
+            />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

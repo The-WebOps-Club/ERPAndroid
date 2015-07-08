@@ -1,14 +1,57 @@
-<android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/swipe_refresh"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/main_content"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarWall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Base.Theme.DesignDemo">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarWallActivity"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/indigo_color_primary"
+            android:titleTextAppearance="@color/white"
+            app:popupTheme="@style/Base.Theme.DesignDemo"
+            app:theme="@style/Base.Theme.DesignDemo"
+            app:layout_scrollFlags="scroll|enterAlways"
+            />
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fastScrollAlwaysVisible="true"
-        android:fastScrollEnabled="true"
-        android:overScrollMode="always" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</android.support.v4.widget.SwipeRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvWallActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fastScrollAlwaysVisible="true"
+                android:fastScrollEnabled="true"
+                android:overScrollMode="always"
+                />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabWallActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_plus"
+        app:borderWidth="0dp"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

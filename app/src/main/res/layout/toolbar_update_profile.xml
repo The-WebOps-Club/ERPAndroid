@@ -8,7 +8,6 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/indigo_color_primary"
     android:titleTextAppearance="@color/white"
-
     app:popupTheme="@style/Base.Theme.DesignDemo"
     app:theme="@style/Base.Theme.DesignDemo"
     app:layout_scrollFlags="scroll|enterAlways"
