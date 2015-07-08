@@ -6,14 +6,11 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.saarang.erp.Adapters.CommentsViewPagerAdapter;
-import org.saarang.erp.Objects.ERPAcknowledged;
-import org.saarang.erp.Objects.ERPComment;
+import org.saarang.erp.Fragments.CommentsFragment;
 import org.saarang.erp.R;
 import org.saarang.saarangsdk.Views.NonSwipeableViewPager;
 
-import java.util.List;
-
-public class CommentsActivity extends FragmentActivity {
+public class CommentsActivity extends FragmentActivity implements CommentsFragment.CommentsListener{
 
     CommentsViewPagerAdapter pageAdapter;
     String comments, acknowledgment, postId, postDate;
@@ -42,10 +39,18 @@ public class CommentsActivity extends FragmentActivity {
         mpager=(NonSwipeableViewPager)findViewById(R.id.vpComments);
         mpager.setAdapter(pageAdapter);
 
+        CommentsFragment.setOnChangeListener(this);
+
     }
 
     public void switchFragment(int target){
         mpager.setCurrentItem(target);
     }
 
+
+    @Override
+    public void onCommentsAdded() {
+        mpager.setCurrentItem(0);
+        Log.d(LOG_TAG, "Comment added");
+    }
 }

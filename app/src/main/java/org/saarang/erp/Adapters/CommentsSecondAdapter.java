@@ -50,7 +50,6 @@ public class CommentsSecondAdapter extends RecyclerView.Adapter<CommentsSecondAd
     public void onBindViewHolder(CommentsSecondAdapter.ViewHolder holder, int position) {
         // Setting name
         holder.tvAcknoName.setText(items.get(position).getCreatedBy().getName());
-        Log.d("sase",items.get(position).getCreatedBy().getName());
     }
 
     @Override

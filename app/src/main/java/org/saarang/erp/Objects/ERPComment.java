@@ -1,7 +1,5 @@
 package org.saarang.erp.Objects;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -78,7 +76,6 @@ public class ERPComment {
             JSONArray array = json.getJSONArray("comments");
             for (int i =0; i<array.length(); i++){
                 JSONObject commentJSON =   array.getJSONObject(i);
-                Log.d("commentJson",commentJSON.toString());
                 ERPComment comment = new ERPComment(commentJSON.getString("_id"), commentJSON.getString("info"),
                         commentJSON.getString("createdOn"), commentJSON.getString("createdBy"));
                 comments.add(comment);
