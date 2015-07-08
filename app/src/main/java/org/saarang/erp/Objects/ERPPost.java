@@ -159,7 +159,9 @@ public class ERPPost {
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_DATE, createdOn);
         cv.put(COLUMN_ACKNOWLEDGE, acknowledge);
-        cv.put(COLUMN_IF_ACKNOWLEDGED, ifAcknowledged);
+        int acknowledge = 0;
+        if (ifAcknowledged)  acknowledge = 1;
+        cv.put(COLUMN_IF_ACKNOWLEDGED, acknowledge);
         cv.put(COLUMN_COMMENTS, comments);
         cv.put(COLUMN_UPDATED, updatedOn);
         cv.put(COLUMN_CREATED_BY, createdBy);
@@ -176,6 +178,8 @@ public class ERPPost {
                 String acknowledgment = post.getJSONArray("acknowledged").toString();
                 if (acknowledgment.contains(ERPProfile.getERPUserId(context))){
                     Log.d("ERPPost", "Already acknowledged");
+                    Log.d("ERPPost", ERPProfile.getERPUserId(context));
+                    Log.d("ERPPost", acknowledgment);
                 }else Log.d("ERPPost", "Not acknowledged");
                 ERPWall wall = gson.fromJson(post.getJSONObject("wall").toString(), ERPWall.class);
                 ERPPost erpPost = new ERPPost(post.getString("_id"), post.getString("info"), post.getString("title"), post.getString("createdOn"),

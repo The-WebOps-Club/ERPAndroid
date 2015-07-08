@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.Objects.ERPWall;
@@ -112,6 +113,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
         JSONObject json;
         ArrayList<PostParam> params;
+        int status = 989;
+
         @Override
         protected Void doInBackground(String... param) {
             params = new ArrayList<>();
@@ -120,7 +123,19 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             params.add(new PostParam( "destId" , param[2]));
             json = PostRequest.execute(URLConstants.URL_POST_NEW, params, ERPProfile.getERPUserToken(NewPostActivity.this));
             Log.d(LOG_TAG, json.toString());
+            try {
+                status = json.getInt("status");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (status == 200)
+                NewPostActivity.this.finish();
         }
     }
 
