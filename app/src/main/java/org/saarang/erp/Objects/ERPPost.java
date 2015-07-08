@@ -3,6 +3,7 @@ package org.saarang.erp.Objects;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -158,7 +159,7 @@ public class ERPPost {
         cv.put(COLUMN_TITLE, title);
         cv.put(COLUMN_DATE, createdOn);
         cv.put(COLUMN_ACKNOWLEDGE, acknowledge);
-        cv.put(COLUMN_IF_ACKNOWLEDGED, 0);
+        cv.put(COLUMN_IF_ACKNOWLEDGED, ifAcknowledged);
         cv.put(COLUMN_COMMENTS, comments);
         cv.put(COLUMN_UPDATED, updatedOn);
         cv.put(COLUMN_CREATED_BY, createdBy);
@@ -172,9 +173,13 @@ public class ERPPost {
         try {
             for (int i = 0; i< jsonArray.length(); i++){
                 JSONObject post = jsonArray.getJSONObject(i);
+                String acknowledgment = post.getJSONArray("acknowledged").toString();
+                if (acknowledgment.contains(ERPProfile.getERPUserId(context))){
+                    Log.d("ERPPost", "Already acknowledged");
+                }else Log.d("ERPPost", "Not acknowledged");
                 ERPWall wall = gson.fromJson(post.getJSONObject("wall").toString(), ERPWall.class);
                 ERPPost erpPost = new ERPPost(post.getString("_id"), post.getString("info"), post.getString("title"), post.getString("createdOn"),
-                        wall, false, post.getJSONArray("comments").toString(), post.getJSONArray("acknowledged").toString(),
+                        wall, acknowledgment.contains(ERPProfile.getERPUserId(context)), post.getJSONArray("comments").toString(), acknowledgment,
                         post.getString("updatedOn"), post.getString("createdBy"));
                 erpPost.SavePost(context);
             }
