@@ -17,11 +17,26 @@ public class ERPComment {
     String _id;
     Gson gson = new Gson();
 
+    String userId;
+    String createdOn;
+    ERPUser createdBy;
+
     public ERPComment(String _id, String info, String createdOn, String createdBy) {
         this.info = info;
         this._id = _id;
         this.createdOn= createdOn;
         this.createdBy = gson.fromJson(createdBy, ERPUser.class);
+    }
+
+    public ERPComment(String _id, String info, String createdOn, ERPUser createdBy) {
+        this.info = info;
+        this._id = _id;
+        this.createdOn= createdOn;
+        this.createdBy = createdBy;
+    }
+
+    public ERPComment() {
+
     }
 
     public String getInfo() {
@@ -64,9 +79,6 @@ public class ERPComment {
         this.createdBy = createdBy;
     }
 
-    String userId;
-    String createdOn;
-    ERPUser createdBy;
 
     public static List<ERPComment> getCommentsFromString(String commentString){
         List<ERPComment> comments = new ArrayList<>();

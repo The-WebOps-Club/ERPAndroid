@@ -3,20 +3,16 @@ package org.saarang.erp.Activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Adapters.CommentsAdapter;
-import org.saarang.erp.Adapters.PeopleAdapter;
 import org.saarang.erp.Adapters.SinglePostAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPComment;
@@ -30,7 +26,7 @@ import org.saarang.saarangsdk.Objects.PostParam;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SinglePostActivity extends ActionBarActivity {
+public class SinglePostActivity extends AppCompatActivity {
 
     static ERPPost post;
     static List<ERPComment> commentsList;
@@ -38,8 +34,10 @@ public class SinglePostActivity extends ActionBarActivity {
     static RecyclerView rvSinglePost;
     static LinearLayoutManager layoutManager;
     static SinglePostAdapter adapter;
+    private String postId;
 
-
+    public static String EXTRA_POSTID = "postId";
+    private static String LOG_TAG = "SinglePostActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +49,13 @@ public class SinglePostActivity extends ActionBarActivity {
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
         mContext = this;
 
+        // Getting post
+        postId = getIntent().getExtras().getString(EXTRA_POSTID);
+        Log.d(LOG_TAG, postId);
+
         DatabaseHelper data = new DatabaseHelper(this);
-        post = data.getRandomPost();
+        post = data.getPost(postId);
+//        post = data.getRandomPost();
         commentsList = ERPComment.getCommentsFromString(post.getComments());
         Log.d("COMMENTS LIST", commentsList.toString());
 

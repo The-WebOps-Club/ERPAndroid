@@ -194,7 +194,7 @@ public class LoginActivity extends Activity {
                     ERPProfile.saveUser(LoginActivity.this, responseJSON);
                     user = responseJSON.getJSONObject("data").getJSONObject("user");
                     List<ERPWall> walls = new ArrayList<>();
-                    walls.add(new ERPWall(user.getString("wall"), user.getString("name") ));
+                    walls.add(new ERPWall(user.getString("_id"), user.getString("name") ));
                     groups = user.getJSONArray("groups");
                     for (int i =0; i< groups.length(); i++){
                         walls.add(gson.fromJson(groups.getJSONObject(i).toString(), ERPWall.class ));

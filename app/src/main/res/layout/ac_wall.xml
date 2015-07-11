@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<!--<android.support.design.widget.CoordinatorLayout-->
+<LinearLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:id="@+id/main_content"
+    android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbarWall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Base.Theme.DesignDemo">
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/appbarWall"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:theme="@style/Base.Theme.DesignDemo">-->
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarWallActivity"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/indigo_color_primary"
-            android:titleTextAppearance="@color/white"
-            app:popupTheme="@style/Base.Theme.DesignDemo"
-            app:theme="@style/Base.Theme.DesignDemo"
-            app:layout_scrollFlags="scroll|enterAlways"
-            />
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbarWallActivity"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="@color/indigo_color_primary"-->
+            <!--android:titleTextAppearance="@color/white"-->
+            <!--app:popupTheme="@style/Base.Theme.DesignDemo"-->
+            <!--app:theme="@style/Base.Theme.DesignDemo"-->
+            <!--app:layout_scrollFlags="scroll|enterAlways"-->
+            <!--/>-->
 
 
-    </android.support.design.widget.AppBarLayout>
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+<include layout="@layout/toolbar_wall"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvWallActivity"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:fastScrollAlwaysVisible="true"
                 android:fastScrollEnabled="true"
                 android:overScrollMode="always"
@@ -54,4 +59,5 @@ android:layout_height="match_parent">
         app:borderWidth="0dp"
         />
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
+<!--</android.support.design.widget.CoordinatorLayout>-->

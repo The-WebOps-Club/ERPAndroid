@@ -2,7 +2,6 @@ package org.saarang.erp.Fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +18,7 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.erp.Activities.NewPostActivity;
 import org.saarang.erp.Adapters.NewsFeedAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
@@ -37,7 +37,8 @@ import java.util.List;
 /**
  * Created by aqel on 8/5/15.
  */
-public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,
+        NewPostActivity.NewPostListener{
 
     public NewsFeedFragment() {
     }
@@ -84,6 +85,7 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         parseNewsFeed = new GetNewsFeedTask();
 
+        NewPostActivity.setOnNewPostListener(this);
         return rootView;
     }
 
@@ -100,6 +102,19 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             swipeRefreshLayout.setRefreshing(false);
         }
 
+    }
+
+    @Override
+    public void onNewPostCreated(ERPPost erpPost) {
+        Log.d(LOG_TAG, "Newpost created");
+        if (getActivity() == null) return;
+        arrayList.add(0, erpPost);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private class GetNewsFeedTask extends AsyncTask<Void, Void, Void> {

@@ -1,5 +1,6 @@
 package org.saarang.erp.Activities;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +18,13 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.Objects.ERPWall;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
 
@@ -40,6 +43,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     CreateNewPost createNewPost;
     AutoCompleteTextView tvDep;
     private static String LOG_TAG = "NewPostActivity";
+    private static NewPostListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,18 +107,34 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 if ( title.isEmpty() || body.isEmpty() || departmentId.isEmpty() ){
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Invalid inputs");
                     return;
+                } else if (!Connectivity.isConnected()){
+                    UIUtils.showSnackBar(findViewById(android.R.id.content),
+                            getResources().getString(R.string.error_connection));
+                    return;
                 }
                 createNewPost = new CreateNewPost();
-                createNewPost.execute(title, body, departmentId);
+                createNewPost.execute(title, body, departmentId, department);
                 break;
         }
     }
 
     private class CreateNewPost extends AsyncTask<String, Void, Void> {
 
-        JSONObject json;
+        JSONObject json, jNewPost;
         ArrayList<PostParam> params;
         int status = 989;
+        Gson gson = new Gson();
+        ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(NewPostActivity.this);
+            pDialog.setMessage("Loading ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
 
         @Override
         protected Void doInBackground(String... param) {
@@ -122,10 +142,22 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             params.add(new PostParam( "title" , param[0]));
             params.add(new PostParam( "info" , param[1]));
             params.add(new PostParam( "destId" , param[2]));
-            json = PostRequest.execute(URLConstants.URL_POST_NEW, params, ERPProfile.getERPUserToken(NewPostActivity.this));
+            json = PostRequest.execute(URLConstants.URL_POST_NEW, params,
+                    ERPProfile.getERPUserToken(NewPostActivity.this));
             Log.d(LOG_TAG, json.toString());
             try {
                 status = json.getInt("status");
+                jNewPost = json.getJSONObject("data");
+                jNewPost.put("createdBy",
+                        new JSONObject(gson.toJson(ERPProfile.getUserObject(NewPostActivity.this))));
+                ERPWall wall = new ERPWall(param[2], param[3]);
+                ERPPost erpPost = new ERPPost(jNewPost.getString("_id"), jNewPost.getString("info"),
+                        jNewPost.getString("title"), jNewPost.getString("createdOn"),
+                        wall, false, jNewPost.getJSONArray("comments").toString(), "[]",
+                        jNewPost.getString("updatedOn"), jNewPost.getString("createdBy"));
+                erpPost.SavePost(NewPostActivity.this);
+                if (listener != null ) listener.onNewPostCreated(erpPost);
+                Log.d(LOG_TAG, jNewPost.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -135,8 +167,11 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (status == 200)
+            pDialog.dismiss();
+            if (status/100 == 2){
                 NewPostActivity.this.finish();
+            }
+
         }
     }
 
@@ -161,5 +196,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 id = wallList.get(i).getId();
         }
         return id;
+    }
+
+    public interface NewPostListener{
+        void onNewPostCreated(ERPPost erpPost);
+    }
+
+    public static void setOnNewPostListener(NewPostListener newPostListener){
+        listener = newPostListener;
     }
 }

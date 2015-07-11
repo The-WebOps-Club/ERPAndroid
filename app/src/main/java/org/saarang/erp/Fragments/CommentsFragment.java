@@ -16,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Activities.CommentsActivity;
@@ -23,6 +26,7 @@ import org.saarang.erp.Adapters.CommentsAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPComment;
 import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.Connectivity;
@@ -57,7 +61,6 @@ public class CommentsFragment extends Fragment {
     AddComment addComment;
     int acknoNum;
     boolean noComments = false;
-    private static CommentsListener listener;
 
 
     // decide position according to number of people commented/ acknowledged is zero or not
@@ -170,10 +173,12 @@ public class CommentsFragment extends Fragment {
 
         ProgressDialog pDialog;
         String comment;
-        JSONObject json;
+        JSONObject json, jComment, jNewComment;
         ArrayList<PostParam> params;
         int status = 989;
         String newComments;
+        Gson gson = new Gson();
+        JSONArray jCommentsArray;
 
         @Override
         protected void onPreExecute() {
@@ -192,13 +197,25 @@ public class CommentsFragment extends Fragment {
             params.add(new PostParam("postId", postId));
             params.add(new PostParam("comment", comment));
             json = PostRequest.execute(URLConstants.URL_POST_COMMENT_ADD, params, ERPProfile.getERPUserToken(getActivity()));
+            Log.d(LOG_TAG, json.toString());
             try {
                 status = json.getInt("status");
-                if (status == 200){
-                    newComments = json.getJSONObject("data").getJSONArray("comments").toString();
-                    Log.d(LOG_TAG, "Comments " + newComments);
+                if (status/100 == 2){
+                    jComment = json.getJSONObject("data");
+                    JSONObject jComments = new JSONObject("{ \"comments\": " + comments + " }");
+                    jCommentsArray = jComments.getJSONArray("comments");
+                    ERPUser user = new ERPUser();
+                    user.set_id(ERPProfile.getERPUserId(getActivity()));
+                    user.setName(ERPProfile.getERPUserName(getActivity()));
+                    jNewComment = new JSONObject();
+                    jNewComment.put("_id", jComment.getString("_id"));
+                    jNewComment.put("info", jComment.getString("info"));
+                    jNewComment.put("createdOn", jComment.getString("createdOn"));
+                    jNewComment.put("createdBy", new JSONObject(gson.toJson(user)));
+                    jCommentsArray.put(jNewComment);
                     DatabaseHelper data = new DatabaseHelper(getActivity());
-                    data.updateComment(postId, newComments );
+                    data.updateComment(postId, jCommentsArray.toString() );
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -212,18 +229,9 @@ public class CommentsFragment extends Fragment {
             pDialog.dismiss();
             if (getActivity() == null) return;
             etComment.setText("");
-            if (status == 200){
-
-//                getActivity().getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .detach(newInstance(postId, "A", acknoNum))
-//                        .attach(newInstance(postId, "A", acknoNum))
-//                        .commit();
-
-                commentsList = ERPComment.getCommentsFromString(newComments);
-//                recyclerView.setLayoutManager(layoutManager);
-//                adapter = new CommentsAdapter(getActivity(), commentsList);
-//                recyclerView.setAdapter(adapter);
+            if (status/100 == 2){
+                commentsList = ERPComment.getCommentsFromString(jCommentsArray.toString());
+                adapter = new CommentsAdapter(getActivity(), commentsList);
                 if (noComments){
                     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     View view = inflater.inflate(R.layout.fr_comments, null);
@@ -233,9 +241,8 @@ public class CommentsFragment extends Fragment {
                     setUpView(view);
                     setRecycler(view);
                     noComments = false;
-                } else setRecycler(rootView);
-
-                if (listener!= null) listener.onCommentsAdded();
+                }
+                else setRecycler(rootView);
             }
         }
     }
@@ -245,14 +252,6 @@ public class CommentsFragment extends Fragment {
         super.onDestroy();
         if ( addComment!= null )
             addComment.cancel(true);
-    }
-
-    public interface CommentsListener{
-        void onCommentsAdded();
-    }
-
-    public static void setOnChangeListener(CommentsListener lis){
-        listener = lis;
     }
 
 }

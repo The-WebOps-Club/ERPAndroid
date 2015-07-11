@@ -3,7 +3,6 @@ package org.saarang.erp.Objects;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -176,11 +175,6 @@ public class ERPPost {
             for (int i = 0; i< jsonArray.length(); i++){
                 JSONObject post = jsonArray.getJSONObject(i);
                 String acknowledgment = post.getJSONArray("acknowledged").toString();
-                if (acknowledgment.contains(ERPProfile.getERPUserId(context))){
-                    Log.d("ERPPost", "Already acknowledged");
-                    Log.d("ERPPost", ERPProfile.getERPUserId(context));
-                    Log.d("ERPPost", acknowledgment);
-                }else Log.d("ERPPost", "Not acknowledged");
                 ERPWall wall = gson.fromJson(post.getJSONObject("wall").toString(), ERPWall.class);
                 ERPPost erpPost = new ERPPost(post.getString("_id"), post.getString("info"), post.getString("title"), post.getString("createdOn"),
                         wall, acknowledgment.contains(ERPProfile.getERPUserId(context)), post.getJSONArray("comments").toString(), acknowledgment,

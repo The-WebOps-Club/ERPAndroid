@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +14,22 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import org.saarang.erp.Activities.SinglePostActivity;
-import org.saarang.saarangsdk.Helpers.TimeHelper;
-import org.saarang.erp.Objects.ERPPostTemp;
+import org.saarang.erp.Objects.ERPNotification;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.URLConstants;
+import org.saarang.saarangsdk.Helpers.TimeHelper;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ahammad on 22/06/15.
  */
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolder> {
     Context mContext;
-    ArrayList<ERPPostTemp> mItems;
-    String notification_text;
+    List<ERPNotification> mItems;
+    String notification_text, postId;
 
-
-
-    public NotificationsAdapter(Context context,ArrayList<ERPPostTemp> items){
+    public NotificationsAdapter(Context context, List<ERPNotification> items){
         mContext=context;
         mItems=items;
     }
@@ -51,7 +48,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             tvNotification2=(TextView) itemView.findViewById(R.id.tvNotification2);
             ivNotification=(ImageView)itemView.findViewById(R.id.ivNotification);
             llNotifications = (LinearLayout)itemView.findViewById(R.id.llItemNotification);
-            intent = new Intent(mContext, SinglePostActivity.class);
         }
     }
 
@@ -62,22 +58,23 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     }
 
     @Override
-    public void onBindViewHolder(final NotificationsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final NotificationsAdapter.ViewHolder holder, final int position) {
 
+        postId = mItems.get(position).getPostId();
 
         // using html for setting color only for the name of posted person.
-        notification_text = "<font color = '#3F51B5'> " +mItems.get(position).getPostedBy() +" </font>"+ " " +
+        notification_text = "<font color = '#3F51B5'> " +mItems.get(position).getUser()[0].getName() +" </font>"+ " " +
                 mItems.get(position).getAction()
-                + "\nOn " + mItems.get(position).getWall() + " Wall";
+                + "ed on " + mItems.get(position).getWall().getName() + "'s wall";
 
         holder.tvNotification1.setText(Html.fromHtml(notification_text));
 
+        final String profilePicUrl = URLConstants.SERVER + "api/users/" + mItems.get(position).getUser()[0].get_id() + "/profilePic";
         Glide.with(mContext)
-                .load(mItems.get(position).getProfilePic())
+                .load(profilePicUrl)
                 .centerCrop()
                 .placeholder(R.drawable.ic_people)
                 .crossFade()
-                .skipMemoryCache(false)
                 .into(holder.ivNotification);
 
         TimeHelper th=new TimeHelper();
@@ -88,7 +85,9 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         holder.llNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(holder.intent);
+                Intent intent = new Intent(mContext, SinglePostActivity.class);
+                intent.putExtra(SinglePostActivity.EXTRA_POSTID, postId );
+                mContext.startActivity(intent);
             }
         });
     }
