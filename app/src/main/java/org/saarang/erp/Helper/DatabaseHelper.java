@@ -74,23 +74,6 @@ public class DatabaseHelper {
         return arrayList;
     }
 
-    public void markPostAsUpdated(String postId, String acknowledgment){
-        open();
-        ContentValues cv = new ContentValues();
-        cv.put(ERPPost.COLUMN_IF_ACKNOWLEDGED, 1);
-        cv.put(ERPPost.COLUMN_ACKNOWLEDGE, acknowledgment);
-        ourDatabase.update(ERPPost.TABLE_NAME, cv, ERPPost.COLUMN_POST_ID+" = ?", new String[]{postId});
-        close();
-    }
-
-    public void updateComment(String postId, String comment){
-        open();
-        ContentValues cv = new ContentValues();
-        cv.put(ERPPost.COLUMN_COMMENTS, comment);
-        ourDatabase.update(ERPPost.TABLE_NAME, cv, ERPPost.COLUMN_POST_ID+" = ?", new String[]{postId});
-        close();
-    }
-
     public List<ERPPost> getPostsFromWall (String wallId) {
         open();
         String[] columns = ERPPost.columns;
@@ -129,6 +112,25 @@ public class DatabaseHelper {
 
         return getAllPosts().get(0);
     }
+
+    public void markPostAsUpdated(String postId, String acknowledgment){
+        open();
+        ContentValues cv = new ContentValues();
+        cv.put(ERPPost.COLUMN_IF_ACKNOWLEDGED, 1);
+        cv.put(ERPPost.COLUMN_ACKNOWLEDGE, acknowledgment);
+        ourDatabase.update(ERPPost.TABLE_NAME, cv, ERPPost.COLUMN_POST_ID+" = ?", new String[]{postId});
+        close();
+    }
+
+    public void updateComment(String postId, String comment){
+        open();
+        ContentValues cv = new ContentValues();
+        cv.put(ERPPost.COLUMN_COMMENTS, comment);
+        ourDatabase.update(ERPPost.TABLE_NAME, cv, ERPPost.COLUMN_POST_ID+" = ?", new String[]{postId});
+        close();
+    }
+
+
 //    public long addTag(ContentValues cv){
 //        long id = ourDatabase.insert(DATABASE_TABLE, null, cv);
 //        return id;

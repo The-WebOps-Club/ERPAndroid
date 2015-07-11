@@ -31,10 +31,8 @@ public class CommentsActivity extends FragmentActivity {
         postId = getIntent().getStringExtra(EXTRA_POSTID);
 
 //        List<ERPComment> list = ERPComment.getCommentsFromString(comments);
-//
         DatabaseHelper data = new DatabaseHelper(this);
         acknowledgment = data.getAcknowledgment(postId);
-
 
         pageAdapter = new CommentsViewPagerAdapter(getSupportFragmentManager(), postId, acknowledgment);
         mpager=(NonSwipeableViewPager)findViewById(R.id.vpComments);

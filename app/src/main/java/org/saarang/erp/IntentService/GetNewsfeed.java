@@ -68,6 +68,8 @@ public class GetNewsfeed extends IntentService {
         // Mark that news feed is downloaded once
         SPUtils.setNewsFeedDownloadedOnce(this);
 
+
+
     }
 
 }

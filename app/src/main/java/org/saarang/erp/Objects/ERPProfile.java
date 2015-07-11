@@ -154,6 +154,12 @@ public class ERPProfile {
         Log.d(LOG_TAG,""+ editor);
     }
 
+    public static ERPUser getUserObject(Context context){
+        ERPUser user = new ERPUser();
+        user.set_id(ERPProfile.getERPUserId(context));
+        user.setName(ERPProfile.getERPUserName(context));
+        return user;
+    }
 
 
 
