@@ -7,6 +7,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.saarang.erp.Objects.ERPNotification;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.Utils.SPUtils;
@@ -40,7 +41,6 @@ public class GetNewsfeed extends IntentService {
             try {
                 // Make request
                 json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE + pageNumber, ERPProfile.getERPUserToken(this));
-                Log.d(LOG_TAG, ERPProfile.getERPUserToken(this));
                 Log.d(LOG_TAG, json.toString());
 
                 // Get status of the response
@@ -63,14 +63,28 @@ public class GetNewsfeed extends IntentService {
 
             } catch (JSONException e) {
                 status = 300;
-                return;
             }
+        }
+
+        try{
+            // Getting notifications
+            json = GetRequest.execute(URLConstants.URL_NOTIFICATIONS_FETCH,
+                    ERPProfile.getERPUserToken(this));
+
+            // Get status of the response
+            status = json.getInt("status");
+
+            // Extract posts from response
+            jsonArray = json.getJSONObject("data").getJSONArray("response");
+            Log.d(LOG_TAG, jsonArray.toString());
+            ERPNotification.saveNotifications(this, jsonArray);
+
+        } catch (JSONException e){
+            e.printStackTrace();
         }
 
         // Mark that news feed is downloaded once
         SPUtils.setNewsFeedDownloadedOnce(this);
-
-
 
     }
 
