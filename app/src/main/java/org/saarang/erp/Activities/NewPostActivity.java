@@ -1,6 +1,7 @@
 package org.saarang.erp.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -50,37 +51,45 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_new_post);
 
+        tvDep = (AutoCompleteTextView) findViewById(R.id.tvDeps);
+        etTitle = (EditText)findViewById(R.id.etTitle);
+        etBody = (EditText)findViewById(R.id.etBody);
+        bSubmit = (Button) findViewById(R.id.bSubmit);
+
+        Intent intent = getIntent();
+        if(intent.getStringExtra("wall") == null){
+            Gson gson = new Gson();
+            wallList = gson.fromJson( ERPProfile.getUserWalls(this), new TypeToken<List<ERPWall>>(){}.getType());
+
+            length = wallList.size();
+            departements = new String[length];
+            makeArray();
+
+            //Add array adapter for dropdown edit text
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, departements);
+
+            tvDep.setAdapter(adapter);
+
+            tvDep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus)
+                        tvDep.showDropDown();
+                }
+            });
+        }
+        else{
+            tvDep.setText(intent.getExtras().getString("wall"));
+            etTitle.setFocusable(true);
+            etTitle.requestFocus();
+        }
+
         Log.d("ARRAY", ERPProfile.getUserWalls(this));
         Toolbar tb = (Toolbar)findViewById(R.id.toolbarNewPost);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
 
-
-        Gson gson = new Gson();
-        wallList = gson.fromJson( ERPProfile.getUserWalls(this), new TypeToken<List<ERPWall>>(){}.getType());
-
-        length = wallList.size();
-        departements = new String[length];
-        makeArray();
-
-        //Add array adapter for dropdown edit text
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, departements);
-        tvDep = (AutoCompleteTextView) findViewById(R.id.tvDeps);
-        tvDep.setAdapter(adapter);
-
-        tvDep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
-                    tvDep.showDropDown();
-            }
-        });
-
-        etTitle = (EditText)findViewById(R.id.etTitle);
-        etBody = (EditText)findViewById(R.id.etBody);
-
-        bSubmit = (Button) findViewById(R.id.bSubmit);
         bSubmit.setOnClickListener(this);
 
     }
