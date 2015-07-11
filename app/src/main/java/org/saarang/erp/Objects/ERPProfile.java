@@ -29,6 +29,7 @@ public class ERPProfile {
     public static String spProfilePic = "spProfilePic";
     public static String spProfilePicId = "spProfilePicId";
     public static String spWalls = "spWalls";
+    public static String spHostel = "spHostel";
 
 
     String id, phoneNumber,alternateNumber, summerLocation, roomNumber, rollNumber, name;
@@ -46,6 +47,7 @@ public class ERPProfile {
             String roomNumber = user.getString("roomNumber");
             String rollNumber = user.getString("rollNumber");
             String name = user.getString("name");
+            String hostel = user.getString("hostel");
 
             SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -58,6 +60,7 @@ public class ERPProfile {
             editor.putString(spSummerLocation, summerLocation);
             editor.putString(spEmail, email);
             editor.putString(spRoomNumber, roomNumber);
+            editor.putString(spHostel, hostel);
             editor.commit();
 
         } catch (JSONException e) {
@@ -124,7 +127,10 @@ public class ERPProfile {
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spId, "");
     }
-
+    public static String getERPUserHostel(Context context){
+        SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        return pref.getString(spHostel,"");
+    }
     public static void setUserWalls(Context context, String walls){
         SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -136,6 +142,7 @@ public class ERPProfile {
         SharedPreferences pref = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
         return pref.getString(spWalls, "");
     }
+
 
     public static void saveUpdatedUser(Context context, ArrayList<PostParam> postData){
 
