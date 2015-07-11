@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.soundcloud.android.crop.Crop;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +50,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
     ProgressDialog pDialog;
     UpdateProfile updateProfile;
     String filePath;
+    boolean imageLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,25 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         tvContinue = (TextView) findViewById(R.id.tvContinue);
         tvChangeImage.setOnClickListener(this);
         ivProfilePic.setOnClickListener(this);
+
+        // Check for already set profile pic
+        final String profilePicUrl = URLConstants.SERVER + "api/users/" + ERPProfile.getERPUserId(this) + "/profilePic";
+        Picasso.with(this)
+                .load(profilePicUrl)
+                .placeholder(R.drawable.placeholder_profile)
+                .into(ivProfilePic, new Callback() {
+
+                    @Override
+                    public void onSuccess() {
+                        tvContinue.setTextColor(ProfilePictureActivity.this.getResources().getColor(R.color.white));
+                        tvContinue.setOnClickListener(ProfilePictureActivity.this);
+                        imageLoaded = true;
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
 
         // Check if profile picture is already set
         if (ERPProfile.getUserProfilePic(this) != ""){
@@ -105,6 +127,12 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
                 Crop.pickImage(ProfilePictureActivity.this);
                 break;
             case R.id.tvContinue:
+                if (imageLoaded){
+                    Intent intent = new Intent(ProfilePictureActivity.this, UpdateProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
                 updateProfile = new UpdateProfile();
                 updateProfile.execute();
                 break;

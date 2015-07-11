@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Activities.CommentsActivity;
+import org.saarang.erp.Activities.WallActivity;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
@@ -36,7 +37,7 @@ import java.util.List;
  * Created by Ahammad on 06/06/15.
  */
 
-public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>{
+public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
     Context mContext;
     List<ERPPost> mItems;
@@ -47,6 +48,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         mContext = context;
         mItems = items;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -66,6 +68,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             bAcknowledge = (Button) view.findViewById(R.id.bAcknowledge);
             mView = view.findViewById(android.R.id.content);
             tvPostDate= (TextView)view.findViewById(R.id.tvPostDate);
+
         }
     }
 
@@ -97,6 +100,28 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 .placeholder(R.drawable.ic_people)
                 .crossFade()
                 .into(holder.ivProfilePic);
+
+        /**
+         * Personal wall and dept wall
+         */
+        holder.tvWall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, WallActivity.class);
+                intent.putExtra(WallActivity.EXTRA_WALLID, mItems.get(position).getWall().get_id() );
+                intent.putExtra(WallActivity.EXTRA_WALL_NAME, mItems.get(position).getWall().getName() );
+                mContext.startActivity(intent);
+            }
+        });
+        holder.tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, WallActivity.class);
+                intent.putExtra(WallActivity.EXTRA_WALLID, mItems.get(position).getPostedBy().get_id());
+                intent.putExtra(WallActivity.EXTRA_WALL_NAME, mItems.get(position).getPostedBy().getName());
+                mContext.startActivity(intent);
+            }
+        });
 
         /**
          * Alert dialog with contact details
@@ -155,6 +180,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 }
             }
         });
+
     }
 
     private void markAsAcknowledged(Button bAcknowledge) {
@@ -194,4 +220,6 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             return true;
         }
     }
+
+
 }
