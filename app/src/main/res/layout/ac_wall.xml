@@ -14,30 +14,33 @@ android:layout_height="match_parent">
         <!--android:layout_height="wrap_content"-->
         <!--android:theme="@style/Base.Theme.DesignDemo">-->
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarWallActivity"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/indigo_color_primary"
-            android:titleTextAppearance="@color/white"
-            app:popupTheme="@style/Base.Theme.DesignDemo"
-            app:theme="@style/Base.Theme.DesignDemo"
-            app:layout_scrollFlags="scroll|enterAlways"
-            />
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbarWallActivity"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:background="@color/indigo_color_primary"-->
+            <!--android:titleTextAppearance="@color/white"-->
+            <!--app:popupTheme="@style/Base.Theme.DesignDemo"-->
+            <!--app:theme="@style/Base.Theme.DesignDemo"-->
+            <!--app:layout_scrollFlags="scroll|enterAlways"-->
+            <!--/>-->
 
 
     <!--</android.support.design.widget.AppBarLayout>-->
 
+<include layout="@layout/toolbar_wall"/>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvWallActivity"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:fastScrollAlwaysVisible="true"
                 android:fastScrollEnabled="true"
                 android:overScrollMode="always"
@@ -55,5 +58,6 @@ android:layout_height="match_parent">
         android:src="@drawable/ic_plus"
         app:borderWidth="0dp"
         />
+
 </LinearLayout>
 <!--</android.support.design.widget.CoordinatorLayout>-->

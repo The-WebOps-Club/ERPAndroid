@@ -59,6 +59,8 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
         ImageView ivProfilePic;
         Button bComment, bAcknowledge;
         View mView;
+        ImageView ivSend;
+
 
         ImageView ivCommentsProfilePic;
         TextView tvProfileName, tvComment, tvTime;
@@ -74,6 +76,9 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
             bAcknowledge = (Button) view.findViewById(R.id.bAcknowledge);
             mView = view.findViewById(android.R.id.content);
             tvPostDate= (TextView)view.findViewById(R.id.tvPostDate);
+            etComment = (EditText) view.findViewById(R.id.etComment);
+            ivSend = (ImageView) view.findViewById(R.id.ivSend);
+
 
             ivCommentsProfilePic =(ImageView)itemView.findViewById(R.id.ivComment);
             tvProfileName =(TextView)itemView.findViewById(R.id.tvComment1);
@@ -96,7 +101,7 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
 
         switch (viewType){
             case 0:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news_feed, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fr_single_post, parent, false);
                 break;
             case 1:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
@@ -120,14 +125,14 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
 
             holder.tvInfo.setText(mPost.getInfo());
             holder.tvWall.setText(mPost.getWall().getName());
-            holder.bComment.setText("Comment");
+//            holder.bComment.setText("Comment");
 
             final String profilePicUrl = URLConstants.SERVER + "api/users/" + mPost.getPostedBy().get_id() + "/profilePic";
             Glide.with(mContext)
                     .load(profilePicUrl)
                     .centerCrop()
                     .placeholder(R.drawable.ic_people)
-                    .crossFade()
+//                    .crossFade()
                     .into(holder.ivProfilePic);
 
             /**
@@ -159,24 +164,26 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
             /**
              * Alert dialog for comment
              */
-            holder.bComment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    LayoutInflater li = (LayoutInflater) mContext
-                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            holder.bComment.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    LayoutInflater li = (LayoutInflater) mContext
+//                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+//                    View dialoglayout = li.inflate(R.layout.include_new_comment, null);
+//                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+//                    final AlertDialog dialog = builder.create();
+//                    dialog.setView(dialoglayout);
+//                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+//                    dialog.show();
 
-                    View dialoglayout = li.inflate(R.layout.include_new_comment, null);
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    final AlertDialog dialog = builder.create();
-                    dialog.setView(dialoglayout);
-                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                    dialog.show();
+
+//                    ImageView ivSend = (ImageView) dialoglayout.findViewById(R.id.ivSend);
+//                    etComment = (EditText) dialoglayout.findViewById(R.id.etComment);
 
 
-                    ImageView ivSend = (ImageView) dialoglayout.findViewById(R.id.ivSend);
-                    etComment = (EditText) dialoglayout.findViewById(R.id.etComment);
 
-                    ivSend.setOnClickListener(new View.OnClickListener() {
+            holder.ivSend.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             if (Connectivity.isConnected()) {
@@ -188,11 +195,11 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
                             } else {
                                 Toast.makeText(mContext, mContext.getResources().getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                             }
-                            dialog.dismiss();
+                            etComment.setText("");
                         }
                     });
-                }
-            });
+//                }
+//            });
 
             if (mPost.isAcknowledged()){
                 markAsAcknowledged(holder.bAcknowledge);

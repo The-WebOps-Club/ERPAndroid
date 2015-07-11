@@ -21,32 +21,19 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="64dp"
             android:layout_height="64dp"
             android:gravity="center"
             android:background="#3F51B5"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="51"
-                android:id="@+id/textView"
-                android:layout_gravity="center"
-                android:textColor="#ffffff"
-                android:textSize="19sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Members"
-                android:id="@+id/textView4"
-                android:layout_gravity="center"
-                android:textColor="@color/white_color_primary_text"
-                android:textSize="13sp" />
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:id="@+id/imageView3"
+                android:src="@drawable/ic_circle"
+                android:scaleType="fitCenter" />
         </LinearLayout>
 
         <TextView
