@@ -47,7 +47,7 @@ dependencies {
     //Glide for memory managment of images
     compile 'com.github.bumptech.glide:glide:3.6.0'
     compile 'com.android.support:support-v4:21+'
-
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
 
 

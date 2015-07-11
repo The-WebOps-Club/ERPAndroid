@@ -50,7 +50,6 @@ import org.saarang.erp.Fragments.NewsFeedFragment;
 import org.saarang.erp.Fragments.NotificationsFragment;
 import org.saarang.erp.Fragments.PeopleFragment;
 import org.saarang.erp.Fragments.WallsFragment;
-import org.saarang.erp.IntentService.GetNewsfeed;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Services.RegistrationIntentService;
@@ -77,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Start service to download
-        Intent intentt = new Intent(this, GetNewsfeed.class);
-        startService(intentt);
+//        // Start service to download
+//        Intent intentt = new Intent(this, GetNewsfeed.class);
+//        startService(intentt);
 
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
