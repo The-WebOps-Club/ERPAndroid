@@ -35,6 +35,8 @@ public class GetNewsfeed extends IntentService {
         Log.d(LOG_TAG, " Started ");
 
         while (status == 200){
+            json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE+ pageNumber , ERPProfile.getERPUserToken(this));
+            Log.d(LOG_TAG, json.toString());
             try {
                 // Make request
                 json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE + pageNumber, ERPProfile.getERPUserToken(this));
