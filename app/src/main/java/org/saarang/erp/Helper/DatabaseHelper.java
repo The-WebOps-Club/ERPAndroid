@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.saarang.erp.Objects.ERPNotification;
 import org.saarang.erp.Objects.ERPPost;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class DatabaseHelper {
 
     private static final String DATABASE_NAME = "SaarangERP2016";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private DbHelper ourHelper;
     private final Context ourContext;
@@ -33,12 +34,14 @@ public class DatabaseHelper {
         public void onCreate(SQLiteDatabase db) {
             // TODO Auto-generated method stub _id INTEGER PRIMARY KEY
             db.execSQL(ERPPost.ERPNEWSFEED_CREATE_TABLE);
+            db.execSQL(ERPNotification.CREATE_TABLE);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             // TODO Auto-generated method stub
-            db.execSQL(" DROP TABLE IF EXISTS " + ERPPost.ERPNEWSFEED_CREATE_TABLE  );
+            db.execSQL(" DROP TABLE IF EXISTS " + ERPPost.TABLE_NAME  );
+            db.execSQL(" DROP TABLE IF EXISTS " + ERPNotification.TABLE_NAME  );
             onCreate(db);
         }
 
@@ -65,11 +68,27 @@ public class DatabaseHelper {
         return id;
     }
 
+    public long addNotification(ContentValues cv) {
+        open();
+        long id = ourDatabase.insert(ERPNotification.TABLE_NAME, null, cv);
+        close();
+        return id;
+    }
+
     public List<ERPPost> getAllPosts () {
         open();
         String[] columns = ERPPost.columns;
         Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, columns, null, null, null, null,  ERPPost.COLUMN_UPDATED + " DESC ");
         List<ERPPost> arrayList = ERPPost.getArrayList(c);
+        close();
+        return arrayList;
+    }
+
+    public List<ERPNotification> getAllNotifications () {
+        open();
+        String[] columns = ERPNotification.columns;
+        Cursor c = ourDatabase.query(ERPNotification.TABLE_NAME, columns, null, null, null, null,  ERPNotification.KEY_ROWID + " DESC ");
+        List<ERPNotification> arrayList = ERPNotification.getArrayList(c);
         close();
         return arrayList;
     }
@@ -84,6 +103,15 @@ public class DatabaseHelper {
         return arrayList;
     }
 
+    public ERPPost getPost (String postId) {
+        open();
+        String[] columns = ERPPost.columns;
+        Cursor c = ourDatabase.query(ERPPost.TABLE_NAME, columns, ERPPost.COLUMN_POST_ID + " LIKE ?", new String[]{ postId },
+                null, null,  ERPPost.COLUMN_UPDATED + " DESC ");
+        List<ERPPost> arrayList = ERPPost.getArrayList(c);
+        close();
+        return arrayList.get(0);
+    }
     public String getComments(String postId){
         String comment = " ";
         open();

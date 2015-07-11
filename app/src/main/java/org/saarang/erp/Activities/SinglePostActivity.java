@@ -34,8 +34,10 @@ public class SinglePostActivity extends AppCompatActivity {
     static RecyclerView rvSinglePost;
     static LinearLayoutManager layoutManager;
     static SinglePostAdapter adapter;
+    private String postId;
 
-
+    public static String EXTRA_POSTID = "postId";
+    private static String LOG_TAG = "SinglePostActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,13 @@ public class SinglePostActivity extends AppCompatActivity {
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
         mContext = this;
 
+        // Getting post
+        postId = getIntent().getExtras().getString(EXTRA_POSTID);
+        Log.d(LOG_TAG, postId);
+
         DatabaseHelper data = new DatabaseHelper(this);
-        post = data.getRandomPost();
+        post = data.getPost(postId);
+//        post = data.getRandomPost();
         commentsList = ERPComment.getCommentsFromString(post.getComments());
         Log.d("COMMENTS LIST", commentsList.toString());
 

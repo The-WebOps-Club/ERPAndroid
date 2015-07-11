@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.saarang.erp.Adapters.NotificationsAdapter;
-import org.saarang.erp.Objects.ERPPostTemp;
+import org.saarang.erp.Helper.DatabaseHelper;
+import org.saarang.erp.Objects.ERPNotification;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.DividerItemDecoration;
-import org.saarang.erp.Utils.RandomGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by aqel on 8/5/15.
@@ -24,7 +25,7 @@ public class NotificationsFragment extends Fragment {
     RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    ArrayList<ERPPostTemp> arrayList = new ArrayList<>();
+    List<ERPNotification> arrayList = new ArrayList<>();
 
 
     public NotificationsFragment() {
@@ -46,8 +47,11 @@ public class NotificationsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        DatabaseHelper data = new DatabaseHelper(getActivity());
+        arrayList = data.getAllNotifications();
+
 //        //Random dataset
-        arrayList = RandomGenerator.getRandomPosts(15);
+//        arrayList = RandomGenerator.getRandomPosts(15);
 
         adapter = new NotificationsAdapter(getActivity(), arrayList);
         recyclerView.setAdapter(adapter);
