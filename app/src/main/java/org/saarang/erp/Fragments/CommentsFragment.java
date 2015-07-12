@@ -106,7 +106,7 @@ public class CommentsFragment extends Fragment {
         ivNext=(ImageView)rootView.findViewById(R.id.ivNextPage);
         tvBack = (TextView) rootView.findViewById(R.id.bBack);
         ivSend = (ImageView) rootView.findViewById(R.id.ivSend);
-        etComment = (EditText) rootView.findViewById(R.id.etComment);
+        etComment = (EditText) rootView.findViewById(R.id.etCommentNew);
 
         //Number of people acknowledged
         if(acknoNum == 0)

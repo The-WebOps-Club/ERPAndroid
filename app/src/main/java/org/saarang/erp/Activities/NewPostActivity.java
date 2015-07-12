@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.Objects.ERPWall;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
@@ -40,11 +41,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     String id;
     ArrayList<ERPWall> wallList;
     Button bSubmit;
-    String title, body, department, departmentId;
+    String title, body, department, departmentId,info;
     CreateNewPost createNewPost;
     AutoCompleteTextView tvDep;
     private static String LOG_TAG = "NewPostActivity";
     private static NewPostListener listener;
+    Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +59,17 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         etBody = (EditText)findViewById(R.id.etBody);
         bSubmit = (Button) findViewById(R.id.bSubmit);
 
-        Intent intent = getIntent();
-        if(intent.getStringExtra("wall") == null){
-            Gson gson = new Gson();
-            wallList = gson.fromJson( ERPProfile.getUserWalls(this), new TypeToken<List<ERPWall>>(){}.getType());
+        intent = getIntent();
+        info = intent.getStringExtra("wall");
 
-            length = wallList.size();
-            departements = new String[length];
-            makeArray();
+        Gson gson = new Gson();
+        wallList = gson.fromJson( ERPProfile.getUserWalls(this), new TypeToken<List<ERPWall>>(){}.getType());
+
+        length = wallList.size();
+        departements = new String[length];
+        makeArray();
+
+        if(info == null){
 
             //Add array adapter for dropdown edit text
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, departements);
@@ -79,9 +85,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             });
         }
         else{
-            tvDep.setText(intent.getExtras().getString("wall"));
+            tvDep.setText(info);
             etTitle.setFocusable(true);
             etTitle.requestFocus();
+            departmentId = getId(info);
         }
 
         Log.d("ARRAY", ERPProfile.getUserWalls(this));
@@ -109,10 +116,26 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.bSubmit:
+//                Log.d(LOG_TAG, info);
+
                 title = etTitle.getText().toString();
                 body = etBody.getText().toString();
-                department = tvDep.getText().toString();
-                departmentId = getId(department);
+                if(info == null){
+                    department = tvDep.getText().toString();
+                    departmentId = getId(department);
+
+                }
+                else
+                {
+                    Log.d(LOG_TAG, info);
+                    department = info;
+                    if(department.equalsIgnoreCase(departements[0]))
+                        departmentId = ERPProfile.getERPUserId(this);
+                    else
+                        departmentId = getId(department);
+
+                }
+                Log.d(LOG_TAG, departmentId);
                 if ( title.isEmpty() || body.isEmpty() || departmentId.isEmpty() ){
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Invalid inputs");
                     return;
@@ -156,6 +179,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             Log.d(LOG_TAG, json.toString());
             try {
                 status = json.getInt("status");
+                Log.d(LOG_TAG, json.getJSONObject("data").toString());
                 jNewPost = json.getJSONObject("data");
                 jNewPost.put("createdBy",
                         new JSONObject(gson.toJson(ERPProfile.getUserObject(NewPostActivity.this))));

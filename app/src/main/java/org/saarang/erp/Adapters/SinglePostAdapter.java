@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -76,7 +75,6 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
             bAcknowledge = (Button) view.findViewById(R.id.bAcknowledge);
             mView = view.findViewById(android.R.id.content);
             tvPostDate= (TextView)view.findViewById(R.id.tvPostDate);
-            etComment = (EditText) view.findViewById(R.id.etComment);
             ivSend = (ImageView) view.findViewById(R.id.ivSend);
 
 
@@ -102,6 +100,7 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
         switch (viewType){
             case 0:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fr_single_post, parent, false);
+                etComment = (EditText) view.findViewById(R.id.etCommentNew);
                 break;
             case 1:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
@@ -160,27 +159,6 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
                     builder.show();
                 }
             });
-
-            /**
-             * Alert dialog for comment
-             */
-//            holder.bComment.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    LayoutInflater li = (LayoutInflater) mContext
-//                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//                    View dialoglayout = li.inflate(R.layout.include_new_comment, null);
-//                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-//                    final AlertDialog dialog = builder.create();
-//                    dialog.setView(dialoglayout);
-//                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-//                    dialog.show();
-
-
-//                    ImageView ivSend = (ImageView) dialoglayout.findViewById(R.id.ivSend);
-//                    etComment = (EditText) dialoglayout.findViewById(R.id.etComment);
-
 
 
             holder.ivSend.setOnClickListener(new View.OnClickListener() {
