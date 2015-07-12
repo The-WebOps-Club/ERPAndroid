@@ -47,7 +47,7 @@ public class SinglePostActivity extends AppCompatActivity {
     private static String comments;
     private static String postId;
     private static Intent intent;
-//    static View view;
+    static View view;
 
 
     public static String EXTRA_POSTID = "postId";
@@ -58,7 +58,7 @@ public class SinglePostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_single_post);
 
-//        view = findViewById(R.id.layout);
+        view = findViewById(R.id.layout);
         Toolbar tb = (Toolbar)findViewById(R.id.tbSinglePost);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -176,7 +176,7 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
             rvSinglePost.setAdapter(adapter);
             comments = jCommentsArray.toString();
         }
-//        showSnack(status);
+        showSnack(status);
     }
 }
 
@@ -186,12 +186,22 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
 
     }
 
-//    static void showSnack(int status){
-//        switch (status){
-//            default:
-//                UIUtils.showSnackBar(view, "There was an error connecting to our server. Please try again");
-//                break;
-//        }
-//    }
+    static void showSnack(int status){
+        switch (status){
+            case 500:
+                UIUtils.showSnackBar(view, "There was an error connecting to our server. Please try again");
+                break;
+            case 401:
+                UIUtils.showSnackBar(view, "You are not authorised to post on this wall");
+                break;
+            case 404:
+                UIUtils.showSnackBar(view, "There was an error connecting to our server. Please " +
+                        "check your internet connection and try again later");
+                break;
+            default:
+                UIUtils.showSnackBar(view, "There was an error connecting to our server. Please try again");
+                break;
+        }
+    }
 
 }

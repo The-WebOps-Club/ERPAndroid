@@ -166,8 +166,10 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
                         public void onClick(View view) {
                             if (Connectivity.isConnected()) {
                                 String comment = etComment.getText().toString();
-                                if (comment.isEmpty())
+                                if (comment.isEmpty()){
+                                    UIUtils.showSnackBar(view, "Please add some text in the comments field before sending");
                                     return;
+                                }
                                 final SinglePostActivity.AddComment addComment = new SinglePostActivity.AddComment();
                                 addComment.execute(comment);
                             } else {
