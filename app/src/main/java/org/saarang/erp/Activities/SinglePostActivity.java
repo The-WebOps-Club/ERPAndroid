@@ -2,6 +2,7 @@ package org.saarang.erp.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class SinglePostActivity extends AppCompatActivity {
     static SinglePostAdapter adapter;
     private static String comments;
     private static String postId;
+    private static Intent intent;
 
     public static String EXTRA_POSTID = "postId";
     private static String LOG_TAG = "SinglePostActivity";
@@ -59,11 +61,17 @@ public class SinglePostActivity extends AppCompatActivity {
         mContext = this;
 
         // Getting post
-        postId = getIntent().getExtras().getString(EXTRA_POSTID);
+        intent = getIntent();
+        postId = intent.getExtras().getString(EXTRA_POSTID);
         Log.d(LOG_TAG, postId);
 
+        //          Get the post from database
         DatabaseHelper data = new DatabaseHelper(this);
         post = data.getPost(postId);
+
+        //          Set title as the wall name
+        getSupportActionBar().setTitle(post.getWall().getName());
+
 //        post = data.getRandomPost();
         comments = post.getComments();
         commentsList = ERPComment.getCommentsFromString(comments);
@@ -102,6 +110,7 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
     String newComments;
     Gson gson = new Gson();
     JSONArray jCommentsArray;
+    List<ERPComment> newC;
 
     @Override
     protected void onPreExecute() {
@@ -152,10 +161,12 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
         if (mContext == null)
             return;
         if (status/100 == 2){
-            commentsList = ERPComment.getCommentsFromString(jCommentsArray.toString());
+            newC = ERPComment.getCommentsFromString(jCommentsArray.toString());
+            commentsList.addAll(newC);
             rvSinglePost.setLayoutManager(layoutManager);
             adapter = new SinglePostAdapter(mContext, post, commentsList);
             rvSinglePost.setAdapter(adapter);
+
         }
     }
 }

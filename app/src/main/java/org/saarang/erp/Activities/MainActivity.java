@@ -154,16 +154,19 @@ public class MainActivity extends AppCompatActivity {
             setupViewPager(viewPager);
         }
 
+        //          Intent to goto new post
         final Intent intentPost = new Intent(this, NewPostActivity.class);
+
+        //          Initialize the button for new post
         ImageButton ibPlus = (ImageButton)findViewById(R.id.ibPlus);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
+
+        //          Set listener for new post button
         ibPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Pained", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 startActivity(intentPost);
             }
         });
@@ -202,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
 //                mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_logout:
+                //          Start the logout method
                 logout(item);
         }
         return super.onOptionsItemSelected(item);

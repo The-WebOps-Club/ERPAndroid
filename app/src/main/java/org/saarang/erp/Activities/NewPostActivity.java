@@ -105,6 +105,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
+                //          close activity on back
                 finish();
                 return true;
             }
@@ -116,7 +117,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.bSubmit:
-//                Log.d(LOG_TAG, info);
 
                 title = etTitle.getText().toString();
                 body = etBody.getText().toString();
@@ -135,7 +135,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                         departmentId = getId(department);
 
                 }
-//                Log.d(LOG_TAG, departmentId);
                 if ( title.isEmpty() || body.isEmpty() || departmentId.isEmpty() ){
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Invalid inputs");
                     return;
