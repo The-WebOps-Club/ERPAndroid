@@ -20,17 +20,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -50,7 +46,6 @@ import com.squareup.picasso.Picasso;
 
 import org.saarang.erp.Fragments.NewsFeedFragment;
 import org.saarang.erp.Fragments.NotificationsFragment;
-import org.saarang.erp.Fragments.PeopleFragment;
 import org.saarang.erp.Fragments.WallsFragment;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
@@ -172,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -207,6 +202,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_logout:
                 //          Start the logout method
                 logout(item);
+//            case android.R.id.home:
+//                mDrawerLayout.openDrawer(GravityCompat.START);
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -214,9 +212,10 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new NewsFeedFragment(), "News Feed");
-        adapter.addFragment(new NotificationsFragment(), "Notifications");
+//        adapter.addFragment(new NotificationsFragment(), "Notifications");
+        adapter.addFragment(new NotificationsFragment(), "Notification");
         adapter.addFragment(new WallsFragment(), "Walls");
-        adapter.addFragment(new PeopleFragment(), "People");
+//        adapter.addFragment(new PeopleFragment(), "People");
         viewPager.setAdapter(adapter);
     }
 
