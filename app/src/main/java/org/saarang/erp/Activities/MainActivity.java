@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -43,7 +42,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -53,7 +51,6 @@ import org.saarang.erp.Fragments.NewsFeedFragment;
 import org.saarang.erp.Fragments.NotificationsFragment;
 import org.saarang.erp.Fragments.PeopleFragment;
 import org.saarang.erp.Fragments.WallsFragment;
-import org.saarang.erp.IntentService.GetNewsfeed;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Services.RegistrationIntentService;
@@ -82,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 //        // Start service to download
-        Intent intentt = new Intent(this, GetNewsfeed.class);
-        startService(intentt);
+//        Intent intentt = new Intent(this, GetNewsfeed.class);
+//        startService(intentt);
 
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
