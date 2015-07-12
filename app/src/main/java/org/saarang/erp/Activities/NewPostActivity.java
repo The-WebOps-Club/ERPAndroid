@@ -135,7 +135,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                         departmentId = getId(department);
 
                 }
-                Log.d(LOG_TAG, departmentId);
+//                Log.d(LOG_TAG, departmentId);
                 if ( title.isEmpty() || body.isEmpty() || departmentId.isEmpty() ){
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Invalid inputs");
                     return;
