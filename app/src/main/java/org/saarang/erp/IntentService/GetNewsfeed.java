@@ -87,6 +87,23 @@ public class GetNewsfeed extends IntentService {
             e.printStackTrace();
         }
 
+        // Getting users
+        try{
+            json = GetRequest.execute(URLConstants.URL_NOTIFICATIONS_FETCH,
+                    ERPProfile.getERPUserToken(this));
+
+            // Get status of the response
+            status = json.getInt("status");
+
+            // Extract posts from response
+            jsonArray = json.getJSONObject("data").getJSONArray("response");
+            Log.d(LOG_TAG, jsonArray.toString());
+
+
+        } catch (JSONException e){
+
+        }
+
         // Mark that news feed is downloaded once
         SPUtils.setNewsFeedDownloadedOnce(this);
 
