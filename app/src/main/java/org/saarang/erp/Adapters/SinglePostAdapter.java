@@ -209,7 +209,7 @@ public class SinglePostAdapter extends RecyclerView.Adapter<SinglePostAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     if (Connectivity.isConnected()){
-                        new AcknowledgePost().execute( mPost.getPostId() );
+                        new AcknowledgePost().execute( mPost.getPostId(), mPost.getAcknowledge() );
                         markAsAcknowledged(holder.bAcknowledge);
                     }
                     else{
