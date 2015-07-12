@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.Objects.ERPWall;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
@@ -128,8 +129,12 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 {
                     Log.d(LOG_TAG, info);
                     department = info;
+                    if(department.equalsIgnoreCase(departements[0]))
+                        departmentId = ERPProfile.getERPUserId(this);
+                    else
+                        departmentId = getId(department);
+
                 }
-                departmentId = getId(department);
                 Log.d(LOG_TAG, departmentId);
                 if ( title.isEmpty() || body.isEmpty() || departmentId.isEmpty() ){
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Invalid inputs");
