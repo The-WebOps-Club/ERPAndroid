@@ -40,6 +40,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -138,10 +139,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         final Intent intentPost = new Intent(this, NewPostActivity.class);
+        ImageButton ibPlus = (ImageButton)findViewById(R.id.ibPlus);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
-        fab.setOnClickListener(new View.OnClickListener() {
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
+        ibPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Snackbar.make(view, "Pained", Snackbar.LENGTH_LONG)
@@ -173,8 +175,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu_ac_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

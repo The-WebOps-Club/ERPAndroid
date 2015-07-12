@@ -109,8 +109,10 @@ public class SinglePostActivity extends AppCompatActivity {
             json = PostRequest.execute(URLConstants.URL_POST_COMMENT_ADD, params, ERPProfile.getERPUserToken(mContext));
             try {
                 status = json.getInt("status");
-                if (status == 200){
+                Log.d(LOG_TAG, Integer.toString(status));
+                if (status/100 == 2){
                     newComments = json.getJSONObject("data").getJSONArray("comments").toString();
+                    Log.d(LOG_TAG ,newComments);
                     DatabaseHelper data = new DatabaseHelper(mContext);
                     data.updateComment(post.getPostId(), newComments );
                 }
@@ -126,7 +128,7 @@ public class SinglePostActivity extends AppCompatActivity {
             if (mContext == null)
                 return;
             //etComment.setText("");
-            if (status == 200){
+            if (status/100 == 2){
                 commentsList = ERPComment.getCommentsFromString(newComments);
                 rvSinglePost.setLayoutManager(layoutManager);
                 adapter = new SinglePostAdapter(mContext, post, commentsList);
