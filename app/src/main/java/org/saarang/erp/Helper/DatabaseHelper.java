@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import org.saarang.erp.Objects.ERPNotification;
 import org.saarang.erp.Objects.ERPPost;
+import org.saarang.erp.Objects.ERPUser;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class DatabaseHelper {
 
     private static final String DATABASE_NAME = "SaarangERP2016";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private DbHelper ourHelper;
     private final Context ourContext;
@@ -35,6 +36,7 @@ public class DatabaseHelper {
             // TODO Auto-generated method stub _id INTEGER PRIMARY KEY
             db.execSQL(ERPPost.ERPNEWSFEED_CREATE_TABLE);
             db.execSQL(ERPNotification.CREATE_TABLE);
+            db.execSQL(ERPUser.CREATE_TABLE);
         }
 
         @Override
@@ -42,6 +44,7 @@ public class DatabaseHelper {
             // TODO Auto-generated method stub
             db.execSQL(" DROP TABLE IF EXISTS " + ERPPost.TABLE_NAME  );
             db.execSQL(" DROP TABLE IF EXISTS " + ERPNotification.TABLE_NAME  );
+            db.execSQL(" DROP TABLE IF EXISTS " + ERPUser.TABLE_NAME  );
             onCreate(db);
         }
 
@@ -71,6 +74,13 @@ public class DatabaseHelper {
     public long addNotification(ContentValues cv) {
         open();
         long id = ourDatabase.insert(ERPNotification.TABLE_NAME, null, cv);
+        close();
+        return id;
+    }
+
+    public long addUser(ContentValues cv) {
+        open();
+        long id = ourDatabase.insert(ERPUser.TABLE_NAME, null, cv);
         close();
         return id;
     }
@@ -112,6 +122,7 @@ public class DatabaseHelper {
         close();
         return arrayList.get(0);
     }
+
     public String getComments(String postId){
         String comment = " ";
         open();
@@ -134,6 +145,16 @@ public class DatabaseHelper {
         }
         close();
         return comment;
+    }
+
+    public ERPUser getUser(String userId) {
+        open();
+        String[] columns = ERPUser.columns;
+        Cursor c = ourDatabase.query(ERPUser.TABLE_NAME, columns, ERPUser.COLUMN_USERID + " LIKE ?",
+                new String[]{ userId }, null, null,  null);
+        ERPUser user = ERPUser.parseUserFromCV(c);
+        close();
+        return user;
     }
 
     public ERPPost getRandomPost(){

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import org.saarang.erp.Activities.WallActivity;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -29,6 +31,7 @@ import org.saarang.saarangsdk.Helpers.TimeHelper;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
+import org.saarang.saarangsdk.Utils.SaarangIntents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,8 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     Context mContext;
     List<ERPPost> mItems;
     TimeHelper th=new TimeHelper();
+    String phoneNumber;
+    String email;
     private static String LOG_TAG = "NewsFeedAdapter";
 
     public NewsFeedAdapter(Context context, List<ERPPost> items) {
@@ -131,13 +136,49 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             public void onClick(View view) {
                 LayoutInflater li = (LayoutInflater) mContext
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+                DatabaseHelper data = new DatabaseHelper(mContext);
+                ERPUser user = data.getUser(mItems.get(position).getPostedBy().get_id());
+                email = user.getEmail();
+                phoneNumber = user.getPhoneNumber();
                 View dialoglayout = li.inflate(R.layout.alert_profile_dialog, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setView(dialoglayout);
                 ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
+
+                // Name text
                 TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
                 tvName.setText(mItems.get(position).getPostedBy().getName());
+
+                // Call button
+                ImageButton ibCall = (ImageButton) dialoglayout.findViewById(R.id.ibCall);
+                ibCall.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SaarangIntents.call(mContext, phoneNumber);
+                    }
+                });
+
+                // Mail button
+                ImageButton ibMail = (ImageButton) dialoglayout.findViewById(R.id.ibMail);
+                ibMail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SaarangIntents.email(mContext, email);
+                    }
+                });
+
+                // Profile button
+                ImageButton ibProfile = (ImageButton) dialoglayout.findViewById(R.id.ibProfile);
+                ibProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext, WallActivity.class);
+                        intent.putExtra(WallActivity.EXTRA_WALLID, mItems.get(position).getPostedBy().get_id());
+                        intent.putExtra(WallActivity.EXTRA_WALL_NAME, mItems.get(position).getPostedBy().getName());
+                        mContext.startActivity(intent);
+                    }
+                });
+
                 Glide.with(mContext)
                         .load(profilePicUrl)
                         .centerCrop()

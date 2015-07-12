@@ -4,12 +4,15 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPNotification;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.GetRequest;
@@ -89,7 +92,7 @@ public class GetNewsfeed extends IntentService {
 
         // Getting users
         try{
-            json = GetRequest.execute(URLConstants.URL_NOTIFICATIONS_FETCH,
+            json = GetRequest.execute(URLConstants.URL_PEOPLE_FETCH_ALL,
                     ERPProfile.getERPUserToken(this));
 
             // Get status of the response
@@ -97,9 +100,18 @@ public class GetNewsfeed extends IntentService {
 
             // Extract posts from response
             jsonArray = json.getJSONObject("data").getJSONArray("response");
-            Log.d(LOG_TAG, jsonArray.toString());
+            Log.d(LOG_TAG, "Users " +  jsonArray.toString());
 
-
+            if (status/100 == 2){
+                JSONObject jUser;
+                ERPUser user;
+                Gson gson = new Gson();
+                for (int i = 0; i < jsonArray.length(); i++){
+                    jUser = jsonArray.getJSONObject(i);
+                    user = gson.fromJson(jUser.toString(), ERPUser.class);
+                    user.saveUser(this);
+                }
+            }
         } catch (JSONException e){
 
         }

@@ -1,6 +1,12 @@
 package org.saarang.erp.Objects;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+
+import com.google.gson.Gson;
+
+import org.saarang.erp.Helper.DatabaseHelper;
 
 /**
  * Created by Ahammad on 02/07/15.
@@ -26,7 +32,7 @@ public class ERPUser {
     public static String COLUMN_ROLLNUMBER = "rollNumber";
     public static String COLUMN_NAME = "name";
 
-    public static String ERPNEWSFEED_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
+    public static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
             KEY_ROWID + " INTEGER " + " PRIMARY KEY , " +
             COLUMN_USERID + " TEXT NOT NULL UNIQUE ON CONFLICT REPLACE , " +
             COLUMN_DEPT + " TEXT  , " +
@@ -47,11 +53,27 @@ public class ERPUser {
             COLUMN_ROLE, COLUMN_EMAIL, COLUMN_ROOMNUMBER, COLUMN_ROLLNUMBER, COLUMN_NAME
     };
 
-    public ContentValues getCV(){
-        ContentValues cv = new ContentValues();
 
+
+    public ContentValues getCV(){
+        Gson gson = new Gson();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_USERID, _id);
+        cv.put(COLUMN_DEPT, gson.toJson(dept) );
+        cv.put(COLUMN_SUBDEPT, gson.toJson(subDept) );
+        cv.put(COLUMN_PHONENUMBER, phoneNumber);
+        cv.put(COLUMN_ALTPHONENUMBER, alternateNumber);
+        cv.put(COLUMN_SUMMER_LOCATION, summerLocation);
+        cv.put(COLUMN_CITY, city);
+        cv.put(COLUMN_ROLE, role);
+        cv.put(COLUMN_EMAIL, email);
+        cv.put(COLUMN_ROOMNUMBER, roomNumber);
+        cv.put(COLUMN_ROLLNUMBER, rollNumber);
+        cv.put(COLUMN_NAME, name);
         return cv;
     }
+
+
 
 
 
@@ -153,5 +175,25 @@ public class ERPUser {
 
 
 
+    public void saveUser(Context context) {
+        DatabaseHelper data = new DatabaseHelper(context);
+        data.addUser(getCV());
+    }
 
+//    public static String[] columns = {KEY_ROWID, COLUMN_USERID, COLUMN_DEPT , 3COLUMN_SUBDEPT,
+//            COLUMN_PHONENUMBER, COLUMN_ALTPHONENUMBER, COLUMN_SUMMER_LOCATION, COLUMN_CITY ,
+//            COLUMN_ROLE, COLUMN_EMAIL, COLUMN_ROOMNUMBER, COLUMN_ROLLNUMBER, COLUMN_NAME
+//    }
+    public static ERPUser parseUserFromCV(Cursor c) {
+        ERPUser user = new ERPUser();
+        Gson gson = new Gson();
+        while (c.moveToNext()){
+            user.set_id(c.getString(1));
+            user.setDept(gson.fromJson(c.getString(2), ERPWall[].class));
+            user.setSubDept(gson.fromJson(c.getString(3), ERPWall[].class));
+            user.setPhoneNumber(c.getString(4));
+            user.setEmail(c.getString(9));
+        }
+        return user;
+    }
 }
