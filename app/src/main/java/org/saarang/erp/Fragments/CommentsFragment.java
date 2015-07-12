@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -142,6 +143,15 @@ public class CommentsFragment extends Fragment {
                     if (comment.isEmpty()) return;
                     addComment = new AddComment();
                     addComment.execute(comment);
+
+                    // Hide keyboard
+                    View v = getActivity().getCurrentFocus();
+                    if (v != null) {
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    }
+
                 }else {
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                 }
@@ -220,7 +230,6 @@ public class CommentsFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.d(LOG_TAG, json.toString());
             return null;
         }
 
