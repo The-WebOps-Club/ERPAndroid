@@ -28,6 +28,7 @@ import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
@@ -46,6 +47,8 @@ public class SinglePostActivity extends AppCompatActivity {
     private static String comments;
     private static String postId;
     private static Intent intent;
+//    static View view;
+
 
     public static String EXTRA_POSTID = "postId";
     private static String LOG_TAG = "SinglePostActivity";
@@ -54,11 +57,15 @@ public class SinglePostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_single_post);
+
+//        view = findViewById(R.id.layout);
         Toolbar tb = (Toolbar)findViewById(R.id.tbSinglePost);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
         mContext = this;
+
+
 
         // Getting post
         intent = getIntent();
@@ -69,10 +76,12 @@ public class SinglePostActivity extends AppCompatActivity {
         DatabaseHelper data = new DatabaseHelper(this);
         post = data.getPost(postId);
 
+//        post = data.getRandomPost();
+//        postId = post.getPostId();
+
         //          Set title as the wall name
         getSupportActionBar().setTitle(post.getWall().getName());
 
-//        post = data.getRandomPost();
         comments = post.getComments();
         commentsList = ERPComment.getCommentsFromString(comments);
         Log.d("COMMENTS LIST", commentsList.toString());
@@ -161,13 +170,19 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
         if (mContext == null)
             return;
         if (status/100 == 2){
+            Log.d("BEFORE", commentsList.toString());
             newC = ERPComment.getCommentsFromString(jCommentsArray.toString());
+            Log.d("ADDING", newC.toString());
             commentsList.addAll(newC);
+            Log.d("AFTER", commentsList.toString());
+//            DatabaseHelper data = new DatabaseHelper(mContext);
+//            commentsList = ERPComment.getCommentsFromString(data.getComments(postId));
             rvSinglePost.setLayoutManager(layoutManager);
             adapter = new SinglePostAdapter(mContext, post, commentsList);
             rvSinglePost.setAdapter(adapter);
 
         }
+//        showSnack(status);
     }
 }
 
@@ -176,5 +191,13 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
         super.onDestroy();
 
     }
+
+//    static void showSnack(int status){
+//        switch (status){
+//            default:
+//                UIUtils.showSnackBar(view, "There was an error connecting to our server. Please try again");
+//                break;
+//        }
+//    }
 
 }
