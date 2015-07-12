@@ -9,5 +9,7 @@ public class AppConstants {
     //GCM
     public static String GCM_SENDER_ID = "474817103638";
 
-    public static String[] departments = {"Design & Media","Events","Facilities & Requirements","Finance","Hospitality","Marketing & Ticket Sales","Professional Shows","Publicity","QMS","Safety & Security","Sponsorship & PR","WebOps"};
+    public static String[] departments = {"Design & Media","Events","Facilities & Requirements",
+            "Finance","Hospitality","Marketing & Ticket Sales","Professional Shows","Publicity",
+            "QMS","Safety & Security","Sponsorship & PR","WebOps"};
 }

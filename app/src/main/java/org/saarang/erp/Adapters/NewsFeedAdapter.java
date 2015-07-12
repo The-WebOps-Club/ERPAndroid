@@ -9,12 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +22,6 @@ import org.saarang.erp.Activities.WallActivity;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
-import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -32,7 +29,6 @@ import org.saarang.saarangsdk.Helpers.TimeHelper;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
-import org.saarang.saarangsdk.Utils.SaarangIntents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +43,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     List<ERPPost> mItems;
     TimeHelper th=new TimeHelper();
     private static String LOG_TAG = "NewsFeedAdapter";
-    String email,phoneNumber;
-
+    String email, phoneNumber;
 
     public NewsFeedAdapter(Context context, List<ERPPost> items) {
         mContext = context;
@@ -62,7 +57,6 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         ImageView ivProfilePic;
         Button bComment, bAcknowledge;
         View mView;
-
 
         public ViewHolder(View view) {
             super(view);
@@ -101,12 +95,12 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.tvWall.setText(mItems.get(position).getWall().getName());
 
         final String profilePicUrl = URLConstants.SERVER + "api/users/" + mItems.get(position).getPostedBy().get_id() + "/profilePic";
-        /*Glide.with(mContext)
-                .load(profilePicUrl)
-                .centerCrop()
-                .placeholder(R.drawable.ic_people)
-                .crossFade()
-                .into(holder.ivProfilePic);*/
+//        Glide.with(mContext)
+//                .load(profilePicUrl)
+//                .centerCrop()
+//                .placeholder(R.drawable.ic_people)
+//                .crossFade()
+//                .into(holder.ivProfilePic);*/
 
         Picasso.with(mContext)
                 .load(profilePicUrl)
@@ -186,12 +180,12 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                     }
                 });
 
-                /*Glide.with(mContext)
-                        .load(profilePicUrl)
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_people)
-                        .crossFade()
-                        .into(imageView);*/
+//                Glide.with(mContext)
+//                        .load(profilePicUrl)
+//                        .centerCrop()
+//                        .placeholder(R.drawable.ic_people)
+//                        .crossFade()
+//                        .into(imageView);*/
                 Picasso.with(mContext)
                         .load(profilePicUrl)
                         .placeholder(R.drawable.ic_people)
