@@ -75,8 +75,12 @@ public class WallActivity extends AppCompatActivity implements SwipeRefreshLayou
         ibNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intentPost.putExtra("wall", wallName);
-                startActivity(intentPost);
+//                intentPost.putExtra("wall", wallName);
+//                startActivity(intentPost);
+                Intent intent = new Intent(WallActivity.this, NewPostActivity.class);
+                intent.putExtra(NewPostActivity.EXTRA_WALLNAME, wallName);
+                intent.putExtra(NewPostActivity.EXTRA_WALLID, postId);
+                startActivity(intent);
             }
         });
 

@@ -21,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
-import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.Objects.ERPWall;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
@@ -41,12 +40,15 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     String id;
     ArrayList<ERPWall> wallList;
     Button bSubmit;
-    String title, body, department, departmentId,info;
+    String title, body, department="", departmentId="", info = null;
     CreateNewPost createNewPost;
     AutoCompleteTextView tvDep;
     private static String LOG_TAG = "NewPostActivity";
     private static NewPostListener listener;
     Intent intent;
+    public static String EXTRA_WALLNAME = "wallName";
+    public static String EXTRA_WALLID = "wallId";
+    boolean extraAvailable = false;
 
 
     @Override
@@ -60,7 +62,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         bSubmit = (Button) findViewById(R.id.bSubmit);
 
         intent = getIntent();
-        info = intent.getStringExtra("wall");
+        if (intent.getExtras() != null){
+            department = intent.getStringExtra(EXTRA_WALLNAME);
+            departmentId = intent.getStringExtra(EXTRA_WALLID);
+            extraAvailable = true;
+            Log.d(LOG_TAG, department);
+            Log.d(LOG_TAG, departmentId);
+        }
 
         Gson gson = new Gson();
         wallList = gson.fromJson( ERPProfile.getUserWalls(this), new TypeToken<List<ERPWall>>(){}.getType());
@@ -69,7 +77,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         departements = new String[length];
         makeArray();
 
-        if(info == null){
+        if(!extraAvailable){
 
             //Add array adapter for dropdown edit text
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, departements);
@@ -83,12 +91,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                         tvDep.showDropDown();
                 }
             });
-        }
-        else{
-            tvDep.setText(info);
+        } else{
+            tvDep.setText(department);
             etTitle.setFocusable(true);
             etTitle.requestFocus();
-            departmentId = getId(info);
         }
 
         Log.d("ARRAY", ERPProfile.getUserWalls(this));
@@ -120,22 +126,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
                 title = etTitle.getText().toString();
                 body = etBody.getText().toString();
-                if(info == null){
+                if(!extraAvailable){
                     department = tvDep.getText().toString();
                     departmentId = getId(department);
-
                 }
-                else
-                {
-                    Log.d(LOG_TAG, info);
-                    department = info;
-                    if(department.equalsIgnoreCase(departements[0]))
-                        departmentId = ERPProfile.getERPUserId(this);
-                    else
-                        departmentId = getId(department);
-
-                }
-                Log.d(LOG_TAG, departmentId);
                 if ( title.isEmpty() || body.isEmpty() || departmentId.isEmpty() ){
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Invalid inputs");
                     return;

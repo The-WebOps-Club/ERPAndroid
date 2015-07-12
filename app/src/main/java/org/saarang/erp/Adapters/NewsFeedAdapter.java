@@ -5,14 +5,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +24,7 @@ import org.saarang.erp.Activities.WallActivity;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -29,6 +32,7 @@ import org.saarang.saarangsdk.Helpers.TimeHelper;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
+import org.saarang.saarangsdk.Utils.SaarangIntents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -250,6 +254,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 ArrayList<PostParam> param = new ArrayList<>();
                 param.add(new PostParam("a", "Asd"));
                 jsonObject = PostRequest.execute(URLConstants.URL_POST_ACKNOWLEDGE + params[0], param, ERPProfile.getERPUserToken(mContext));
+                Log.d(LOG_TAG, jsonObject.toString());
                 if (jsonObject.getInt("status") == 200){
                     DatabaseHelper data = new DatabaseHelper(mContext);
                     JSONArray jsonArray = new JSONArray(params[1]);
