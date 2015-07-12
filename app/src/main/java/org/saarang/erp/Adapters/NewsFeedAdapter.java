@@ -99,6 +99,11 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 .centerCrop()
                 .placeholder(R.drawable.ic_people)
                 .crossFade()
+                .into(holder.ivProfilePic);*/
+
+        Picasso.with(mContext)
+                .load(profilePicUrl)
+                .placeholder(R.drawable.ic_people)
                 .into(holder.ivProfilePic);
 
         /**
@@ -131,18 +136,58 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             public void onClick(View view) {
                 LayoutInflater li = (LayoutInflater) mContext
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+                DatabaseHelper data = new DatabaseHelper(mContext);
+                ERPUser user = data.getUser(mItems.get(position).getPostedBy().get_id());
+                email = user.getEmail();
+                phoneNumber = user.getPhoneNumber();
                 View dialoglayout = li.inflate(R.layout.alert_profile_dialog, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setView(dialoglayout);
                 ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
+
+                // Name text
                 TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
                 tvName.setText(mItems.get(position).getPostedBy().getName());
+
+                // Call button
+                ImageButton ibCall = (ImageButton) dialoglayout.findViewById(R.id.ibCall);
+                ibCall.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SaarangIntents.call(mContext, phoneNumber);
+                    }
+                });
+
+                // Mail button
+                ImageButton ibMail = (ImageButton) dialoglayout.findViewById(R.id.ibMail);
+                ibMail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SaarangIntents.email(mContext, email);
+                    }
+                });
+
+                // Profile button
+                ImageButton ibProfile = (ImageButton) dialoglayout.findViewById(R.id.ibProfile);
+                ibProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext, WallActivity.class);
+                        intent.putExtra(WallActivity.EXTRA_WALLID, mItems.get(position).getPostedBy().get_id());
+                        intent.putExtra(WallActivity.EXTRA_WALL_NAME, mItems.get(position).getPostedBy().getName());
+                        mContext.startActivity(intent);
+                    }
+                });
+
                 Glide.with(mContext)
                         .load(profilePicUrl)
                         .centerCrop()
                         .placeholder(R.drawable.ic_people)
                         .crossFade()
+                        .into(imageView);*/
+                Picasso.with(mContext)
+                        .load(profilePicUrl)
+                        .placeholder(R.drawable.ic_people)
                         .into(imageView);
 
                 builder.show();

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <permission
         android:name="com.example.gcm.permission.C2D_MESSAGE"
@@ -40,6 +41,13 @@
             android:label="@string/title_activity_update_profile" >
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity
+            android:name=".Activities.PeopleActivity"
+            android:label="People" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main" >
