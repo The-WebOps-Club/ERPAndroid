@@ -42,6 +42,13 @@
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
+            android:name=".Activities.PeopleActivity"
+            android:label="People" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+        <activity
             android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
