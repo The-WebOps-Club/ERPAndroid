@@ -59,7 +59,11 @@ public class GetNewsfeed extends IntentService {
                 // Save time of oldest post to SP
                 SPUtils.setOldestPostDate(this, json.getJSONObject("data").getJSONArray("response").getJSONObject(jsonArray.length() - 1).getString("updatedOn"));
 
+                // Go to next page
                 pageNumber++;
+
+                // Set time of last update
+                SPUtils.setLastUpdateTime(this, System.currentTimeMillis());
 
             } catch (JSONException e) {
                 status = 300;
