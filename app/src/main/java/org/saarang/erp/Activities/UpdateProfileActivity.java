@@ -77,7 +77,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this,R.array.hostels,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spHostels.setAdapter(adapter);
-
+        spHostels.setSelection(adapter.getPosition(ERPProfile.getERPUserHostel(UpdateProfileActivity.this)));
 
         Button bUpdate = (Button)findViewById(R.id.bUpdate);
 
