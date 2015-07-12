@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +34,8 @@ import org.saarang.saarangsdk.Objects.PostParam;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.security.auth.callback.Callback;
 
 /**
  * Created by Ahammad on 06/06/15.
@@ -94,12 +98,22 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.tvWall.setText(mItems.get(position).getWall().getName());
 
         final String profilePicUrl = URLConstants.SERVER + "api/users/" + mItems.get(position).getPostedBy().get_id() + "/profilePic";
-        Glide.with(mContext)
+        /*Glide.with(mContext)
                 .load(profilePicUrl)
                 .centerCrop()
                 .placeholder(R.drawable.ic_people)
                 .crossFade()
+                .into(holder.ivProfilePic);*/
+
+        Picasso.with(mContext)
+                .load(profilePicUrl)
+                .placeholder(R.drawable.ic_people)
                 .into(holder.ivProfilePic);
+
+
+
+
+        Log.i("pic_id",profilePicUrl);
 
         /**
          * Personal wall and dept wall
@@ -138,11 +152,15 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
                 TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
                 tvName.setText(mItems.get(position).getPostedBy().getName());
-                Glide.with(mContext)
+                /*Glide.with(mContext)
                         .load(profilePicUrl)
                         .centerCrop()
                         .placeholder(R.drawable.ic_people)
                         .crossFade()
+                        .into(imageView);*/
+                Picasso.with(mContext)
+                        .load(profilePicUrl)
+                        .placeholder(R.drawable.ic_people)
                         .into(imageView);
 
                 builder.show();
