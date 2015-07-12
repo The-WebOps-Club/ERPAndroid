@@ -170,17 +170,11 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
         if (mContext == null)
             return;
         if (status/100 == 2){
-            Log.d("BEFORE", commentsList.toString());
-            newC = ERPComment.getCommentsFromString(jCommentsArray.toString());
-            Log.d("ADDING", newC.toString());
-            commentsList.addAll(newC);
-            Log.d("AFTER", commentsList.toString());
-//            DatabaseHelper data = new DatabaseHelper(mContext);
-//            commentsList = ERPComment.getCommentsFromString(data.getComments(postId));
+            commentsList = ERPComment.getCommentsFromString(jCommentsArray.toString());
             rvSinglePost.setLayoutManager(layoutManager);
             adapter = new SinglePostAdapter(mContext, post, commentsList);
             rvSinglePost.setAdapter(adapter);
-
+            comments = jCommentsArray.toString();
         }
 //        showSnack(status);
     }
