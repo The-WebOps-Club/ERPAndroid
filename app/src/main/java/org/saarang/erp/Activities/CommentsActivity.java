@@ -4,6 +4,8 @@ package org.saarang.erp.Activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.google.android.gms.analytics.Tracker;
+
 import org.saarang.erp.Adapters.CommentsViewPagerAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.R;
@@ -22,9 +24,23 @@ public class CommentsActivity extends FragmentActivity {
     private static String LOG_TAG = "CommentsActivity";
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        ((AnalyticsApp)getApplication()).getAnalytics().reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ((AnalyticsApp)getApplication()).getAnalytics().reportActivityStop(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_comments);
+
+        ((AnalyticsApp)getApplication()).getDefaultTracker();
 
         comments = getIntent().getStringExtra(EXTRA_COMMENTS);
 //        acknowledgment = getIntent().getStringExtra(EXTRA_ACKNOWLEDGMENTS);
