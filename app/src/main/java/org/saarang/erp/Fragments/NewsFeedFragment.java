@@ -57,7 +57,8 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     SwipeRefreshLayout swipeRefreshLayout;
     GetNewsFeedTask parseNewsFeed;
     View rootView;
-
+    long updatedBefore;
+    long tenMinutes = 10 * 60 * 1000;
     private static String LOG_TAG = "NewsFeedFragment";
 
 
@@ -86,6 +87,14 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         parseNewsFeed = new GetNewsFeedTask();
 
         NewPostActivity.setOnNewPostListener(this);
+
+        // Time after last update
+        updatedBefore = System.currentTimeMillis() - SPUtils.getLastUpdateTime(getActivity());
+        if ((updatedBefore > tenMinutes) && (Connectivity.isConnected()) ){
+            parseNewsFeed = new GetNewsFeedTask();
+            parseNewsFeed.execute();
+            swipeRefreshLayout.setRefreshing(true);
+        }
         return rootView;
     }
 
@@ -122,6 +131,7 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         JSONObject json;
         ArrayList<PostParam> params = new ArrayList<>();
         JSONArray jsonArray;
+        int status;
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -132,10 +142,15 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             try {
                 json = PostRequest.execute(URLConstants.URL_NEWSFEED_REFRESH, params, ERPProfile.getERPUserToken(getActivity()));
+                status = json.getInt("status");
+                if (status/100 != 2) return null ;
                 Log.d(LOG_TAG, "json response" + json.toString());
 
                 // Get the time of latest post and save it to SP
                 SPUtils.setLatestPostDate(getActivity(), json.getJSONObject("data").getJSONArray("response").getJSONObject(0).getString("updatedOn"));
+
+                // Set time of last update
+                SPUtils.setLastUpdateTime(getActivity(), System.currentTimeMillis());
 
                 jsonArray = json.getJSONObject("data").getJSONArray("response");
                 ERPPost.SavePosts(getActivity(),jsonArray);

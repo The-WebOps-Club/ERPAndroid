@@ -1,18 +1,17 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/layout"
-    tools:context="org.saarang.erp.Activities.SinglePostActivity">
-    <include layout="@layout/toolbar_single_post"/>
+    tools:context="org.saarang.erp.Activities.MainActivityTest$PlaceholderFragment">
+
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvSinglePost"
+        android:id="@+id/revPeople"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fastScrollAlwaysVisible="true"
         android:fastScrollEnabled="true"
         android:overScrollMode="always" />
+
 </LinearLayout>

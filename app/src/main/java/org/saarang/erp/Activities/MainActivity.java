@@ -20,17 +20,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -40,20 +36,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.squareup.picasso.Picasso;
 
 import org.saarang.erp.Fragments.NewsFeedFragment;
 import org.saarang.erp.Fragments.NotificationsFragment;
-import org.saarang.erp.Fragments.PeopleFragment;
 import org.saarang.erp.Fragments.WallsFragment;
-import org.saarang.erp.IntentService.GetNewsfeed;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.R;
 import org.saarang.erp.Services.RegistrationIntentService;
+import org.saarang.erp.Utils.URLConstants;
 import org.saarang.erp.Utils.UserState;
 
 import java.io.File;
@@ -77,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Start service to download
-        Intent intentt = new Intent(this, GetNewsfeed.class);
-        startService(intentt);
+//        // Start service to download
+//        Intent intentt = new Intent(this, GetNewsfeed.class);
+//        startService(intentt);
 
         if (checkPlayServices()) {
             // Start IntentService to register this application with GCM.
@@ -115,18 +112,32 @@ public class MainActivity extends AppCompatActivity {
         username.setText(ERPProfile.getERPUserName(MainActivity.this));
         pro_pic = (CircleImageView)findViewById(R.id.profile_image);
         Log.d("pro_id", ERPProfile.getUserProfilePicId(MainActivity.this));
-        //pro_pic.setImageURI(Uri.fromFile(new File(ERPProfile.getUserProfilePic(MainActivity.this))));
+
+        final String profilePicUrl = URLConstants.SERVER + "api/users/" + ERPProfile.getERPUserId(this) + "/profilePic";
+        /*Glide.with(this)
+                .load(profilePicUrl)
+                .centerCrop()
+                .placeholder(R.drawable.ic_people)
+                .crossFade()
+                .into(pro_pic);*/
+        Picasso.with(this)
+                .load(profilePicUrl)
+                .placeholder(R.drawable.placeholder_profile)
+                .into(pro_pic);
+
+
+       // pro_pic.setImageURI(Uri.fromFile(new File(ERPProfile.getUserProfilePic(MainActivity.this))));
         /**
          * Action Bar
          */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+//        final ActionBar ab = getSupportActionBar();
+//        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+//        ab.setDisplayHomeAsUpEnabled(true);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
@@ -138,21 +149,25 @@ public class MainActivity extends AppCompatActivity {
             setupViewPager(viewPager);
         }
 
+        //          Intent to goto new post
         final Intent intentPost = new Intent(this, NewPostActivity.class);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
-        fab.setOnClickListener(new View.OnClickListener() {
+        //          Initialize the button for new post
+        ImageButton ibPlus = (ImageButton)findViewById(R.id.ibPlus);
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
+
+        //          Set listener for new post button
+        ibPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Pained", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 startActivity(intentPost);
             }
         });
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -174,16 +189,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu_ac_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+//                mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.action_logout:
+                //          Start the logout method
+                logout(item);
+//            case android.R.id.home:
+//                mDrawerLayout.openDrawer(GravityCompat.START);
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -191,9 +212,10 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new NewsFeedFragment(), "News Feed");
-        adapter.addFragment(new NotificationsFragment(), "Notifications");
+//        adapter.addFragment(new NotificationsFragment(), "Notifications");
+        adapter.addFragment(new NotificationsFragment(), "Notification");
         adapter.addFragment(new WallsFragment(), "Walls");
-        adapter.addFragment(new PeopleFragment(), "People");
+//        adapter.addFragment(new PeopleFragment(), "People");
         viewPager.setAdapter(adapter);
     }
 

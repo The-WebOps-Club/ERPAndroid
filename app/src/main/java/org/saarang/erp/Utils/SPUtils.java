@@ -12,6 +12,8 @@ public class SPUtils {
 
     private static String spLatestPostDate = "latestPost";
     private static String spOldestPostDate = "LastPostDate";
+    private static String spLastUpdateTime = "spLastUpdateTime";
+    private static String spNotifLastUpdateTime = "spNotifLastUpdateTime";
     private static String spIfNewsFeedDownloaded = "ifNewsFeedDownloaded";
 
     public static void setLatestPostDate(Context context, String date){
@@ -49,6 +51,30 @@ public class SPUtils {
     public static Boolean ifNewsFeedDownloaded(Context context){
         SharedPreferences pref = context.getSharedPreferences(sp, Context.MODE_PRIVATE);
         return pref.getBoolean(spIfNewsFeedDownloaded, false);
+    }
+
+    public static void setLastUpdateTime(Context context, long timeMillis) {
+        SharedPreferences preferences = context.getSharedPreferences(sp, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(spLastUpdateTime, timeMillis);
+        editor.commit();
+    }
+
+    public static long getLastUpdateTime(Context context){
+        SharedPreferences pref = context.getSharedPreferences(sp, Context.MODE_PRIVATE);
+        return pref.getLong(spLastUpdateTime, 0);
+    }
+
+    public static void setNotifLastUpdateTime(Context context, long timeMillis) {
+        SharedPreferences preferences = context.getSharedPreferences(sp, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(spNotifLastUpdateTime, timeMillis);
+        editor.commit();
+    }
+
+    public static long getNotifLastUpdateTime(Context context){
+        SharedPreferences pref = context.getSharedPreferences(sp, Context.MODE_PRIVATE);
+        return pref.getLong(spNotifLastUpdateTime, 0);
     }
 
 }

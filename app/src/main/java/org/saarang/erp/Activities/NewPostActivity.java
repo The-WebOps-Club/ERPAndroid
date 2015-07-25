@@ -1,6 +1,7 @@
 package org.saarang.erp.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,23 +40,35 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     String id;
     ArrayList<ERPWall> wallList;
     Button bSubmit;
-    String title, body, department, departmentId;
+    String title, body, department="", departmentId="", info = null;
     CreateNewPost createNewPost;
     AutoCompleteTextView tvDep;
     private static String LOG_TAG = "NewPostActivity";
     private static NewPostListener listener;
+    Intent intent;
+    public static String EXTRA_WALLNAME = "wallName";
+    public static String EXTRA_WALLID = "wallId";
+    boolean extraAvailable = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_new_post);
 
-        Log.d("ARRAY", ERPProfile.getUserWalls(this));
-        Toolbar tb = (Toolbar)findViewById(R.id.toolbarNewPost);
-        setSupportActionBar(tb);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        tb.setNavigationIcon(R.drawable.ic_arrow_left);
+        tvDep = (AutoCompleteTextView) findViewById(R.id.tvDeps);
+        etTitle = (EditText)findViewById(R.id.etTitle);
+        etBody = (EditText)findViewById(R.id.etBody);
+        bSubmit = (Button) findViewById(R.id.bSubmit);
 
+        intent = getIntent();
+        if (intent.getExtras() != null){
+            department = intent.getStringExtra(EXTRA_WALLNAME);
+            departmentId = intent.getStringExtra(EXTRA_WALLID);
+            extraAvailable = true;
+            Log.d(LOG_TAG, department);
+            Log.d(LOG_TAG, departmentId);
+        }
 
         Gson gson = new Gson();
         wallList = gson.fromJson( ERPProfile.getUserWalls(this), new TypeToken<List<ERPWall>>(){}.getType());
@@ -64,23 +77,32 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         departements = new String[length];
         makeArray();
 
-        //Add array adapter for dropdown edit text
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, departements);
-        tvDep = (AutoCompleteTextView) findViewById(R.id.tvDeps);
-        tvDep.setAdapter(adapter);
+        if(!extraAvailable){
 
-        tvDep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
-                    tvDep.showDropDown();
-            }
-        });
+            //Add array adapter for dropdown edit text
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, departements);
 
-        etTitle = (EditText)findViewById(R.id.etTitle);
-        etBody = (EditText)findViewById(R.id.etBody);
+            tvDep.setAdapter(adapter);
 
-        bSubmit = (Button) findViewById(R.id.bSubmit);
+            tvDep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus)
+                        tvDep.showDropDown();
+                }
+            });
+        } else{
+            tvDep.setText(department);
+            etTitle.setFocusable(true);
+            etTitle.requestFocus();
+        }
+
+        Log.d("ARRAY", ERPProfile.getUserWalls(this));
+        Toolbar tb = (Toolbar)findViewById(R.id.toolbarNewPost);
+        setSupportActionBar(tb);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        tb.setNavigationIcon(R.drawable.ic_arrow_left);
+
         bSubmit.setOnClickListener(this);
 
     }
@@ -89,6 +111,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
+                //          close activity on back
                 finish();
                 return true;
             }
@@ -100,10 +123,13 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.bSubmit:
+
                 title = etTitle.getText().toString();
                 body = etBody.getText().toString();
-                department = tvDep.getText().toString();
-                departmentId = getId(department);
+                if(!extraAvailable){
+                    department = tvDep.getText().toString();
+                    departmentId = getId(department);
+                }
                 if ( title.isEmpty() || body.isEmpty() || departmentId.isEmpty() ){
                     UIUtils.showSnackBar(findViewById(android.R.id.content), "Invalid inputs");
                     return;
@@ -147,6 +173,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             Log.d(LOG_TAG, json.toString());
             try {
                 status = json.getInt("status");
+                Log.d(LOG_TAG, json.getJSONObject("data").toString());
                 jNewPost = json.getJSONObject("data");
                 jNewPost.put("createdBy",
                         new JSONObject(gson.toJson(ERPProfile.getUserObject(NewPostActivity.this))));

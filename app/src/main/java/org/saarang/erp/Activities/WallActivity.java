@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 
 import org.saarang.erp.Adapters.NewsFeedAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
@@ -32,6 +33,7 @@ public class WallActivity extends AppCompatActivity implements SwipeRefreshLayou
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerView;
     String postId, wallName;
+    ImageButton ibNewPost;
 
     private static String LOG_TAG = "WallActivity";
     public static String EXTRA_WALLID = "wallId";
@@ -56,11 +58,12 @@ public class WallActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout.setOnRefreshListener(this);
 
         //Adding toolbar
-        Toolbar tb = (Toolbar)findViewById(R.id.toolbarWallActivity);
+        Toolbar tb = (Toolbar)findViewById(R.id.toolbarWall);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
+        ibNewPost = (ImageButton)findViewById(R.id.ibPlus);
 
         //Set title of the Wall
         setTitle(wallName);
@@ -69,12 +72,15 @@ public class WallActivity extends AppCompatActivity implements SwipeRefreshLayou
         final Intent intentPost = new Intent(this, NewPostActivity.class);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabWallActivity);
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
-        fab.setOnClickListener(new View.OnClickListener() {
+        ibNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Pained", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                startActivity(intentPost);
+//                intentPost.putExtra("wall", wallName);
+//                startActivity(intentPost);
+                Intent intent = new Intent(WallActivity.this, NewPostActivity.class);
+                intent.putExtra(NewPostActivity.EXTRA_WALLNAME, wallName);
+                intent.putExtra(NewPostActivity.EXTRA_WALLID, postId);
+                startActivity(intent);
             }
         });
 

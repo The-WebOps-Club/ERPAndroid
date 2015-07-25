@@ -5,22 +5,26 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.saarang.erp.Activities.CommentsActivity;
+import org.saarang.erp.Activities.WallActivity;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
@@ -28,6 +32,7 @@ import org.saarang.saarangsdk.Helpers.TimeHelper;
 import org.saarang.saarangsdk.Network.Connectivity;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
+import org.saarang.saarangsdk.Utils.SaarangIntents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +41,19 @@ import java.util.List;
  * Created by Ahammad on 06/06/15.
  */
 
-public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>{
+public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
     Context mContext;
     List<ERPPost> mItems;
     TimeHelper th=new TimeHelper();
     private static String LOG_TAG = "NewsFeedAdapter";
+    String email, phoneNumber;
 
     public NewsFeedAdapter(Context context, List<ERPPost> items) {
         mContext = context;
         mItems = items;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -66,6 +73,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             bAcknowledge = (Button) view.findViewById(R.id.bAcknowledge);
             mView = view.findViewById(android.R.id.content);
             tvPostDate= (TextView)view.findViewById(R.id.tvPostDate);
+
         }
     }
 
@@ -91,12 +99,39 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.tvWall.setText(mItems.get(position).getWall().getName());
 
         final String profilePicUrl = URLConstants.SERVER + "api/users/" + mItems.get(position).getPostedBy().get_id() + "/profilePic";
-        Glide.with(mContext)
+//        Glide.with(mContext)
+//                .load(profilePicUrl)
+//                .centerCrop()
+//                .placeholder(R.drawable.ic_people)
+//                .crossFade()
+//                .into(holder.ivProfilePic);*/
+
+        Picasso.with(mContext)
                 .load(profilePicUrl)
-                .centerCrop()
                 .placeholder(R.drawable.ic_people)
-                .crossFade()
                 .into(holder.ivProfilePic);
+
+        /**
+         * Personal wall and dept wall
+         */
+        holder.tvWall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, WallActivity.class);
+                intent.putExtra(WallActivity.EXTRA_WALLID, mItems.get(position).getWall().get_id() );
+                intent.putExtra(WallActivity.EXTRA_WALL_NAME, mItems.get(position).getWall().getName() );
+                mContext.startActivity(intent);
+            }
+        });
+        holder.tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, WallActivity.class);
+                intent.putExtra(WallActivity.EXTRA_WALLID, mItems.get(position).getPostedBy().get_id());
+                intent.putExtra(WallActivity.EXTRA_WALL_NAME, mItems.get(position).getPostedBy().getName());
+                mContext.startActivity(intent);
+            }
+        });
 
         /**
          * Alert dialog with contact details
@@ -106,18 +141,58 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             public void onClick(View view) {
                 LayoutInflater li = (LayoutInflater) mContext
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+                DatabaseHelper data = new DatabaseHelper(mContext);
+                ERPUser user = data.getUser(mItems.get(position).getPostedBy().get_id());
+                email = user.getEmail();
+                phoneNumber = user.getPhoneNumber();
                 View dialoglayout = li.inflate(R.layout.alert_profile_dialog, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setView(dialoglayout);
                 ImageView imageView = (ImageView) dialoglayout.findViewById(R.id.imageView);
+
+                // Name text
                 TextView tvName = (TextView) dialoglayout.findViewById(R.id.tvName);
                 tvName.setText(mItems.get(position).getPostedBy().getName());
-                Glide.with(mContext)
+
+                // Call button
+                ImageButton ibCall = (ImageButton) dialoglayout.findViewById(R.id.ibCall);
+                ibCall.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SaarangIntents.call(mContext, phoneNumber);
+                    }
+                });
+
+                // Mail button
+                ImageButton ibMail = (ImageButton) dialoglayout.findViewById(R.id.ibMail);
+                ibMail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SaarangIntents.email(mContext, email);
+                    }
+                });
+
+                // Profile button
+                ImageButton ibProfile = (ImageButton) dialoglayout.findViewById(R.id.ibProfile);
+                ibProfile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext, WallActivity.class);
+                        intent.putExtra(WallActivity.EXTRA_WALLID, mItems.get(position).getPostedBy().get_id());
+                        intent.putExtra(WallActivity.EXTRA_WALL_NAME, mItems.get(position).getPostedBy().getName());
+                        mContext.startActivity(intent);
+                    }
+                });
+
+//                Glide.with(mContext)
+//                        .load(profilePicUrl)
+//                        .centerCrop()
+//                        .placeholder(R.drawable.ic_people)
+//                        .crossFade()
+//                        .into(imageView);*/
+                Picasso.with(mContext)
                         .load(profilePicUrl)
-                        .centerCrop()
                         .placeholder(R.drawable.ic_people)
-                        .crossFade()
                         .into(imageView);
 
                 builder.show();
@@ -155,6 +230,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 }
             }
         });
+
     }
 
     private void markAsAcknowledged(Button bAcknowledge) {
@@ -178,6 +254,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 ArrayList<PostParam> param = new ArrayList<>();
                 param.add(new PostParam("a", "Asd"));
                 jsonObject = PostRequest.execute(URLConstants.URL_POST_ACKNOWLEDGE + params[0], param, ERPProfile.getERPUserToken(mContext));
+                Log.d(LOG_TAG, jsonObject.toString());
                 if (jsonObject.getInt("status") == 200){
                     DatabaseHelper data = new DatabaseHelper(mContext);
                     JSONArray jsonArray = new JSONArray(params[1]);
@@ -194,4 +271,6 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
             return true;
         }
     }
+
+
 }

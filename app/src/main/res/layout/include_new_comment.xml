@@ -23,9 +23,11 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etComment"
+            android:id="@+id/etCommentNew"
             android:layout_weight="100"
             android:layout_gravity="center"
+            android:paddingLeft="8dp"
+            android:hint="Write a comment..."
             android:maxLines="3"/>
 
         <ImageView

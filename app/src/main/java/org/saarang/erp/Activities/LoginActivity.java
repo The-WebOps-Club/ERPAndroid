@@ -9,7 +9,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -68,6 +70,16 @@ public class LoginActivity extends Activity {
         tilEmail = (TextInputLayout) findViewById(R.id.tilEmail);
         tvForgotPassword = (TextView) findViewById(R.id.tvForgotPassword);
 
+        etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    Log.i(LOG_TAG, "Enter pressed");
+                    processLogin();
+                }
+                return false;
+            }
+        });
+
         /**
          * Login Button
          */
@@ -76,26 +88,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                //Getting text from EditText
-                email = etEmail.getText().toString();
-                password = etPassword.getText().toString();
-
-                //Validating email id format
-                if (StringValidator.isEmailValid(email)) {
-                    tilEmail.setError(null);
-
-                    //Checking for connection
-
-                    if (Connectivity.isConnected()) {
-                        logintask = new Login();
-                        logintask.execute(etEmail.getText().toString(), etPassword.getText().toString());
-                    } else {
-                        Log.d(LOG_TAG, "no net");
-                        UIUtils.showSnackBar(v, getResources().getString(R.string.error_connection));
-                    }
-                } else {
-                    tilEmail.setError("Invalid email id");
-                }
+                processLogin();
             }
         });
 
@@ -152,6 +145,31 @@ public class LoginActivity extends Activity {
         super.onStart();
         ((AnalyticsApp)getApplication()).getAnalytics().reportActivityStart(this);
     }
+
+    private void processLogin() {
+        //Getting text from EditText
+        email = etEmail.getText().toString();
+        password = etPassword.getText().toString();
+    
+
+        //Validating email id format
+        if (StringValidator.isEmailValid(email)) {
+            tilEmail.setError(null);
+
+            //Checking for connection
+
+            if (Connectivity.isConnected()) {
+                logintask = new Login();
+                logintask.execute(etEmail.getText().toString(), etPassword.getText().toString());
+            } else {
+                Log.d(LOG_TAG, "no net");
+                UIUtils.showSnackBar(findViewById(android.R.id.content), getResources().getString(R.string.error_connection));
+            }
+        } else {
+            tilEmail.setError("Invalid email id");
+        }
+    }
+
 
     @Override
     protected void onStop() {
@@ -224,6 +242,7 @@ public class LoginActivity extends Activity {
                         walls.add(gson.fromJson(subDepartment.getJSONObject(i).toString(), ERPWall.class ));
                     }
                     ERPProfile.setUserWalls(LoginActivity.this, gson.toJson(walls));
+                    ERPProfile.setUserProfilePicId(LoginActivity.this, user.getString("profilePic"));
                     Log.d(LOG_TAG, "walls are "+  ERPProfile.getUserWalls(LoginActivity.this));
 
                 }
