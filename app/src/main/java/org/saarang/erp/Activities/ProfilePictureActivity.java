@@ -208,6 +208,8 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
 //            profilePicPath = "/data/data/org.saarang.erp/cache/saved_images/" + AppConstants.PROFILE_PICTURE + ".jpg";
             JSONObject json = ImageUploader.execute( link, filePath, ERPProfile.getERPUserToken(ProfilePictureActivity.this));
             try {
+                Log.d(LOG_TAG, ERPProfile.getERPUserToken(ProfilePictureActivity.this));
+                Log.d(LOG_TAG, json+" ");
                 status = json.getInt("status");
                 fileId = json.getJSONObject("data").getString("fileId");
             } catch (JSONException e) {

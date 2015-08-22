@@ -9,17 +9,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.saarang.erp.Adapters.CommentsAdapter;
 import org.saarang.erp.Adapters.SinglePostAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPComment;
@@ -138,7 +134,6 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
                 jCommentsArray.put(jNewComment);
                 DatabaseHelper data = new DatabaseHelper(mContext);
                 data.updateComment(postId, jCommentsArray.toString() );
-
             }
         } catch (JSONException e) {
             e.printStackTrace();

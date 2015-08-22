@@ -35,37 +35,45 @@ public class ERPProfile {
     String id, phoneNumber,alternateNumber, summerLocation, roomNumber, rollNumber, name;
     public ArrayList<PostParam> pData;
     public static void saveUser(Context context, JSONObject json){
-
+        SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
         try {
             String token = json.getJSONObject("data").getString("token");
+            editor.putString(spToken, token);
+
             JSONObject user = json.getJSONObject("data").getJSONObject("user");
             String id = user.getString("_id");
-            String alternateNumber = user.getString("alternateNumber");
-            String phoneNumber = user.getString("phoneNumber");
-            String summerLocation = user.getString("summerLocation");
-            String email = user.getString("email");
-            String roomNumber = user.getString("roomNumber");
-            String rollNumber = user.getString("rollNumber");
-            String name = user.getString("name");
-            String hostel = user.getString("hostel");
-
-            SharedPreferences preferences = context.getSharedPreferences(spUser, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(spName, name);
-            editor.putString(spToken, token);
             editor.putString(spId, id);
+
+            String alternateNumber = user.getString("alternateNumber");
             editor.putString(spAlternateNumber, alternateNumber);
+
+            String phoneNumber = user.getString("phoneNumber");
             editor.putString(spPhoneNumber, phoneNumber);
-            editor.putString(spRollNumber, rollNumber);
+
+            String summerLocation = user.getString("summerLocation");
             editor.putString(spSummerLocation, summerLocation);
+
+            String email = user.getString("email");
             editor.putString(spEmail, email);
+
+            String roomNumber = user.getString("roomNumber");
             editor.putString(spRoomNumber, roomNumber);
+
+            String rollNumber = user.getString("rollNumber");
+            editor.putString(spRollNumber, rollNumber);
+
+            String name = user.getString("name");
+            editor.putString(spName, name);
+
+            String hostel = user.getString("hostel");
             editor.putString(spHostel, hostel);
-            editor.commit();
 
         } catch (JSONException e) {
             e.printStackTrace();
             return;
+        } finally {
+            editor.commit();
         }
 
     }
