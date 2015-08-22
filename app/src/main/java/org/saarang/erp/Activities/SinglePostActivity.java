@@ -2,6 +2,7 @@ package org.saarang.erp.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
 import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
+import org.saarang.erp.Utils.UIUtils;
 import org.saarang.erp.Utils.URLConstants;
 import org.saarang.saarangsdk.Network.PostRequest;
 import org.saarang.saarangsdk.Objects.PostParam;
@@ -40,6 +42,9 @@ public class SinglePostActivity extends AppCompatActivity {
     static SinglePostAdapter adapter;
     private static String comments;
     private static String postId;
+    private static Intent intent;
+    static View view;
+
 
     public static String EXTRA_POSTID = "postId";
     private static String LOG_TAG = "SinglePostActivity";
@@ -48,19 +53,31 @@ public class SinglePostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_single_post);
+
+        view = findViewById(R.id.layout);
         Toolbar tb = (Toolbar)findViewById(R.id.tbSinglePost);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tb.setNavigationIcon(R.drawable.ic_arrow_left);
         mContext = this;
 
+
+
         // Getting post
-        postId = getIntent().getExtras().getString(EXTRA_POSTID);
+        intent = getIntent();
+        postId = intent.getExtras().getString(EXTRA_POSTID);
         Log.d(LOG_TAG, postId);
 
+        //          Get the post from database
         DatabaseHelper data = new DatabaseHelper(this);
         post = data.getPost(postId);
+
 //        post = data.getRandomPost();
+//        postId = post.getPostId();
+
+        //          Set title as the wall name
+        getSupportActionBar().setTitle(post.getWall().getName());
+
         comments = post.getComments();
         commentsList = ERPComment.getCommentsFromString(comments);
         Log.d("COMMENTS LIST", commentsList.toString());
@@ -98,6 +115,7 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
     String newComments;
     Gson gson = new Gson();
     JSONArray jCommentsArray;
+    List<ERPComment> newC;
 
     @Override
     protected void onPreExecute() {
@@ -151,7 +169,9 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
             rvSinglePost.setLayoutManager(layoutManager);
             adapter = new SinglePostAdapter(mContext, post, commentsList);
             rvSinglePost.setAdapter(adapter);
+            comments = jCommentsArray.toString();
         }
+        showSnack(status);
     }
 }
 
@@ -159,6 +179,24 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
     public void onDestroy() {
         super.onDestroy();
 
+    }
+
+    static void showSnack(int status){
+        switch (status){
+            case 500:
+                UIUtils.showSnackBar(view, "There was an error connecting to our server. Please try again");
+                break;
+            case 401:
+                UIUtils.showSnackBar(view, "You are not authorised to post on this wall");
+                break;
+            case 404:
+                UIUtils.showSnackBar(view, "There was an error connecting to our server. Please " +
+                        "check your internet connection and try again later");
+                break;
+            default:
+                UIUtils.showSnackBar(view, "There was an error connecting to our server. Please try again");
+                break;
+        }
     }
 
 }

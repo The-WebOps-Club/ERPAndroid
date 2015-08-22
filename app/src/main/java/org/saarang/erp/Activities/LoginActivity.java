@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.StandardExceptionParser;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -55,6 +58,8 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_login);
+
+        ((AnalyticsApp)getApplication()).getDefaultTracker();
 
         UserState.setLastActivity(LoginActivity.this, 1);
 
@@ -135,10 +140,17 @@ public class LoginActivity extends Activity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ((AnalyticsApp)getApplication()).getAnalytics().reportActivityStart(this);
+    }
+
     private void processLogin() {
         //Getting text from EditText
         email = etEmail.getText().toString();
         password = etPassword.getText().toString();
+    
 
         //Validating email id format
         if (StringValidator.isEmailValid(email)) {
@@ -158,6 +170,12 @@ public class LoginActivity extends Activity {
         }
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ((AnalyticsApp)getApplication()).getAnalytics().reportActivityStop(this);
+    }
 
     @Override
     protected void onPause() {
@@ -229,8 +247,21 @@ public class LoginActivity extends Activity {
 
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+
+                Tracker tracker = ((AnalyticsApp)getApplication()).getDefaultTracker();
+
+                // Using StandardExceptionParser to get an Exception description.
+                tracker.send(new HitBuilders.ExceptionBuilder()
+                        .setDescription(
+                                new StandardExceptionParser(LoginActivity.this , null)
+                                        .getDescription(Thread.currentThread().getName(), e))
+                        .setFatal(false)
+                        .build());
+                        e.printStackTrace();
+                Log.v(LOG_TAG+":Analytics","Caught JSON Exception");
             }
+
+
 
             Log.d(LOG_TAG, responseJSON.toString());
             return null;

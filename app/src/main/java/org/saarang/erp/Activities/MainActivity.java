@@ -133,11 +133,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ActionBar ab = getSupportActionBar();
+//        final ActionBar ab = getSupportActionBar();
 //        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
 //        ab.setDisplayHomeAsUpEnabled(true);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
@@ -149,16 +149,19 @@ public class MainActivity extends AppCompatActivity {
             setupViewPager(viewPager);
         }
 
+        //          Intent to goto new post
         final Intent intentPost = new Intent(this, NewPostActivity.class);
+
+        //          Initialize the button for new post
         ImageButton ibPlus = (ImageButton)findViewById(R.id.ibPlus);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#3F51B5")));
+
+        //          Set listener for new post button
         ibPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Pained", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 startActivity(intentPost);
             }
         });
@@ -193,6 +196,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+//                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_logout:
+                //          Start the logout method
+                logout(item);
 //            case android.R.id.home:
 //                mDrawerLayout.openDrawer(GravityCompat.START);
 //                return true;
