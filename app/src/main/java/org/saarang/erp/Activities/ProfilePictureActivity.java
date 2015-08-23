@@ -60,10 +60,14 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         // Check if News feed is downloaded once
         if ( !SPUtils.ifNewsFeedDownloaded(this) ) {
 
+            Log.d(LOG_TAG, "news feed downloading");
             // Start service to download
             Intent intent = new Intent(this, GetNewsfeed.class);
             startService(intent);
-
+        }
+        else
+        {
+            Log.d(LOG_TAG, "news feed not downloading");
         }
 
         UserState.setLastActivity(ProfilePictureActivity.this,2);
@@ -111,7 +115,9 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
         if (file.exists ()) file.delete ();
         destination = Uri.fromFile(file);
         Crop.of(source, destination).asSquare().start(this);
+        imageLoaded = false;
         tvContinue.setOnClickListener(this);
+
         Log.d(LOG_TAG, "Image destinaton" + destination);
     }
 
@@ -151,6 +157,7 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
                 tvContinue.setTextColor(ProfilePictureActivity.this.getResources().getColor(R.color.white));
             } catch (IOException e) {
                 e.printStackTrace();
+                Log.d(LOG_TAG, "error");
             }
         }
 
@@ -212,8 +219,10 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
                 Log.d(LOG_TAG, json+" ");
                 status = json.getInt("status");
                 fileId = json.getJSONObject("data").getString("fileId");
+                Log.d(LOG_TAG, "id being saved - "+fileId);
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.d(LOG_TAG, "ERROR");
                 return null;
             }
             Log.d(LOG_TAG, json.toString());
@@ -230,6 +239,13 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
                     ERPProfile.setUserProfilePicId(ProfilePictureActivity.this, fileId);
                     Intent intent = new Intent(ProfilePictureActivity.this, UpdateProfileActivity.class);
                     startActivity(intent);
+                    finish();
+                    break;
+                case 201:
+                    ERPProfile.setUserProfilePic(ProfilePictureActivity.this, profilePicPath);
+                    ERPProfile.setUserProfilePicId(ProfilePictureActivity.this, fileId);
+                    Intent intent1 = new Intent(ProfilePictureActivity.this, UpdateProfileActivity.class);
+                    startActivity(intent1);
                     finish();
                     break;
                 default:

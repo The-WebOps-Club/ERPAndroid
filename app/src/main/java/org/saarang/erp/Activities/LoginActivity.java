@@ -233,6 +233,7 @@ public class LoginActivity extends Activity {
                     for (int i =0; i< groups.length(); i++){
                         walls.add(gson.fromJson(groups.getJSONObject(i).toString(), ERPWall.class ));
                     }
+
                     department = user.getJSONArray("department");
                     for (int i =0; i< department.length(); i++){
                         walls.add(gson.fromJson(department.getJSONObject(i).toString(), ERPWall.class ));
@@ -241,6 +242,14 @@ public class LoginActivity extends Activity {
                     for (int i =0; i< subDepartment.length(); i++){
                         walls.add(gson.fromJson(subDepartment.getJSONObject(i).toString(), ERPWall.class ));
                     }
+
+                    //Checking if user is a cord or not
+                    if(department.length() == 0 && subDepartment.length() == 0){
+                        status = 405;
+                        return null;
+                    }
+
+
                     ERPProfile.setUserWalls(LoginActivity.this, gson.toJson(walls));
                     ERPProfile.setUserProfilePicId(LoginActivity.this, user.getString("profilePic"));
                     Log.d(LOG_TAG, "walls are "+  ERPProfile.getUserWalls(LoginActivity.this));
@@ -278,6 +287,9 @@ public class LoginActivity extends Activity {
                     break;
                 case 401:
                     UIUtils.showSnackBar(layout, "Invalid credentials, please try again");
+                    break;
+                case 405:
+                    UIUtils.showSnackBar(layout, "You have not been added as a Saarang coordinator yet.");
                     break;
                 default:
                     UIUtils.showSnackBar(layout, "There was an error connecting to our server. Please try again");

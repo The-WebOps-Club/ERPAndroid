@@ -23,6 +23,8 @@ public class URLConstants {
     public static String URL_NEWSFEED_REFRESH = SERVER + "api/posts/newsfeed/refresh";
 
     public static String URL_NOTIFICATIONS_FETCH = SERVER + "api/notifications";
+    public static String URL_NOTIFICATIONS_REFRESH = SERVER + "api/notifications/refresh";
+
 
     public static String URL_PEOPLE_FETCH_ALL = SERVER + "api/users/";
 

@@ -1,5 +1,39 @@
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_error"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="4dp"
+        android:id="@+id/ivNotifError"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_above="@id/ivNotifError"
+        android:id="@+id/tvNotifications"
+        android:padding="4dp"
+        android:text="No notifications available now"
+        android:singleLine="false"
+        android:textColor="@color/abc_primary_text_material_light"
+        android:layout_margin="8dp"
+        android:visibility="gone"/>
+
+    <!--<ProgressBar-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/progressBar"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
+
 <android.support.v7.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.saarang.erp.Activities.MainActivityTest$PlaceholderFragment"
     android:id="@+id/recyclerview"
@@ -8,3 +42,6 @@
     android:fastScrollAlwaysVisible="true"
     android:fastScrollEnabled="true"
     android:overScrollMode="always" />
+
+
+</RelativeLayout>

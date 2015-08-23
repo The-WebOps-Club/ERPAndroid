@@ -17,8 +17,11 @@
 package org.saarang.erp.Activities;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -27,6 +30,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -37,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -73,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 //        // Start service to download
 //        Intent intentt = new Intent(this, GetNewsfeed.class);
@@ -144,10 +150,18 @@ public class MainActivity extends AppCompatActivity {
             setupDrawerContent(navigationView);
         }
 
+
+
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setupWithViewPager(viewPager);
+
 
         //          Intent to goto new post
         final Intent intentPost = new Intent(this, NewPostActivity.class);
@@ -166,9 +180,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabLayout.setupWithViewPager(viewPager);
+
     }
 
 
@@ -241,7 +253,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("Alert", " Ok");
                         clearApplicationData();
-                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+//                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        SharedPreferences prefs = getSharedPreferences("sharedPreferences", 0);
                         prefs.edit().putString("delete", "hellothisisacheck").apply();
                         Log.d("delete", prefs.getString("delete", "nope"));
                         SharedPreferences.Editor editor = prefs.edit();

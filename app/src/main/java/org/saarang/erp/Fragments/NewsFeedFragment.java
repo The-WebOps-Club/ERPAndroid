@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -23,6 +24,7 @@ import org.saarang.erp.Adapters.NewsFeedAdapter;
 import org.saarang.erp.Helper.DatabaseHelper;
 import org.saarang.erp.Objects.ERPPost;
 import org.saarang.erp.Objects.ERPProfile;
+import org.saarang.erp.Objects.ERPUser;
 import org.saarang.erp.R;
 import org.saarang.erp.Utils.SPUtils;
 import org.saarang.erp.Utils.UIUtils;
@@ -43,7 +45,9 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     public NewsFeedFragment() {
     }
 
-    ImageView impic;
+    TextView tvNewsFeed;
+    boolean isEmpty;
+    ImageView impic, ivError;
     ImageButton ibCall;
     ImageButton ibMail;
     ImageButton ibProfile;
@@ -79,10 +83,25 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 //        //Random dataset
 //        arrayList = RandomGenerator.getRandomPosts(15);
 
-        arrayList = new DatabaseHelper(getActivity()).getAllPosts();
+        tvNewsFeed = (TextView)rootView.findViewById(R.id.tvNewsFeed);
+        ivError = (ImageView)rootView.findViewById(R.id.ivError);
 
-        adapter = new NewsFeedAdapter(getActivity(), arrayList);
-        recyclerView.setAdapter(adapter);
+
+
+        arrayList = new DatabaseHelper(getActivity()).getAllPosts();
+        Log.d(LOG_TAG, "pre stored list "+arrayList);
+
+        if(arrayList.isEmpty())
+        {
+            tvNewsFeed.setVisibility(View.VISIBLE);
+            ivError.setVisibility(View.VISIBLE);
+        }
+        else {
+            tvNewsFeed.setVisibility(View.GONE);
+            ivError.setVisibility(View.GONE);
+            adapter = new NewsFeedAdapter(getActivity(), arrayList);
+            recyclerView.setAdapter(adapter);
+        }
 
         parseNewsFeed = new GetNewsFeedTask();
 
@@ -139,26 +158,58 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             Gson gson = new Gson();
 
             params.add(new PostParam("date", SPUtils.getLatestPostDate(getActivity())));
+            Log.d(LOG_TAG, SPUtils.getLatestPostDate(getActivity()));
 
+            //Getting latest posts in news feed
             try {
                 json = PostRequest.execute(URLConstants.URL_NEWSFEED_REFRESH, params, ERPProfile.getERPUserToken(getActivity()));
                 status = json.getInt("status");
                 if (status/100 != 2) return null ;
                 Log.d(LOG_TAG, "json response" + json.toString());
+                Log.d(LOG_TAG, "token:"+ERPProfile.getERPUserToken(getActivity()));
 
                 // Get the time of latest post and save it to SP
-                SPUtils.setLatestPostDate(getActivity(), json.getJSONObject("data").getJSONArray("response").getJSONObject(0).getString("updatedOn"));
+
+
+//                if(json.getJSONObject("data").getJSONArray("response") == null) {
+//                    isEmpty = true;
+//                }
+//                else
+//                {
+//                    isEmpty = false;
+//                }
 
                 // Set time of last update
                 SPUtils.setLastUpdateTime(getActivity(), System.currentTimeMillis());
 
                 jsonArray = json.getJSONObject("data").getJSONArray("response");
-                ERPPost.SavePosts(getActivity(),jsonArray);
+                if(jsonArray.length() == 0 ){
+                    isEmpty = true;
+                }
+                else
+                {
+                    isEmpty = false;
+                    String updatedOn = json.getJSONObject("data").getJSONArray("response").getJSONObject(0).getString("updatedOn");
+                    if(updatedOn.length()>0)
+                        SPUtils.setLatestPostDate(getActivity(), updatedOn);
+                    ERPPost.SavePosts(getActivity(),jsonArray);
+                }
+
             } catch (JSONException e){
                 e.printStackTrace();
             } catch (NullPointerException e){
                 e.printStackTrace();
             }
+
+            //Getting new notifications
+//            try{
+//                json = PostRequest.execute(URLConstants.URL_NOTIFICATIONS_REFRESH, params, ERPProfile.getERPUserToken(getActivity()));
+//                status = json.getInt("status");
+//                if(status/100 != 2)
+//                    return null;
+//                Log.d(LOG_TAG, "notif json response" + json.toString());
+//            }
+
 
             return null;
         }
@@ -169,10 +220,20 @@ public class NewsFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             if (getActivity() == null ) return;
             arrayList = new DatabaseHelper(getActivity()).getAllPosts();
+            Log.d(LOG_TAG, arrayList.toString());
             adapter = new NewsFeedAdapter(getActivity(), arrayList);
             recyclerView.setAdapter(adapter);
 
             swipeRefreshLayout.setRefreshing(false);
+            if(isEmpty){
+                if(arrayList.isEmpty()) {
+                    tvNewsFeed.setVisibility(View.VISIBLE);
+                    ivError.setVisibility(View.VISIBLE);
+                }
+                Log.d(LOG_TAG, "Empty");
+            }
+            else
+                Log.d(LOG_TAG, "Not Empty");
         }
 
     }

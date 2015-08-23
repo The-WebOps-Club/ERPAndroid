@@ -39,7 +39,9 @@ public class ERPProfile {
         SharedPreferences.Editor editor = preferences.edit();
         try {
             String token = json.getJSONObject("data").getString("token");
+            Log.d(LOG_TAG, token);
             editor.putString(spToken, token);
+
 
             JSONObject user = json.getJSONObject("data").getJSONObject("user");
             String id = user.getString("_id");

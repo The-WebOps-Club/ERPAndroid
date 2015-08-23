@@ -2,6 +2,7 @@ package org.saarang.erp.IntentService;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -41,7 +42,7 @@ public class GetNewsfeed extends IntentService {
             try {
                 // Make request
                 json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE + pageNumber, ERPProfile.getERPUserToken(this));
-                Log.d(LOG_TAG, json.toString());
+                Log.d(LOG_TAG,"get news feed "+ json.toString());
 
                 // Get status of the response
                 status = json.getInt("status");
@@ -74,14 +75,21 @@ public class GetNewsfeed extends IntentService {
             // Getting notifications
             json = GetRequest.execute(URLConstants.URL_NOTIFICATIONS_FETCH,
                     ERPProfile.getERPUserToken(this));
+            Log.d(LOG_TAG, "notifications: "+json.toString());
 
             // Get status of the response
             status = json.getInt("status");
+            Log.d(LOG_TAG, "notifs response: "+status);
 
             // Extract posts from response
             jsonArray = json.getJSONObject("data").getJSONArray("response");
-            Log.d(LOG_TAG, jsonArray.toString());
+            Log.d(LOG_TAG, "comments:" + jsonArray.toString());
             ERPNotification.saveNotifications(this, jsonArray);
+
+
+            Intent notificationsDownloadComplete = new Intent("notifications_download_complete");
+            LocalBroadcastManager.getInstance(this).sendBroadcast(notificationsDownloadComplete);
+
 
         } catch (JSONException e){
             e.printStackTrace();
