@@ -39,6 +39,30 @@ public class GetNewsfeed extends IntentService {
         while (status == 200){
             json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE+ pageNumber , ERPProfile.getERPUserToken(this));
             Log.d(LOG_TAG, json.toString());
+            try{
+                // Getting notifications
+                json = GetRequest.execute(URLConstants.URL_NOTIFICATIONS_FETCH,
+                        ERPProfile.getERPUserToken(this));
+                Log.d(LOG_TAG, "notifications: "+json.toString());
+
+                // Get status of the response
+                status = json.getInt("status");
+                Log.d(LOG_TAG, "notifs response: "+status);
+
+                // Extract posts from response
+                jsonArray = json.getJSONObject("data").getJSONArray("response");
+                Log.d(LOG_TAG, "comments:" + jsonArray.toString());
+                ERPNotification.saveNotifications(this, jsonArray);
+
+
+                Intent notificationsDownloadComplete = new Intent("notifications_download_complete");
+                LocalBroadcastManager.getInstance(this).sendBroadcast(notificationsDownloadComplete);
+
+
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+
             try {
                 // Make request
                 json = GetRequest.execute(URLConstants.URL_NEWSFEED_PAGE + pageNumber, ERPProfile.getERPUserToken(this));
@@ -71,29 +95,7 @@ public class GetNewsfeed extends IntentService {
             }
         }
 
-        try{
-            // Getting notifications
-            json = GetRequest.execute(URLConstants.URL_NOTIFICATIONS_FETCH,
-                    ERPProfile.getERPUserToken(this));
-            Log.d(LOG_TAG, "notifications: "+json.toString());
 
-            // Get status of the response
-            status = json.getInt("status");
-            Log.d(LOG_TAG, "notifs response: "+status);
-
-            // Extract posts from response
-            jsonArray = json.getJSONObject("data").getJSONArray("response");
-            Log.d(LOG_TAG, "comments:" + jsonArray.toString());
-            ERPNotification.saveNotifications(this, jsonArray);
-
-
-            Intent notificationsDownloadComplete = new Intent("notifications_download_complete");
-            LocalBroadcastManager.getInstance(this).sendBroadcast(notificationsDownloadComplete);
-
-
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
 //
 //        // Getting users
 //        try{

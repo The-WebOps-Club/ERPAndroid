@@ -184,6 +184,10 @@ public static class AddComment extends AsyncTask<String, Void, Void>{
 
     static void showSnack(int status){
         switch (status){
+            case 201:
+                break;
+            case 200:
+                break;
             case 500:
                 UIUtils.showSnackBar(view, "There was an error connecting to our server. Please try again");
                 break;

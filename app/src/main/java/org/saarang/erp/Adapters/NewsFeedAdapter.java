@@ -159,6 +159,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 ibCall.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Log.d(LOG_TAG, "phone number: "+phoneNumber);
                         SaarangIntents.call(mContext, phoneNumber);
                     }
                 });
@@ -168,6 +169,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
                 ibMail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Log.d(LOG_TAG, "email id: "+email);
                         SaarangIntents.email(mContext, email);
                     }
                 });
@@ -214,6 +216,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         });
 
         if (mItems.get(position).isAcknowledged()){
+            Log.d(LOG_TAG, "Acknowledged");
             markAsAcknowledged(holder.bAcknowledge);
         }
 
